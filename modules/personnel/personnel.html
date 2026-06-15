@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="personnel.css">
-    
+
 </head>
 
 <body>
@@ -30,11 +30,11 @@
             </div>
 
             <div class="sb-item" onclick="window.location.href='../forms/forms.html#all'">
-                <span>Request Supplies</span>
+                <span>New Request</span>
             </div>
 
             <div class="sb-item" onclick="asc('order-tracking', this)">
-                <span>Order History</span>
+                <span>My Orders</span>
             </div>
 
             <div class="sb-sec">Inventory</div>
@@ -96,7 +96,8 @@
                     </button>
                 </div>
 
-                <h2 id="atitle" style="font-size:18px; font-weight:800; letter-spacing:-0.5px; color: var(--c-dark)">Home</h2>
+                <h2 id="atitle" style="font-size:18px; font-weight:800; letter-spacing:-0.5px; color: var(--c-dark)">
+                    Home</h2>
 
                 <div class="header-actions">
 
@@ -116,9 +117,11 @@
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                                     <span
                                         style="background: var(--status-pending); color: white; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Pending</span>
-                                    <p style="font-weight: 700; color: var(--text-main); font-size: 12px;">Needs Admin Approval</p>
+                                    <p style="font-weight: 700; color: var(--text-main); font-size: 12px;">Needs Admin
+                                        Approval</p>
                                 </div>
-                                <p style="color: var(--text-muted); font-size: 11px; line-height: 1.4; padding-left: 2px;">
+                                <p
+                                    style="color: var(--text-muted); font-size: 11px; line-height: 1.4; padding-left: 2px;">
                                     Order #ORD-9942 is waiting for the main office to sign off.</p>
                             </div>
                             <div id="dd-empty" class="dd-empty-notice">
@@ -126,7 +129,8 @@
                             </div>
                         </div>
                         <div class="dd-action-footer">
-                            <span class="dd-view-all-btn" onclick="triggerAdminApprovalSimulation()">Simulate Admin Approving It &rarr;</span>
+                            <span class="dd-view-all-btn" onclick="triggerAdminApprovalSimulation()">Simulate Admin
+                                Approving It &rarr;</span>
                         </div>
                     </div>
 
@@ -178,6 +182,39 @@
 
                 <div id="s-home" class="sc on">
 
+                    <div class="demo-banner" id="demoBanner">
+
+                        <button class="demo-close" onclick="closeDemoBanner()">
+
+                            ×
+
+                        </button>
+
+                        <div class="demo-info">
+
+                            <span class="demo-label">
+                                GUIDED DEMO
+                            </span>
+
+                            <h3>
+                                Welcome, Dr. Alex Mwangi
+                            </h3>
+
+                            <p>
+                                You are acting as hospital personnel. Your task is to submit a supply request for your
+                                facility and follow its progress through the CHITA system.
+                            </p>
+
+                        </div>
+
+                        <button class="demo-btn" onclick="window.location.href='../forms/forms.html#all'">
+
+                            Create New Request →
+
+                        </button>
+
+                    </div>
+
                     <div class="stat-grid">
                         <div class="stat-box">
                             <p>ORDERS PLACED THIS WEEK</p>
@@ -203,19 +240,23 @@
                             <div class="cb">
                                 <div class="chart-container">
                                     <div class="chart-column-wrapper">
-                                        <div class="chart-bar-fill" data-value="120" style="height: 60%; background: var(--c-dark);"></div>
+                                        <div class="chart-bar-fill" data-value="120"
+                                            style="height: 60%; background: var(--c-dark);"></div>
                                         <div class="chart-axis-label">Cones</div>
                                     </div>
                                     <div class="chart-column-wrapper">
-                                        <div class="chart-bar-fill" data-value="45" style="height: 25%; background: var(--c-accent);"></div>
+                                        <div class="chart-bar-fill" data-value="45"
+                                            style="height: 25%; background: var(--c-accent);"></div>
                                         <div class="chart-axis-label">Cath.</div>
                                     </div>
                                     <div class="chart-column-wrapper">
-                                        <div class="chart-bar-fill" data-value="210" style="height: 95%; background: var(--text-muted);"></div>
+                                        <div class="chart-bar-fill" data-value="210"
+                                            style="height: 95%; background: var(--text-muted);"></div>
                                         <div class="chart-axis-label">Enema</div>
                                     </div>
                                     <div class="chart-column-wrapper">
-                                        <div class="chart-bar-fill" data-value="85" style="height: 45%; background: var(--c-primary);"></div>
+                                        <div class="chart-bar-fill" data-value="85"
+                                            style="height: 45%; background: var(--c-primary);"></div>
                                         <div class="chart-axis-label">Oxy.</div>
                                     </div>
                                 </div>
@@ -229,18 +270,21 @@
                                     <div class="cal-day-head">Yesterday</div>
                                     <div class="cal-day-head">Today</div>
                                     <div class="cal-day-head">Tomorrow</div>
-                                    
+
                                     <div class="cal-day-cell">
                                         <span class="cal-day-num">May 24</span>
                                         <span class="cal-day-desc">No exceptions or delivery items logged.</span>
                                     </div>
                                     <div class="cal-day-cell active-today">
                                         <span class="cal-day-num">May 25</span>
-                                        <span class="cal-day-desc" style="color: var(--c-dark); font-weight: 700;">Ward Audit Inspection due by evening.</span>
+                                        <span class="cal-day-desc" style="color: var(--c-dark); font-weight: 700;">Ward
+                                            Audit Inspection due by evening.</span>
                                     </div>
                                     <div class="cal-day-cell">
                                         <span class="cal-day-num">May 26</span>
-                                        <span class="cal-day-desc" style="color: var(--status-pending); font-weight: 700;">Expected Delivery: Supply batch ORD-9104.</span>
+                                        <span class="cal-day-desc"
+                                            style="color: var(--status-pending); font-weight: 700;">Expected Delivery:
+                                            Supply batch ORD-9104.</span>
                                     </div>
                                 </div>
                             </div>
@@ -251,25 +295,38 @@
                         <div class="card">
                             <div class="ch" style="color: var(--c-dark)">Recent Activity</div>
                             <div class="cb">
-                                <div style="padding:16px 0; border-bottom:1px solid var(--c-border); display:flex; gap:12px; align-items: flex-start;">
-                                    <div style="width:8px; height:8px; border-radius:50%; background:var(--status-delivered); margin-top:5px; flex-shrink:0;"></div>
+                                <div
+                                    style="padding:16px 0; border-bottom:1px solid var(--c-border); display:flex; gap:12px; align-items: flex-start;">
+                                    <div
+                                        style="width:8px; height:8px; border-radius:50%; background:var(--status-delivered); margin-top:5px; flex-shrink:0;">
+                                    </div>
                                     <div style="flex: 1;">
-                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                            <p style="font-size:13px;"><strong>Items Received</strong> • <span style="color:var(--c-accent)">ORD-8821</span></p>
+                                        <div
+                                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <p style="font-size:13px;"><strong>Items Received</strong> • <span
+                                                    style="color:var(--c-accent)">ORD-8821</span></p>
                                             <span class="badge badge-delivered">Delivered</span>
                                         </div>
-                                        <p style="font-size:12px; color:var(--text-muted)">10 packs of Sterile Surgical Gloves dropped off and put in the stock closet.</p>
-                                        <p style="font-size:11px; color:var(--text-muted); margin-top:4px">2 hours ago</p>
+                                        <p style="font-size:12px; color:var(--text-muted)">10 packs of Sterile Surgical
+                                            Gloves dropped off and put in the stock closet.</p>
+                                        <p style="font-size:11px; color:var(--text-muted); margin-top:4px">2 hours ago
+                                        </p>
                                     </div>
                                 </div>
-                                <div style="padding:16px 0; border-bottom:1px solid var(--c-border); display:flex; gap:12px; align-items: flex-start;">
-                                    <div style="width:8px; height:8px; border-radius:50%; background:var(--status-approved); margin-top:5px; flex-shrink:0;"></div>
+                                <div
+                                    style="padding:16px 0; border-bottom:1px solid var(--c-border); display:flex; gap:12px; align-items: flex-start;">
+                                    <div
+                                        style="width:8px; height:8px; border-radius:50%; background:var(--status-approved); margin-top:5px; flex-shrink:0;">
+                                    </div>
                                     <div style="flex: 1;">
-                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                                            <p style="font-size:13px;"><strong>Shipped out by Supplier</strong> • <span style="color:var(--c-accent)">ORD-9104</span></p>
+                                        <div
+                                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <p style="font-size:13px;"><strong>Shipped out by Supplier</strong> • <span
+                                                    style="color:var(--c-accent)">ORD-9104</span></p>
                                             <span class="badge badge-approved">On the Way</span>
                                         </div>
-                                        <p style="font-size:12px; color:var(--text-muted)">50 boxes of Oxytocin approved by Admin and handed over to the delivery vehicle.</p>
+                                        <p style="font-size:12px; color:var(--text-muted)">50 boxes of Oxytocin approved
+                                            by Admin and handed over to the delivery vehicle.</p>
                                         <p style="font-size:11px; color:var(--text-muted); margin-top:4px">Yesterday</p>
                                     </div>
                                 </div>
@@ -280,31 +337,41 @@
                             <div class="ch" style="color: var(--c-dark)">Low Stock Alerts</div>
                             <div class="cb">
                                 <div style="margin-bottom: 20px;">
-                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
-                                        <span style="font-weight: 700;">Catheters</span> <span style="color: var(--c-accent); font-weight: 800;">15% Left</span>
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Catheters</span> <span
+                                            style="color: var(--c-accent); font-weight: 800;">15% Left</span>
                                     </div>
                                     <div class="bar-track" style="background: #f1f5f9;">
                                         <div class="bar-fill" style="width: 15%;"></div>
                                     </div>
-                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Critical level: Place a request soon</p>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Critical
+                                        level: Place a request soon</p>
                                 </div>
                                 <div style="margin-bottom: 20px;">
-                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
-                                        <span style="font-weight: 700;">Enema Bags</span> <span style="color: var(--status-pending); font-weight: 800;">45% Left</span>
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Enema Bags</span> <span
+                                            style="color: var(--status-pending); font-weight: 800;">45% Left</span>
                                     </div>
                                     <div class="bar-track" style="background: #f1f5f9;">
                                         <div class="bar-fill" style="width: 45%;"></div>
                                     </div>
-                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Running low due to high patient volume today</p>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Running low
+                                        due to high patient volume today</p>
                                 </div>
                                 <div style="margin-bottom: 10px;">
-                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
-                                        <span style="font-weight: 700;">Cones</span> <span style="color: var(--status-approved); font-weight: 800;">55% Left</span>
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Cones</span> <span
+                                            style="color: var(--status-approved); font-weight: 800;">55% Left</span>
                                     </div>
                                     <div class="bar-track" style="background: #f1f5f9;">
-                                        <div class="bar-fill" style="width: 55%; background: var(--status-approved);"></div>
+                                        <div class="bar-fill" style="width: 55%; background: var(--status-approved);">
+                                        </div>
                                     </div>
-                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Low Volume</p>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Low Volume
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -320,22 +387,28 @@
                                     <label for="supplyItem">What item do you need?</label>
                                     <select id="supplyItem" class="form-control" required>
                                         <option value="">-- Choose an item --</option>
-                                        <option value="Sterile Syringes (10ml)">Sterile Syringes (10ml) - Pack of 100</option>
+                                        <option value="Sterile Syringes (10ml)">Sterile Syringes (10ml) - Pack of 100
+                                        </option>
                                         <option value="Surgical Face Masks">Surgical Face Masks - Box of 50</option>
                                         <option value="Antiseptic Hand Rub">Antiseptic Hand Rub - 500ml Bottle</option>
-                                        <option value="Giving Sets (Standard)">Giving Sets (Standard Fluid Drop)</option>
+                                        <option value="Giving Sets (Standard)">Giving Sets (Standard Fluid Drop)
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="orderQty">How many packs/boxes?</label>
-                                    <input type="number" id="orderQty" class="form-control" min="1" max="500" placeholder="Enter quantity" required />
+                                    <input type="number" id="orderQty" class="form-control" min="1" max="500"
+                                        placeholder="Enter quantity" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="clinicalReason">Notes / Reason for request</label>
-                                    <textarea id="clinicalReason" class="form-control" rows="3" placeholder="Add any details or mention if this is urgent..." required></textarea>
+                                    <textarea id="clinicalReason" class="form-control" rows="3"
+                                        placeholder="Add any details or mention if this is urgent..."
+                                        required></textarea>
                                 </div>
                                 <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
-                                    <button type="button" class="btn btn-ghost" onclick="asc('home', document.querySelector('[onclick*=\'home\']'))">Cancel</button>
+                                    <button type="button" class="btn btn-ghost"
+                                        onclick="asc('home', document.querySelector('[onclick*=\'home\']'))">Cancel</button>
                                     <button type="submit" class="btn btn-p">Send Order</button>
                                 </div>
                             </form>
@@ -364,8 +437,11 @@
                                         <td>Sterile Syringes (10ml) - Pack of 100</td>
                                         <td>5</td>
                                         <td>Dr. A. Mwangi</td>
-                                        <td><span id="table-status-badge" class="badge badge-pending">Waiting for approval</span></td>
-                                        <td><span id="table-fulfillment-text" style="color: var(--text-muted); font-style: italic;">Sitting in Admin queue</span></td>
+                                        <td><span id="table-status-badge" class="badge badge-pending">Waiting for
+                                                approval</span></td>
+                                        <td><span id="table-fulfillment-text"
+                                                style="color: var(--text-muted); font-style: italic;">Sitting in Admin
+                                                queue</span></td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight: 700;">ORD-9104</td>
@@ -373,7 +449,8 @@
                                         <td>50</td>
                                         <td>Dr. A. Mwangi</td>
                                         <td><span class="badge badge-approved">Approved</span></td>
-                                        <td style="color: var(--status-approved); font-weight: 600;">On the way (Delivery Vehicle)</td>
+                                        <td style="color: var(--status-approved); font-weight: 600;">On the way
+                                            (Delivery Vehicle)</td>
                                     </tr>
                                     <tr>
                                         <td style="font-weight: 700;">ORD-8821</td>
@@ -381,7 +458,8 @@
                                         <td>10</td>
                                         <td>Nurse J. Toili</td>
                                         <td><span class="badge badge-delivered">Delivered</span></td>
-                                        <td style="color: var(--status-delivered); font-weight: 600;">Arrived & Put Away</td>
+                                        <td style="color: var(--status-delivered); font-weight: 600;">Arrived & Put Away
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

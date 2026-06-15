@@ -103,3 +103,9 @@
 
             }, 300);
         }
+
+        function closeDemoBanner(){
+
+            document.getElementById("demoBanner").style.display = "none";
+
+}
