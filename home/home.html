@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Hub - CHITA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="page-header">
+
+            <span class="system-label">
+                CHITA PROCUREMENT PLATFORM
+            </span>
+
+            <h1>
+                CHITA Main Menu
+            </h1>
+
+            <p>
+                Welcome to the CHITA platform. Continue the guided demonstration
+                or access a workspace below.
+            </p>
+
+            <div class="divider"></div>
+
+        </div>
+
+        <!-- GUIDED DEMO -->
+
+        <section class="demo-panel">
+
+            <div class="demo-text">
+
+                <span class="demo-label">
+                    GUIDED DEMONSTRATION
+                </span>
+
+                <h2>
+                    Procurement Journey
+                </h2>
+
+                <p>
+                    Follow a medical supply request as it moves through the
+                    CHITA platform from request to fulfilment.
+                </p>
+
+            </div>
+
+            <a href="../modules/personnel/personnel.html"
+                class="demo-button">
+
+                Continue Demo →
+
+            </a>
+
+        </section>
+
+        </div>
+
+        <div class="gateway-grid">
+
+            <!-- PANEL 1: PERSONNEL PAGE -->
+            <a href="../modules/personnel/personnel.html" class="panel-card">
+                <div>
+                    <span class="panel-meta">Staff View</span>
+                    <div class="panel-body">
+                        <h3>Personnel Dashboard</h3>
+                        <p>This is where hospital staff can order medical supplies, check what is in stock, and track
+                            whether their orders are pending or completed.</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="mock-metric">Status: <strong>Ready to View</strong></span>
+                    <span class="go-arrow">Open Page →</span>
+                </div>
+            </a>
+
+            <!-- PANEL 2: ADMIN PAGE -->
+            <a href="../modules/admin/admin.html" class="panel-card">
+                <div>
+                    <span class="panel-meta">Management View</span>
+                    <div class="panel-body">
+                        <h3>Admin Registry Hub</h3>
+                        <p>This is the main area for managers. You can review and approve incoming forms, see new order
+                            requests, and manage hospital project lists.</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="mock-metric">Status: <strong>Ready to View</strong></span>
+                    <span class="go-arrow">Open Page →</span>
+                </div>
+            </a>
+
+            <!-- PANEL 3: VENDORS / SUPPLIERS -->
+            <a href="#" class="panel-card"
+                onclick="alert('The Vendor and Supplier layout is still being built.'); return false;">
+                <div>
+                    <span class="panel-meta">Supply View</span>
+                    <div class="panel-body">
+                        <h3>Vendors &amp; Suppliers</h3>
+                        <p>This page will let external partners update their delivery timelines, list available medical
+                            items, and log bulk shipments coming into the center.</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="mock-metric">Status: <strong style="color: var(--c-accent);">Coming
+                            Soon</strong></span>
+                    <span class="go-arrow">Locked</span>
+                </div>
+            </a>
+
+            <!-- PANEL 4: FINANCE HUB -->
+            <a href="#" class="panel-card"
+                onclick="alert('The Finance Hub layout is still being built.'); return false;">
+                <div>
+                    <span class="panel-meta">Money View</span>
+                    <div class="panel-body">
+                        <h3>Finance Hub</h3>
+                        <p>This area handles the budget tracking. It lets you monitor order costs, check shipping
+                            expenses, and run reports on funding across different hospital sites.</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="mock-metric">Status: <strong style="color: var(--c-accent);">Coming
+                            Soon</strong></span>
+                    <span class="go-arrow">Locked</span>
+                </div>
+            </a>
+
+            <!-- PANEL 5: FORMS REGISTRY (MOVED TO END + HIGH-VISIBILITY POP DESIGN) -->
+            <a href="../modules/forms/forms.html" class="panel-card pop-card">
+                <div>
+                    <span class="panel-meta">Data Entry View</span>
+                    <div class="panel-body">
+                        <h3>Forms Registry</h3>
+                        <p>This is the quick link to look at our raw application forms. It holds templates for shunts,
+                            sized catheters, cones, and enema bags.</p>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="mock-metric">Status: <strong style="color: #b45309;">Ready to View</strong></span>
+                    <span class="go-arrow">Open Forms →</span>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <footer>
+
+    <p>
+        CHITA Master Hub © 2026 Child-Help International
+    </p>
+
+    <p style="font-size:11px;font-style:italic;color:var(--text-muted);">
+
+        Guided Procurement Journey & Platform Explorer
+
+    </p>
+
+</footer>
+
+</body>
+
+</html>

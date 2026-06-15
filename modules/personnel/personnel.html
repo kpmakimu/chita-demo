@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Personnel - CHITA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="personnel.css">
+    
+</head>
+
+<body>
+
+    <div id="sbOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+    <div class="admin-layout">
+        <aside id="adminSidebar" class="sidebar">
+            <div class="sb-logo">
+                <img src="assets/Child-Help-Logo.png" alt="Logo" class="sb-logo-img">
+                <span style="color: var(--c-accent)">CHITA</span>
+            </div>
+
+            <div class="sb-sec">Dashboard</div>
+
+            <div class="sb-item on" onclick="asc('home', this)">
+                <span>Home</span>
+            </div>
+
+            <div class="sb-item" onclick="window.location.href='../forms/forms.html#all'">
+                <span>Request Supplies</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('order-tracking', this)">
+                <span>Order History</span>
+            </div>
+
+            <div class="sb-sec">Inventory</div>
+
+            <div class="sb-item" onclick="alert('Opening Cones Catalog...')">
+                <span>Cones</span>
+            </div>
+
+            <div class="sb-item" onclick="alert('Opening Catheters Catalog...')">
+                <span>Catheters</span>
+            </div>
+
+            <div class="sb-item" onclick="alert('Opening Enema Bags Catalog...')">
+                <span>Enema Bags</span>
+            </div>
+
+            <div class="sb-item" onclick="alert('Opening Oxybutinin Capsules Catalog...')">
+                <span>Oxybutinin Capsules</span>
+            </div>
+
+            <div class="sb-sec">Other</div>
+
+            <div class="sb-item" onclick="window.location.href='forms.html#all'">
+                <span>Forms</span>
+            </div>
+
+            <div class="sb-item" onclick="alert('Accessing Patient Registry...')">
+                <span>Patient Registry</span>
+            </div>
+
+            <div class="sb-item" onclick="alert('Accessing Donor Registry...')">
+                <span>Donor Registry</span>
+            </div>
+
+            <div class="sb-foot">
+                <a href="#" class="sb-logout-btn"
+                    onclick="event.preventDefault(); alert('Logged out.'); window.location.href='login.html';">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    EXIT
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button class="menu-toggle" onclick="toggleSidebar(true)" aria-label="Open Navigation Menu">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <h2 id="atitle" style="font-size:18px; font-weight:800; letter-spacing:-0.5px; color: var(--c-dark)">Home</h2>
+
+                <div class="header-actions">
+
+                    <div class="notif-wrapper" onclick="toggleNotifMenu(event)" title="Updates on orders">
+                        <svg class="notif-bell" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span id="queue-dot" class="notif-dot"></span>
+                    </div>
+
+                    <div id="dropdownCard" class="notif-dropdown">
+                        <div class="dd-title-header">Order Updates</div>
+                        <div class="dd-scroll-frame">
+                            <div id="dd-preview" class="dd-preview-card">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span
+                                        style="background: var(--status-pending); color: white; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Pending</span>
+                                    <p style="font-weight: 700; color: var(--text-main); font-size: 12px;">Needs Admin Approval</p>
+                                </div>
+                                <p style="color: var(--text-muted); font-size: 11px; line-height: 1.4; padding-left: 2px;">
+                                    Order #ORD-9942 is waiting for the main office to sign off.</p>
+                            </div>
+                            <div id="dd-empty" class="dd-empty-notice">
+                                ✓ No current alerts.
+                            </div>
+                        </div>
+                        <div class="dd-action-footer">
+                            <span class="dd-view-all-btn" onclick="triggerAdminApprovalSimulation()">Simulate Admin Approving It &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="user-profile-block" onclick="toggleProfileMenu(event)">
+                        <div style="text-align:right">
+                            <p style="font-size:12px; font-weight:800">Dr. Alex Mwangi</p>
+                            <p style="font-size:10px; color:var(--text-muted)">Mbuyuni Hospital</p>
+                        </div>
+                        <div style="width:36px; height:36px; background:var(--c-dark); border-radius:50%"></div>
+                    </div>
+
+                    <div id="profileDropdownCard" class="profile-dropdown">
+                        <div class="dd-title-header">Account Controls</div>
+                        <ul class="profile-menu-list">
+                            <li class="profile-menu-item" onclick="alert('Profile Configuration Modal Open...')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Profile
+                            </li>
+                            <li class="profile-menu-item" onclick="window.location.href='../forms/forms.html#all'">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                Forms
+                            </li>
+                            <li class="profile-menu-item" onclick="alert('Support Request Routing Online...')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                Support
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <div class="body-area">
+
+                <div id="s-home" class="sc on">
+
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <p>ORDERS PLACED THIS WEEK</p>
+                            <p id="stat-total">3</p>
+                        </div>
+                        <div class="stat-box" style="border-bottom-color: var(--c-accent)">
+                            <p>WAITING FOR APPROVAL</p>
+                            <p id="stat-pending" style="color:var(--status-pending)">1</p>
+                        </div>
+                        <div class="stat-box">
+                            <p>PENDING</p>
+                            <p id="stat-approved" style="color:var(--status-approved)">1</p>
+                        </div>
+                        <div class="stat-box" style="border-bottom-color: var(--status-delivered)">
+                            <p>DELIVERED</p>
+                            <p id="stat-delivered" style="color:var(--status-delivered)">1</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-split-grid">
+                        <div class="card">
+                            <div class="ch" style="color: var(--c-dark)">Supply Metrics Dashboard</div>
+                            <div class="cb">
+                                <div class="chart-container">
+                                    <div class="chart-column-wrapper">
+                                        <div class="chart-bar-fill" data-value="120" style="height: 60%; background: var(--c-dark);"></div>
+                                        <div class="chart-axis-label">Cones</div>
+                                    </div>
+                                    <div class="chart-column-wrapper">
+                                        <div class="chart-bar-fill" data-value="45" style="height: 25%; background: var(--c-accent);"></div>
+                                        <div class="chart-axis-label">Cath.</div>
+                                    </div>
+                                    <div class="chart-column-wrapper">
+                                        <div class="chart-bar-fill" data-value="210" style="height: 95%; background: var(--text-muted);"></div>
+                                        <div class="chart-axis-label">Enema</div>
+                                    </div>
+                                    <div class="chart-column-wrapper">
+                                        <div class="chart-bar-fill" data-value="85" style="height: 45%; background: var(--c-primary);"></div>
+                                        <div class="chart-axis-label">Oxy.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="ch" style="color: var(--c-dark)">Ward Schedule (3-Day Outlook)</div>
+                            <div class="cb" style="padding: 16px;">
+                                <div class="mini-calendar-grid">
+                                    <div class="cal-day-head">Yesterday</div>
+                                    <div class="cal-day-head">Today</div>
+                                    <div class="cal-day-head">Tomorrow</div>
+                                    
+                                    <div class="cal-day-cell">
+                                        <span class="cal-day-num">May 24</span>
+                                        <span class="cal-day-desc">No exceptions or delivery items logged.</span>
+                                    </div>
+                                    <div class="cal-day-cell active-today">
+                                        <span class="cal-day-num">May 25</span>
+                                        <span class="cal-day-desc" style="color: var(--c-dark); font-weight: 700;">Ward Audit Inspection due by evening.</span>
+                                    </div>
+                                    <div class="cal-day-cell">
+                                        <span class="cal-day-num">May 26</span>
+                                        <span class="cal-day-desc" style="color: var(--status-pending); font-weight: 700;">Expected Delivery: Supply batch ORD-9104.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-split-grid">
+                        <div class="card">
+                            <div class="ch" style="color: var(--c-dark)">Recent Activity</div>
+                            <div class="cb">
+                                <div style="padding:16px 0; border-bottom:1px solid var(--c-border); display:flex; gap:12px; align-items: flex-start;">
+                                    <div style="width:8px; height:8px; border-radius:50%; background:var(--status-delivered); margin-top:5px; flex-shrink:0;"></div>
+                                    <div style="flex: 1;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <p style="font-size:13px;"><strong>Items Received</strong> • <span style="color:var(--c-accent)">ORD-8821</span></p>
+                                            <span class="badge badge-delivered">Delivered</span>
+                                        </div>
+                                        <p style="font-size:12px; color:var(--text-muted)">10 packs of Sterile Surgical Gloves dropped off and put in the stock closet.</p>
+                                        <p style="font-size:11px; color:var(--text-muted); margin-top:4px">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div style="padding:16px 0; border-bottom:1px solid var(--c-border); display:flex; gap:12px; align-items: flex-start;">
+                                    <div style="width:8px; height:8px; border-radius:50%; background:var(--status-approved); margin-top:5px; flex-shrink:0;"></div>
+                                    <div style="flex: 1;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <p style="font-size:13px;"><strong>Shipped out by Supplier</strong> • <span style="color:var(--c-accent)">ORD-9104</span></p>
+                                            <span class="badge badge-approved">On the Way</span>
+                                        </div>
+                                        <p style="font-size:12px; color:var(--text-muted)">50 boxes of Oxytocin approved by Admin and handed over to the delivery vehicle.</p>
+                                        <p style="font-size:11px; color:var(--text-muted); margin-top:4px">Yesterday</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="ch" style="color: var(--c-dark)">Low Stock Alerts</div>
+                            <div class="cb">
+                                <div style="margin-bottom: 20px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Catheters</span> <span style="color: var(--c-accent); font-weight: 800;">15% Left</span>
+                                    </div>
+                                    <div class="bar-track" style="background: #f1f5f9;">
+                                        <div class="bar-fill" style="width: 15%;"></div>
+                                    </div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Critical level: Place a request soon</p>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Enema Bags</span> <span style="color: var(--status-pending); font-weight: 800;">45% Left</span>
+                                    </div>
+                                    <div class="bar-track" style="background: #f1f5f9;">
+                                        <div class="bar-fill" style="width: 45%;"></div>
+                                    </div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Running low due to high patient volume today</p>
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Cones</span> <span style="color: var(--status-approved); font-weight: 800;">55% Left</span>
+                                    </div>
+                                    <div class="bar-track" style="background: #f1f5f9;">
+                                        <div class="bar-fill" style="width: 55%; background: var(--status-approved);"></div>
+                                    </div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Low Volume</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-order-placement" class="sc">
+                    <div class="card" style="max-width: 650px; margin: 0 auto;">
+                        <div class="ch" style="color: var(--c-dark)">Request Supplies</div>
+                        <div class="cb">
+                            <form id="supplyOrderForm" onsubmit="handleOrderSubmission(event)">
+                                <div class="form-group">
+                                    <label for="supplyItem">What item do you need?</label>
+                                    <select id="supplyItem" class="form-control" required>
+                                        <option value="">-- Choose an item --</option>
+                                        <option value="Sterile Syringes (10ml)">Sterile Syringes (10ml) - Pack of 100</option>
+                                        <option value="Surgical Face Masks">Surgical Face Masks - Box of 50</option>
+                                        <option value="Antiseptic Hand Rub">Antiseptic Hand Rub - 500ml Bottle</option>
+                                        <option value="Giving Sets (Standard)">Giving Sets (Standard Fluid Drop)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="orderQty">How many packs/boxes?</label>
+                                    <input type="number" id="orderQty" class="form-control" min="1" max="500" placeholder="Enter quantity" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="clinicalReason">Notes / Reason for request</label>
+                                    <textarea id="clinicalReason" class="form-control" rows="3" placeholder="Add any details or mention if this is urgent..." required></textarea>
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                                    <button type="button" class="btn btn-ghost" onclick="asc('home', document.querySelector('[onclick*=\'home\']'))">Cancel</button>
+                                    <button type="submit" class="btn btn-p">Send Order</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-order-tracking" class="sc">
+                    <div class="card">
+                        <div class="ch" style="color: var(--c-dark)">Order History Log</div>
+                        <div class="cb" style="padding: 0;">
+                            <table class="supply-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Item Name</th>
+                                        <th>Quantity</th>
+                                        <th>Requested By</th>
+                                        <th>Status</th>
+                                        <th>Where is it?</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="order-table-body">
+                                    <tr id="simulated-row">
+                                        <td style="font-weight: 700;">ORD-9942</td>
+                                        <td>Sterile Syringes (10ml) - Pack of 100</td>
+                                        <td>5</td>
+                                        <td>Dr. A. Mwangi</td>
+                                        <td><span id="table-status-badge" class="badge badge-pending">Waiting for approval</span></td>
+                                        <td><span id="table-fulfillment-text" style="color: var(--text-muted); font-style: italic;">Sitting in Admin queue</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: 700;">ORD-9104</td>
+                                        <td>Oxytocin Ampoules (10 IU)</td>
+                                        <td>50</td>
+                                        <td>Dr. A. Mwangi</td>
+                                        <td><span class="badge badge-approved">Approved</span></td>
+                                        <td style="color: var(--status-approved); font-weight: 600;">On the way (Delivery Vehicle)</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: 700;">ORD-8821</td>
+                                        <td>Sterile Surgical Gloves (Size 7.5)</td>
+                                        <td>10</td>
+                                        <td>Nurse J. Toili</td>
+                                        <td><span class="badge badge-delivered">Delivered</span></td>
+                                        <td style="color: var(--status-delivered); font-weight: 600;">Arrived & Put Away</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="personnel.js"></script>
+</body>
+
+</html>

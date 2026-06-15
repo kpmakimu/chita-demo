@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account - CHITA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --c-dark: #071013;       
+      --c-primary: #456990;    /* Steel Blue (75% Framework) */
+      --c-accent: #fa8c3f;     /* Safety Orange (Brand Accent) */
+      --c-light: #eaf6ff;      
+      --c-border: #dfe0e2;     
+      --bg-main: var(--c-light);
+      --text-muted: #5c6466;   
+      --radius-md: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--c-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .login-split {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      min-height: 100vh;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .login-visual {
+      background: var(--c-primary); 
+      padding: 80px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-visual h2 {
+      color: var(--c-accent);
+      font-size: 36px;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+    }
+
+    .login-form-area {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .input-group {
+      position: relative;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      border: 1.5px solid var(--c-border);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: 0.2s;
+      font-family: inherit;
+      color: var(--c-dark);
+    }
+
+    input:focus, select:focus {
+      border-color: var(--c-accent); 
+      box-shadow: 0 0 0 3px rgba(250, 140, 63, 0.15);
+    }
+
+    select {
+      background: white;
+      color: var(--text-muted);
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235c6466' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    .token-badge {
+      display: none;
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--c-accent); 
+      letter-spacing: 0.5px;
+    }
+
+    .btn {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-p {
+      background: var(--c-primary);
+      color: white;
+    }
+
+    .btn-p:hover {
+      background: var(--c-accent); 
+      box-shadow: 0 4px 12px rgba(250, 140, 63, 0.2);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .login-split {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+      }
+
+      .login-visual {
+        padding: 40px 24px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-visual h2 {
+        font-size: 24px !important;
+        margin-bottom: 8px !important;
+        letter-spacing: -0.5px !important;
+      }
+
+      .login-visual p {
+        font-size: 14px !important;
+      }
+
+      .login-form-area {
+        padding: 40px 24px;
+        align-items: flex-start;
+      }
+
+      .login-box {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-split">
+    <div class="login-visual">
+      <h2>Join the CHITA Network</h2>
+      <p style="font-size:18px; opacity:0.8; line-height:1.6"><i>Request administrative access to the procurement and supply chain portal.</i></p>
+    </div>
+
+    <div class="login-form-area">
+      <div class="login-box" style="display: flex; flex-direction: column; align-items: flex-start;">
+        <img src="assets/Child-Help-Logo.png" alt="Logo" style="height: 54px; margin-bottom: 32px; width: auto;">
+        
+        <div style="width: 24px; height: 4px; background: var(--c-accent); margin-bottom: 8px; border-radius: 2px;"></div>
+        <h3 style="font-size:24px; margin-bottom:24px; color:var(--c-dark); font-weight:800;">Create Account</h3>
+
+        <form id="registrationForm" action="#" onsubmit="handleRegistration(event)" style="width: 100%;">
+          
+          <div class="input-group">
+            <input type="text" id="inviteCode" placeholder="Invitation / Access Code" required>
+            <span id="tokenBadge" class="token-badge">✓ VERIFIED</span>
+          </div>
+
+          <div class="input-group">
+            <input type="text" placeholder="Full Name" required>
+          </div>
+
+          <div class="input-group">
+            <input type="email" placeholder="Work Email" required>
+          </div>
+
+          <div class="input-group">
+            <select required>
+              <option value="" disabled selected>Select Your Role</option>
+              <option value="staff">Hospital / Medical Staff</option>
+              <option value="logistics">Logistics & Supply</option>
+              <option value="donor">Individual / Corporate Donor</option>
+            </select>
+          </div>
+
+          <div class="input-group" style="margin-bottom: 20px;">
+            <input type="password" placeholder="Create Password" required>
+          </div>
+
+          <button type="submit" class="btn btn-p" style="margin-bottom: 20px;">Submit Request</button>
+        </form>
+
+        <div style="width: 100%; text-align: center; font-size: 13px; color: var(--text-muted);">
+          Already have an account?
+          <a href="login.html" style="color: var(--c-accent); font-weight: 700; text-decoration: none;">Sign In</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token') || urlParams.get('code');
+      
+      if (token) {
+        const codeInput = document.getElementById('inviteCode');
+        codeInput.value = token;
+        codeInput.style.borderColor = "var(--c-accent)";
+        codeInput.style.background = "rgba(250, 140, 63, 0.05)"; 
+        codeInput.readOnly = true; 
+        
+        document.getElementById('tokenBadge').style.display = "block"; 
+      }
+    });
+
+    function handleRegistration(e) {
+      e.preventDefault();
+      alert('Request authorized and submitted for evaluation!');
+      window.location.href = 'login.html';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHITA - Supply Chain Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* SWAPPED HIERARCHY: ORANGE IS PRIMARY */
+      --c-dark: #071013;       
+      --c-primary: #fa8c3f;    /* Safety Orange (Brand Main Color) */
+      --c-accent: #456990;     /* Steel Blue (Supporting Theme) */
+      --c-light: #eaf6ff;      
+      --c-border: #dfe0e2;     
+      --bg-main: var(--c-light);
+      --text-muted: #5c6466;   
+      --radius-md: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--c-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* LANDING NAV */
+    .lnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 48px;
+      background: white;
+      border-bottom: 1px solid var(--c-border);
+    }
+
+    .brand {
+      font-weight: 700;
+      color: var(--c-dark);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+    .l-links {
+      display: flex;
+      gap: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .l-links span {
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .l-links span:hover {
+      color: var(--c-primary);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding: 120px 20px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 800;
+      color: var(--c-dark);
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      color: var(--c-primary); /* Bold Orange Header text */
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .btn {
+      padding: 16px 36px;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-p {
+      background: var(--c-primary); /* Orange Action Button */
+      color: white;
+    }
+
+    .btn-p:hover {
+      background: #e0762c; /* Rich deeper orange tone for interaction */
+      box-shadow: 0 4px 12px rgba(250, 140, 63, 0.3);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--c-border);
+      color: var(--c-accent); /* Steel blue subtle action link */
+    }
+    
+    .btn-ghost:hover {
+      background: white;
+      border-color: var(--c-accent);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="lnav">
+    <div class="brand">
+      <img src="assets/Child-Help-Logo.png" alt="Logo" style="height: 48px; width: auto;">
+      CHITA
+    </div>
+    <div class="l-links">
+      <span onclick="alert('Redirecting...')">Supplier Portal</span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div style="text-transform:uppercase; font-size:11px; letter-spacing:3px; font-weight:800; color:var(--c-primary); margin-bottom:16px">
+      Supply Chain Management
+    </div>
+    <h1>Child Help in Tanzania (CHITA) <span>Procurement & Management System</span></h1>
+    <p>CHITA administrative platform for managing logistics, facility procurement, donors, and vendors.</p>
+    <div style="display:flex; gap:16px; justify-content:center">
+      <a href="auth/login.html" class="btn btn-p">LOG IN</a>
+      <button class="btn btn-ghost" onclick="alert('Thank you for your interest!')">BECOME A DONOR</button>
+    </div>
+  </div>
+
+</body>
+</html>

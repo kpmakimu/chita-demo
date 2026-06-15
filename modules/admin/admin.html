@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CHITA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <div id="sbOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+    <div id="profileModal" class="custom-modal" onclick="closeModal('profileModal')">
+        <div class="modal-body-card" onclick="event.stopPropagation()">
+            <div class="ch">User Profile Identity</div>
+            <div class="cb">
+                <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                    <div style="width:60px; height:60px; background:var(--c-primary); border-radius:50%"></div>
+                    <div>
+                        <h3 style="font-size:16px; font-weight:800">Administrator Token Instance</h3>
+                        <p style="font-size:12px; color:var(--text-muted)">Node Account: Mbuyuni Base Hospital</p>
+                    </div>
+                </div>
+                <p style="font-size:13px; line-height:1.5; margin-bottom:24px; color:var(--text-muted)">
+                    This access terminal is authorized with Root Level 3 system credentials. Security verification
+                    hashes and local execution protocols are locked to this device network adapter.
+                </p>
+                <button class="btn btn-p" style="width:100%" onclick="closeModal('profileModal')">Acknowledge
+                    Credentials</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="supportModal" class="custom-modal" onclick="closeModal('supportModal')">
+        <div class="modal-body-card" onclick="event.stopPropagation()">
+            <div class="ch">Local Infrastructure Support</div>
+            <div class="cb">
+                <h4 style="font-size:14px; margin-bottom:8px">System Integrity Diagnostics</h4>
+                <p style="font-size:13px; color:var(--text-muted); line-height:1.5; margin-bottom:20px">
+                    All pipeline tools run as static, sandboxed execution modules. If server routing fails, verify your
+                    physical network switches or run the local diagnostic sync compilation engine.
+                </p>
+                <div style="display:flex; gap:12px">
+                    <button class="btn btn-p"
+                        onclick="alert('Exporting system error log files locally...'); closeModal('supportModal')">Dump
+                        Debug Logs</button>
+                    <button class="btn btn-ghost" onclick="closeModal('supportModal')">Close Panel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-layout">
+        <aside id="adminSidebar" class="sidebar">
+            <div class="sb-logo">
+                <img src="assets/Child-Help-Logo.png" alt="Logo" class="sb-logo-img">
+                <span>CHITA</span>
+            </div>
+
+            <div class="sb-sec">Dashboard</div>
+
+            <div class="sb-item on" onclick="asc('home', this)">
+                <span>Home</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('apps', this)">
+                <span>Applications</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('orders', this)">
+                <span>Orders</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('deliveries', this)">
+                <span>Deliveries</span>
+            </div>
+
+            <div class="sb-item"
+                onclick="asc('home', this); tabShow('p-dir', document.querySelector('[onclick*=\'p-dir\']'))">
+                <span>Facilities</span>
+            </div>
+
+            <div class="sb-sec">Modules</div>
+
+            <div class="sb-has-dropdown">
+                <div class="sb-item" onclick="toggleSubmenu(this)">
+                    <span>Personnel</span>
+                    <svg class="sb-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="sb-sub-group">
+                    <div class="sb-sub-item"
+                        onclick="asc('home', this); tabShow('u-mgmt', document.querySelector('[onclick*=\'u-mgmt\']'))">
+                        Orders</div>
+                    <div class="sb-sub-item" onclick="asc('pending', this)">Deliveries</div>
+                    <div class="sb-sub-item" onclick="asc('staff', this)">Staff</div>
+                </div>
+            </div>
+
+            <div class="sb-has-dropdown">
+                <div class="sb-item" onclick="toggleSubmenu(this)">
+                    <span>Suppliers</span>
+                    <svg class="sb-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="sb-sub-group">
+                    <div class="sb-sub-item"
+                        onclick="asc('home', this); tabShow('f-dir', document.querySelector('[onclick*=\'f-dir\']'))">
+                        Vendors</div>
+                    <div class="sb-sub-item" onclick="asc('orders', this)">Orders</div>
+                    <div class="sb-sub-item" onclick="asc('invoices', this)">Invoices</div>
+                </div>
+            </div>
+
+            <div class="sb-has-dropdown">
+                <div class="sb-item" onclick="toggleSubmenu(this)">
+                    <span>Finance</span>
+                    <svg class="sb-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="sb-sub-group">
+                    <div class="sb-sub-item"
+                        onclick="asc('home', this); tabShow('a-invent', document.querySelector('[onclick*=\'a-invent\']'))">
+                        Invoices</div>
+                    <div class="sb-sub-item" onclick="asc('orders', this)">Orders</div>
+                    <div class="sb-sub-item" onclick="asc('inventory', this)">Inventory</div>
+                </div>
+            </div>
+
+            <div class="sb-sec">OTHER</div>
+
+            <div class="sb-item" onclick="asc('donors', this)">
+                <span>Donors</span>
+            </div>
+            <div class="sb-item" onclick="asc('hoh', this)">
+                <span>House of Hope</span>
+            </div>
+            <div class="sb-item" onclick="asc('user-mgmt', this)">
+                <span>User Management</span>
+            </div>
+            <div class="sb-item" onclick="asc('reports', this)">
+                <span>Reports</span>
+            </div>
+
+            <div class="sb-foot">
+                <a href="#" class="sb-logout-btn"
+                    onclick="event.preventDefault(); alert('Logged out safely.'); window.location.href='login.html';">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    CLOSE SESSION
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button class="menu-toggle" onclick="toggleSidebar(true)" aria-label="Open Viewport Drawer Menu">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <h2 id="atitle" style="font-size:18px; font-weight:800; letter-spacing:-0.5px">Overview</h2>
+
+                <div class="header-actions">
+
+                    <div class="notif-wrapper" onclick="toggleNotifMenu(event)" title="View Urgent Actions">
+                        <svg class="notif-bell" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span id="queue-dot" class="notif-dot"></span>
+                    </div>
+
+                    <div id="dropdownCard" class="notif-dropdown">
+                        <div class="dd-title-header">Alert Notifications</div>
+                        <div class="dd-scroll-frame">
+                            <div id="dd-preview" class="dd-preview-card">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <span
+                                        style="background: #e63946; color: white; font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">Urgent</span>
+                                    <p style="font-weight: 700; color: var(--c-dark); font-size: 12px;">Personnel
+                                        Clearances Needed</p>
+                                </div>
+                                <p
+                                    style="color: var(--text-muted); font-size: 11px; line-height: 1.4; padding-left: 2px;">
+                                    P. Njoroge is awaiting site admin access confirmation protocols.</p>
+                            </div>
+                            <div id="dd-empty" class="dd-empty-notice">
+                                ✓ You have no pending issues.
+                            </div>
+                        </div>
+                        <div class="dd-action-footer">
+                            <span class="dd-view-all-btn" onclick="openAuthorizationsQueue()">View Authorization Queue
+                                &rarr;</span>
+                        </div>
+                    </div>
+
+                    <div class="user-profile-block" onclick="toggleProfileMenu(event)">
+                        <div style="text-align:right">
+                            <p style="font-size:12px; font-weight:800">Administrator</p>
+                            <p style="font-size:10px; color:var(--text-muted)">Mbuyuni Hospital</p>
+                        </div>
+                        <div style="width:36px; height:36px; background:var(--c-primary); border-radius:50%"></div>
+                    </div>
+
+                    <div id="profileDropdownCard" class="profile-dropdown">
+                        <div class="dd-title-header">Account Controls</div>
+                        <ul class="profile-menu-list">
+                            <li class="profile-menu-item" onclick="openModal('profileModal')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Profile
+                            </li>
+                            <li class="profile-menu-item"
+                                onclick="asc('apps', document.querySelector('[onclick*=\'asc(\\\\‘apps\\\\’]\')'))">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                Forms
+                            </li>
+                            <li class="profile-menu-item" onclick="openModal('supportModal')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                </svg>
+                                Support
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </header>
+
+            <div class="body-area">
+
+                <div id="s-home" class="sc on">
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <p>PENDING APPLICATIONS</p>
+                            <p id="home-stat-apps-count">8</p>
+                        </div>
+                        <div class="stat-box">
+                            <p>PENDING ORDERS</p>
+                            <p id="stat-urgent-count">4</p>
+                        </div>
+                        <div class="stat-box">
+                            <p>PENDING PAYMENTS</p>
+                            <p>48</p>
+                        </div>
+                        <div class="stat-box">
+                            <p>UPCOMING DELIVERIES</p>
+                            <p>142</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-split-grid">
+                        <div class="card">
+                            <div class="ch">Activity Log</div>
+                            <div class="cb">
+                                <div
+                                    style="padding:16px 0; border-bottom:1px solid var(--c-border); display:flex; gap:12px; align-items: flex-start;">
+                                    <div
+                                        style="width:8px; height:8px; border-radius:50%; background:var(--c-primary); margin-top:5px; flex-shrink:0;">
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div
+                                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <p style="font-size:13px;"><strong>B. Kamau</strong> • <span
+                                                    style="color:var(--c-primary)">Regional Site A</span></p>
+                                            <span
+                                                style="font-size:10px; font-weight:700; padding:2px 8px; border-radius:12px; background:rgba(245, 158, 11, 0.15); color:#b45309; text-transform: uppercase;">Waiting
+                                                Approval</span>
+                                        </div>
+                                        <p style="font-size:12px; color:var(--text-muted)">Submitted Application
+                                            #APP-4921</p>
+                                        <p style="font-size:11px; color:var(--text-muted); margin-top:4px">2m ago</p>
+                                    </div>
+                                </div>
+
+                                <div
+                                    style="padding:16px 0; border-bottom:1px solid var(--c-border); display:flex; gap:12px; align-items: flex-start;">
+                                    <div
+                                        style="width:8px; height:8px; border-radius:50%; background:var(--c-primary); margin-top:5px; flex-shrink:0;">
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div
+                                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <p style="font-size:13px;"><strong>F. Osei</strong> • <span
+                                                    style="color:var(--c-primary)">Central Warehouse</span></p>
+                                            <span
+                                                style="font-size:10px; font-weight:700; padding:2px 8px; border-radius:12px; background:rgba(69, 105, 144, 0.15); color:var(--c-primary); text-transform: uppercase;">Authorized</span>
+                                        </div>
+                                        <p style="font-size:12px; color:var(--text-muted)">Dispatched Procurement
+                                            #ORD-388</p>
+                                        <p style="font-size:11px; color:var(--text-muted); margin-top:4px">1h ago</p>
+                                    </div>
+                                </div>
+
+                                <div style="padding:16px 0; display:flex; gap:12px; align-items: flex-start;">
+                                    <div
+                                        style="width:8px; height:8px; border-radius:50%; background:var(--c-primary); margin-top:5px; flex-shrink:0;">
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div
+                                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                                            <p style="font-size:13px;"><strong>B. Walter</strong> • <span
+                                                    style="color:var(--c-primary)">Donor</span></p>
+                                            <span
+                                                style="font-size:10px; font-weight:700; padding:2px 8px; border-radius:12px; background:rgba(69, 105, 144, 0.15); color:var(--c-primary); text-transform: uppercase;">Authorized</span>
+                                        </div>
+                                        <p style="font-size:12px; color:var(--text-muted)">Posted payment configuration
+                                            for #ORD-543</p>
+                                        <p style="font-size:11px; color:var(--text-muted); margin-top:4px">2h ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="ch">Inventory Alerts <span
+                                    style="background:#e63946; color:white; font-size:9px; padding:2px 6px; border-radius:4px;">Action
+                                    Needed</span></div>
+                            <div class="cb">
+                                <div style="margin-bottom: 20px;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Catheters</span>
+                                        <span style="color: #e63946; font-weight: 800;">12% Left</span>
+                                    </div>
+                                    <div class="bar-track" style="background: #fce8e8;">
+                                        <div class="bar-fill" style="width: 12%; background: #e63946;"></div>
+                                    </div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Refill
+                                        required for Site B regional triage</p>
+                                </div>
+
+                                <div style="margin-bottom: 20px;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Cones</span>
+                                        <span style="color: #f59e0b; font-weight: 800;">32% Left</span>
+                                    </div>
+                                    <div class="bar-track" style="background: #fef3c7;">
+                                        <div class="bar-fill" style="width: 32%; background: #f59e0b;"></div>
+                                    </div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Restock
+                                        parcel scheduled via central terminal</p>
+                                </div>
+
+                                <div style="margin-bottom: 20px;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Oxybutynin Caps</span>
+                                        <span style="color: #f59e0b; font-weight: 800;">45 Days</span>
+                                    </div>
+                                    <div class="bar-track" style="background: #fef3c7;">
+                                        <div class="bar-fill" style="width: 40%; background: #f59e0b;"></div>
+                                    </div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Batch #992
+                                        critical date thresholds expiring soon</p>
+                                </div>
+
+                                <div>
+                                    <div
+                                        style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
+                                        <span style="font-weight: 700;">Enema Bags</span>
+                                        <span style="color: #e63946; font-weight: 800;">CRITICAL</span>
+                                    </div>
+                                    <div class="bar-track" style="background: #fce8e8;">
+                                        <div class="bar-fill" style="width: 4%; background: #e63946;"></div>
+                                    </div>
+                                    <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Out of stock
+                                        at 3 regional warehouse operations units</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alignment-wrapper">
+                        <div class="align-col">
+                            <div class="tab-row">
+                                <div class="mini-tab on" onclick="tabShow('u-mgmt', this)">Personnel</div>
+                                <div class="mini-tab" onclick="tabShow('f-dir', this)">Suppliers</div>
+                                <div class="mini-tab" onclick="tabShow('a-invent', this)">Finance</div>
+                                <div class="mini-tab" onclick="tabShow('p-dir', this)">Administration</div>
+                            </div>
+
+                            <div class="tab-content-wrapper">
+                                <div id="u-mgmt" class="tab-pane active">
+                                    <div class="card"
+                                        style="border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;">
+                                        <div class="ch">
+                                            <span>User Directory</span>
+                                            <button class="btn btn-p" style="padding: 4px 12px; font-size: 10px;">+ ADD
+                                                USER</button>
+                                        </div>
+                                        <div class="cb" style="padding: 0; overflow-y: auto; max-height: 260px;">
+                                            <table
+                                                style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+                                                <thead
+                                                    style="position: sticky; top: 0; background: var(--bg-main); z-index: 10;">
+                                                    <tr style="border-bottom: 1px solid var(--c-border);">
+                                                        <th
+                                                            style="padding: 12px 24px; color: var(--text-muted); font-weight: 800;">
+                                                            NAME</th>
+                                                        <th
+                                                            style="padding: 12px 24px; color: var(--text-muted); font-weight: 800;">
+                                                            ROLE</th>
+                                                        <th
+                                                            style="padding: 12px 24px; color: var(--text-muted); font-weight: 800;">
+                                                            STATUS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.4);">
+                                                        <td style="padding: 12px 24px;"><strong>A. Mchome</strong></td>
+                                                        <td style="padding: 12px 24px;">Site Lead</td>
+                                                        <td style="padding: 12px 24px;"><span
+                                                                style="color: var(--c-primary); font-weight: 700;">Active</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.4);">
+                                                        <td style="padding: 12px 24px;"><strong>S. Lowassa</strong></td>
+                                                        <td style="padding: 12px 24px;">Logistics</td>
+                                                        <td style="padding: 12px 24px;"><span
+                                                                style="color: var(--c-primary); font-weight: 700;">Active</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.4);">
+                                                        <td style="padding: 12px 24px;"><strong>A. Kikwete</strong></td>
+                                                        <td style="padding: 12px 24px;">Donors</td>
+                                                        <td style="padding: 12px 24px;"><span
+                                                                style="color: var(--text-muted);">Inactive</span></td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.4);">
+                                                        <td style="padding: 12px 24px;"><strong>H. Mwinyi</strong></td>
+                                                        <td style="padding: 12px 24px;">Field Officer</td>
+                                                        <td style="padding: 12px 24px;"><span
+                                                                style="color: var(--c-primary); font-weight: 700;">Active</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.4);">
+                                                        <td style="padding: 12px 24px;"><strong>D. Shein</strong></td>
+                                                        <td style="padding: 12px 24px;">Health Coord.</td>
+                                                        <td style="padding: 12px 24px;"><span
+                                                                style="color: var(--c-primary); font-weight: 700;">Active</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.4);">
+                                                        <td style="padding: 12px 24px;"><strong>P. Njoroge</strong></td>
+                                                        <td style="padding: 12px 24px;">Safety Guard</td>
+                                                        <td style="padding: 12px 24px;"><span id="table-user-status"
+                                                                style="color: #f59e0b; font-weight: 700;">Pending</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div
+                                            style="padding: 12px 24px; border-top: 1px solid var(--c-border); text-align: center; background: white; margin-top: auto;">
+                                            <span
+                                                style="font-size: 11px; font-weight: 800; color: var(--c-primary); cursor: pointer; text-transform: uppercase; letter-spacing: 1px;"
+                                                onclick="asc('user-mgmt', null)">View Full Directory &rarr;</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="f-dir" class="tab-pane">
+                                    <div class="card"
+                                        style="border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;">
+                                        <div class="ch">Suppliers Module Matrix</div>
+                                        <div class="cb" style="padding:0">
+                                            <table class="ui-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Supplier</th>
+                                                        <th>Contract ID</th>
+                                                        <th>Tier Rating</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>MediSupply Ltd</strong></td>
+                                                        <td>#CON-9021</td>
+                                                        <td><span class="badge badge-success">Tier 1 Elite</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Afya Global Logistics</strong></td>
+                                                        <td>#CON-4481</td>
+                                                        <td><span class="badge badge-success">Tier 1</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Tanzania Pharma Corp</strong></td>
+                                                        <td>#CON-1102</td>
+                                                        <td><span class="badge badge-pending-old">Tier 2 Verified</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="a-invent" class="tab-pane">
+                                    <div class="card"
+                                        style="border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;">
+                                        <div class="ch">Finance Master Quickview</div>
+                                        <div class="cb" style="padding:0">
+                                            <table class="ui-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Invoice Reference</th>
+                                                        <th>Institution</th>
+                                                        <th>Total Balance</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>#INV-2026-089</strong></td>
+                                                        <td>Mbuyuni Hospital</td>
+                                                        <td>$14,250.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>#INV-2026-090</strong></td>
+                                                        <td>Regional Site A</td>
+                                                        <td>$4,110.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>#INV-2026-091</strong></td>
+                                                        <td>Central Warehouse</td>
+                                                        <td>$29,800.00</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="p-dir" class="tab-pane">
+                                    <div class="card"
+                                        style="border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg) !important;">
+                                        <div class="ch">Administration & Facilities Ledger</div>
+                                        <div class="cb" style="padding:0">
+                                            <table class="ui-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Facility Node</th>
+                                                        <th>Designation</th>
+                                                        <th>Active Staff Capacity</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>Mbuyuni Base Hospital</strong></td>
+                                                        <td>Core Hub Terminal</td>
+                                                        <td>142 Registered Personnel</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Regional Site A Node</strong></td>
+                                                        <td>Triage Clinical Clinic</td>
+                                                        <td>34 Registered Personnel</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Central Logistics Terminal</strong></td>
+                                                        <td>Storage Base Supply Vault</td>
+                                                        <td>18 Warehouse Guards</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="align-col">
+                            <div class="card">
+                                <div class="ch">Schedule & Events</div>
+                                <div class="cb">
+                                    <div class="cal-wrapper">
+                                        <div>
+                                            <div class="cal-month">
+                                                <span>June 2026</span>
+                                                <div style="display:flex; gap:10px; color:var(--c-primary)">
+                                                    <span style="cursor:pointer"
+                                                        onclick="alert('Previous Month...')">&lt;</span>
+                                                    <span style="cursor:pointer"
+                                                        onclick="alert('Next Month...')">&gt;</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="cal-grid">
+                                                <div class="cal-day-label">S</div>
+                                                <div class="cal-day-label">M</div>
+                                                <div class="cal-day-label">T</div>
+                                                <div class="cal-day-label">W</div>
+                                                <div class="cal-day-label">T</div>
+                                                <div class="cal-day-label">F</div>
+                                                <div class="cal-day-label">S</div>
+
+                                                <div class="cal-date" style="opacity:0.3">26</div>
+                                                <div class="cal-date" style="opacity:0.3">27</div>
+                                                <div class="cal-date" style="opacity:0.3">28</div>
+                                                <div class="cal-date" style="opacity:0.3">29</div>
+                                                <div class="cal-date" style="opacity:0.3">30</div>
+                                                <div class="cal-date today">1</div>
+                                                <div class="cal-date">2</div>
+
+                                                <div class="cal-date">3</div>
+                                                <div class="cal-date event">4</div>
+                                                <div class="cal-date">5</div>
+                                                <div class="cal-date">6</div>
+                                                <div class="cal-date">7</div>
+                                                <div class="cal-date event">8</div>
+                                                <div class="cal-date">9</div>
+
+                                                <div class="cal-date">10</div>
+                                                <div class="cal-date">11</div>
+                                                <div class="cal-date">12</div>
+                                                <div class="cal-date event">13</div>
+                                                <div class="cal-date">14</div>
+                                                <div class="cal-date">15</div>
+                                                <div class="cal-date">16</div>
+
+                                                <div class="cal-date">17</div>
+                                                <div class="cal-date">18</div>
+                                                <div class="cal-date">19</div>
+                                                <div class="cal-date">20</div>
+                                                <div class="cal-date">21</div>
+                                                <div class="cal-date">22</div>
+                                                <div class="cal-date">23</div>
+
+                                                <div class="cal-date">24</div>
+                                                <div class="cal-date">25</div>
+                                                <div class="cal-date">26</div>
+                                                <div class="cal-date">27</div>
+                                                <div class="cal-date">28</div>
+                                                <div class="cal-date">29</div>
+                                                <div class="cal-date">30</div>
+                                                <div class="cal-date">31</div>
+                                                <div class="cal-date" style="opacity:0.3">1</div>
+                                                <div class="cal-date" style="opacity:0.3">2</div>
+                                                <div class="cal-date" style="opacity:0.3">3</div>
+                                                <div class="cal-date" style="opacity:0.3">4</div>
+                                                <div class="cal-date" style="opacity:0.3">5</div>
+                                                <div class="cal-date" style="opacity:0.3">6</div>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--c-border);">
+                                            <p
+                                                style="font-size: 11px; font-weight: 700; color: var(--c-primary); text-transform: uppercase;">
+                                                Upcoming Agenda</p>
+                                            <div
+                                                style="font-size: 12px; margin-top: 8px; display: flex; align-items: center; gap: 8px;">
+                                                <div
+                                                    style="width: 6px; height: 6px; background: var(--c-accent); border-radius: 50%;">
+                                                </div>
+                                                <span>Delivery from MediSupply - 09:00</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-apps" class="sc">
+                    <div class="app-stat-grid">
+                        <div class="stat-box clickable" data-filter-type="Cones" onclick="filterAppTable(this)">
+                            <p>CONES</p>
+                            <p id="cnt-cones">1</p>
+                        </div>
+                        <div class="stat-box clickable" data-filter-type="Catheters" onclick="filterAppTable(this)">
+                            <p>CATHETERS</p>
+                            <p id="cnt-catheters">4</p>
+                        </div>
+                        <div class="stat-box clickable" data-filter-type="Enema Bags" onclick="filterAppTable(this)">
+                            <p>ENEMA BAGS</p>
+                            <p id="cnt-enema">2</p>
+                        </div>
+                        <div class="stat-box clickable" data-filter-type="Oxybutynin Caps"
+                            onclick="filterAppTable(this)">
+                            <p>OXYBUTYNIN CAPS</p>
+                            <p id="cnt-oxy">2</p>
+                        </div>
+                        <div class="stat-box clickable" data-filter-type="Shunt" onclick="filterAppTable(this)">
+                            <p>SHUNT</p>
+                            <p id="cnt-shunt">1</p>
+                        </div>
+                    </div>
+
+                    <div class="apps-split-wrapper">
+                        <div id="app-ledger-view">
+
+
+                            <div class="card">
+                                <div class="ch">
+                                    <span id="app-table-title">Facility Access & Procurement Applications</span>
+                                    <span
+                                        style="font-size: 11px; color: var(--text-muted); font-weight: 500; text-transform: none; letter-spacing: 0;">(Click
+                                        any row below to inspect detail instance)</span>
+                                </div>
+
+                                <div class="filter-panel-bar">
+                                    <div class="filter-control-group">
+                                        <label for="f-search">Search Applicant</label>
+                                        <input type="text" id="f-search" class="filter-input" placeholder="Type name..."
+                                            oninput="evaluateMasterFilters()">
+                                    </div>
+                                    <div class="filter-control-group">
+                                        <label for="f-type">Application Type</label>
+                                        <select id="f-type" class="filter-select" onchange="evaluateMasterFilters()">
+                                            <option value="">All Component Types</option>
+                                            <option value="Cones">Cones</option>
+                                            <option value="Catheters">Catheters</option>
+                                            <option value="Enema Bags">Enema Bags</option>
+                                            <option value="Oxybutynin Caps">Oxybutynin Caps</option>
+                                            <option value="Shunt">Shunt</option>
+                                        </select>
+                                    </div>
+                    
+                                    <div class="filter-control-group">
+                                        <label for="f-status">Review Status</label>
+                                        <select id="f-status" class="filter-select" onchange="evaluateMasterFilters()">
+                                            <option value="">All System Statuses</option>
+                                            <option value="Waiting Approval">Waiting Approval</option>
+                                            <option value="Denied">Denied</option>
+                                        </select>
+                                    </div>
+                                    <div class="filter-control-group" style="justify-content: flex-end;">
+                                        <button class="btn btn-ghost" style="padding: 8px 14px; font-size: 11px;"
+                                            onclick="resetPipelineFilters()">Clear</button>
+                                    </div>
+                                </div>
+
+                                <div class="cb" style="padding:0">
+                                    <table class="ui-table" id="main-apps-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Application ID</th>
+                                                <th>Applicant</th>
+                                                <th>Item Component</th>
+                                                <th>Department Entity</th>
+                                                <th>Submission Date</th>
+                                                <th>Review Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr data-item-id="#APP-4921" data-item-category="Catheters"
+                                                data-item-dept="Emergency Triage Unit"
+                                                data-item-status="Waiting Approval"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4921</strong></td>
+                                                <td>Dr. J. Mwangi</td>
+                                                <td>Catheters</td>
+                                                <td>Emergency Triage Unit</td>
+                                                <td>June 02, 2026</td>
+                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
+                                            </tr>
+                                            <tr data-item-id="#APP-4918" data-item-category="Oxybutynin Caps"
+                                                data-item-dept="Pediatric Care Wing" data-item-status="Waiting Approval"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4918</strong></td>
+                                                <td>Nurse E. Sambu</td>
+                                                <td>Oxybutynin Caps</td>
+                                                <td>Pediatric Care Wing</td>
+                                                <td>May 31, 2026</td>
+                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
+                                            </tr>
+                                            <tr data-item-id="#APP-4890" data-item-category="Enema Bags"
+                                                data-item-dept="Central Distribution Supply"
+                                                data-item-status="Waiting Approval"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4890</strong></td>
+                                                <td>Logistics Lead K. Patel</td>
+                                                <td>Enema Bags</td>
+                                                <td>Central Distribution Supply</td>
+                                                <td>May 28, 2026</td>
+                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
+                                            </tr>
+                                            <tr data-item-id="#APP-4752" data-item-category="Cones"
+                                                data-item-dept="Outpatient Surgery Hub"
+                                                data-item-status="Waiting Approval"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4752</strong></td>
+                                                <td>Dr. S. Lowassa</td>
+                                                <td>Cones</td>
+                                                <td>Outpatient Surgery Hub</td>
+                                                <td>May 24, 2026</td>
+                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
+                                            </tr>
+                                            <tr data-item-id="#APP-4711" data-item-category="Catheters"
+                                                data-item-dept="Urology Ward B" data-item-status="Waiting Approval"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4711</strong></td>
+                                                <td>Clinical Officer A. Mchome</td>
+                                                <td>Catheters</td>
+                                                <td>Urology Ward B</td>
+                                                <td>May 22, 2026</td>
+                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
+                                            </tr>
+
+                                            <!-- DIVERSITY PRE-LOAD: DENIED HISTORICAL ENTRIES -->
+                                            <tr data-item-id="#APP-4702" data-item-category="Catheters"
+                                                data-item-dept="Central Distribution Supply" data-item-status="Denied"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4702</strong></td>
+                                                <td>Officer G. Vanga</td>
+                                                <td>Catheters</td>
+                                                <td>Central Distribution Supply</td>
+                                                <td>May 20, 2026</td>
+                                                <td><span class="badge badge-denied">Denied</span></td>
+                                            </tr>
+
+                                            <tr data-item-id="#APP-4690" data-item-category="Shunt"
+                                                data-item-dept="Neurological Center Node"
+                                                data-item-status="Waiting Approval"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4690</strong></td>
+                                                <td>Surgeon T. Bilal</td>
+                                                <td>Shunt</td>
+                                                <td>Neurological Center Node</td>
+                                                <td>May 19, 2026</td>
+                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
+                                            </tr>
+                                            <tr data-item-id="#APP-4533" data-item-category="Oxybutynin Caps"
+                                                data-item-dept="Main Supply Depot Vault"
+                                                data-item-status="Waiting Approval"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4533</strong></td>
+                                                <td>Pharmacist L. Taylor</td>
+                                                <td>Oxybutynin Caps</td>
+                                                <td>Main Supply Depot Vault</td>
+                                                <td>May 12, 2026</td>
+                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
+                                            </tr>
+
+                                            <!-- DIVERSITY PRE-LOAD: DENIED HISTORICAL ENTRIES -->
+                                            <tr data-item-id="#APP-4495" data-item-category="Enema Bags"
+                                                data-item-dept="Emergency Triage Unit" data-item-status="Denied"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4495</strong></td>
+                                                <td>Nurse J. Doe</td>
+                                                <td>Enema Bags</td>
+                                                <td>Emergency Triage Unit</td>
+                                                <td>May 09, 2026</td>
+                                                <td><span class="badge badge-denied">Denied</span></td>
+                                            </tr>
+
+                                            <tr data-item-id="#APP-4410" data-item-category="Catheters"
+                                                data-item-dept="Geriatric Extension Wing"
+                                                data-item-status="Waiting Approval"
+                                                onclick="launchApplicationDetail(this)">
+                                                <td><strong>#APP-4410</strong></td>
+                                                <td>Nurse Leader M. Saidi</td>
+                                                <td>Catheters</td>
+                                                <td>Geriatric Extension Wing</td>
+                                                <td>May 05, 2026</td>
+                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- INDIVIDUAL DETAIL VIEW COMPONENT -->
+                        <div id="app-instance-detail-view" class="card"
+                            style="display: none; animation: fadeIn 0.2s ease;">
+                            <div class="ch" style="background: #f8fafc;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <button class="btn btn-ghost"
+                                        style="padding: 6px 14px; font-size: 11px; font-weight: 700;"
+                                        onclick="exitApplicationDetail()">&larr; BACK TO LIST</button>
+                                    <span id="det-breadcrumb"
+                                        style="font-weight: 500; font-size: 13px; text-transform: none; color: var(--text-muted); letter-spacing: 0;"></span>
+                                </div>
+                                <span id="det-badge-slot"></span>
+                            </div>
+                            <div class="cb" style="background: white; padding: 32px;">
+                                <div class="dashboard-split-grid"
+                                    style="grid-template-columns: 1.8fr 1.2fr; gap: 32px;">
+
+                                    <div>
+                                        <div style="margin-bottom: 28px;">
+                                            <p
+                                                style="font-size: 11px; font-weight: 800; color: var(--c-primary); letter-spacing: 1px; margin-bottom: 4px;">
+                                                PERSON REQUESTING</p>
+                                            <h3 id="det-applicant"
+                                                style="font-size: 24px; font-weight: 800; color: var(--c-dark); letter-spacing: -0.5px;">
+                                            </h3>
+                                            <p id="det-sub-text"
+                                                style="font-size: 13px; color: var(--text-muted); margin-top: 2px;"></p>
+                                        </div>
+
+                                        <div
+                                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; background: #f8fafc; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--c-border);">
+                                            <div>
+                                                <p
+                                                    style="font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">
+                                                    ITEM NAME</p>
+                                                <p id="det-component"
+                                                    style="font-size: 14px; font-weight: 700; color: var(--c-dark); margin-top: 4px;">
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p
+                                                    style="font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">
+                                                    DELIVERY LOCATION</p>
+                                                <p id="det-dept"
+                                                    style="font-size: 14px; font-weight: 700; color: var(--c-dark); margin-top: 4px;">
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p
+                                                    style="font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">
+                                                    DATE SUBMITTED</p>
+                                                <p id="det-date"
+                                                    style="font-size: 14px; font-weight: 600; color: var(--c-dark); margin-top: 4px;">
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p
+                                                    style="font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">
+                                                    TRACKING CODE</p>
+                                                <p id="det-token"
+                                                    style="font-size: 14px; font-weight: 600; color: var(--c-primary); margin-top: 4px;">
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h4
+                                                style="font-size: 12px; font-weight: 800; color: var(--c-primary); letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase;">
+                                                Reason for Request</h4>
+                                            <p
+                                                style="font-size: 13px; color: var(--c-dark); line-height: 1.6; background: #fff; padding: 16px; border-left: 3px solid var(--c-accent); border-top: 1px solid var(--c-border); border-right: 1px solid var(--c-border); border-bottom: 1px solid var(--c-border); border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+                                                "We need these supplies immediately to keep up our backup inventory
+                                                levels
+                                                on the floor. Stock levels are getting low due to a sudden increase in
+                                                daily
+                                                patient arrivals. Everything has been double-checked locally."
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        style="border-left: 1px solid var(--c-border); padding-left: 32px; display: flex; flex-direction: column; justify-content: flex-start; gap: 24px;">
+                                        <div id="det-admin-actions-card">
+                                            <h4
+                                                style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px;">
+                                                Administrative Actions</h4>
+                                            <p
+                                                style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
+                                                Approving this request will remove it from the pipeline queue and
+                                                instantly
+                                                create a logistics procurement tracking block inside the active Orders
+                                                pipeline.
+                                            </p>
+
+                                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                                <button class="btn btn-p"
+                                                    style="width: 100%; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; padding: 12px;"
+                                                    onclick="approveAndConvertApplicationToOrder()">Approve & Convert to
+                                                    Order</button>
+                                                <button class="btn btn-ghost"
+                                                    style="width: 100%; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; padding: 12px; color: #e63946; border-color: #dfe0e2;"
+                                                    onclick="denyApplicationInline()">Deny Application</button>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            style="background: var(--c-light); padding: 16px; border-radius: var(--radius-md); border: 1px solid rgba(69, 105, 144, 0.2);">
+                                            <h5
+                                                style="font-size: 11px; font-weight: 800; color: var(--c-primary); letter-spacing: 0.5px; margin-bottom: 6px;">
+                                                LOCAL PRIVACY DETECTOR</h5>
+                                            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
+                                                Running directly from your computer terminal. This file is safely
+                                                sandboxed
+                                                to run completely offline without tracking cookies, cloud ads, or
+                                                third-party connections.
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="s-orders" class="sc">
+                    <div class="card">
+                        <div class="ch">Procurement Orders Ledger Pipeline</div>
+                        <div class="cb" style="padding:0">
+                            <table class="ui-table" id="main-orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Procurement Description</th>
+                                        <th>Dest. Destination Node</th>
+                                        <th>Financial Outlay</th>
+                                        <th>Tracking State</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
+                                        <td><strong>#ORD-4918</strong></td>
+                                        <td>Oxybutynin Caps Supply Parcel</td>
+                                        <td>Pediatric Care Wing</td>
+                                        <td>$1,420.00</td>
+                                        <td><span class="badge badge-process">In Process</span></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
+                                        <td><strong>#ORD-4890</strong></td>
+                                        <td>Enema Bags Heavy Crate</td>
+                                        <td>Central Distribution Supply</td>
+                                        <td>$3,850.00</td>
+                                        <td><span class="badge badge-delivered">Delivered</span></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
+                                        <td><strong>#ORD-4752</strong></td>
+                                        <td>Cones Operational Pack</td>
+                                        <td>Outpatient Surgery Hub</td>
+                                        <td>$920.00</td>
+                                        <td><span class="badge badge-accepted">Accepted by Vendor</span></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
+                                        <td><strong>#ORD-4711</strong></td>
+                                        <td>Catheters Bulk Consolidation</td>
+                                        <td>Urology Ward B</td>
+                                        <td>$2,150.00</td>
+                                        <td><span class="badge badge-pending">Vendor Pending</span></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
+                                        <td><strong>#ORD-388</strong></td>
+                                        <td>Catheter Disposables & Enema Kits Batch</td>
+                                        <td>Central Warehouse</td>
+                                        <td>$4,890.00</td>
+                                        <td><span class="badge badge-success">Dispatched En Route</span></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
+                                        <td><strong>#ORD-543</strong></td>
+                                        <td>Replacement Diagnostic Monitors Matrix</td>
+                                        <td>Mbuyuni Base Hospital</td>
+                                        <td>$12,400.00</td>
+                                        <td><span class="badge badge-pending-old">Awaiting Escrow Transfer</span></td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
+                                        <td><strong>#ORD-612</strong></td>
+                                        <td>Critical Care Oxybutynin Capsule Sets</td>
+                                        <td>Regional Site A Clinic</td>
+                                        <td>$1,950.00</td>
+                                        <td><span class="badge badge-urgent">Priority Manufacturing</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-deliveries" class="sc">
+                    <div class="card">
+                        <div class="ch">Supply Chain Deliveries Matrix</div>
+                        <div class="cb" style="padding:0">
+                            <table class="ui-table">
+                                <thead>
+                                    <tr>
+                                        <th>Manifest ID</th>
+                                        <th>Freight Provider</th>
+                                        <th>Est. Drop Window</th>
+                                        <th>Cargo Capacity Load</th>
+                                        <th>Condition Guard</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>#MNF-9921</strong></td>
+                                        <td>Afya Global Logistics</td>
+                                        <td>09:00 - June 05, 2026</td>
+                                        <td>4 Cargo Crates Heavy Load</td>
+                                        <td><span class="badge badge-success">Temperature Stabilized</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#MNF-9875</strong></td>
+                                        <td>DHL Express Med-Link</td>
+                                        <td>14:30 - June 08, 2026</td>
+                                        <td>1 Pallet Specialized Parcel</td>
+                                        <td><span class="badge badge-success">Ambient Standard</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-pending" class="sc">
+                    <div class="card">
+                        <div class="ch">Authorization Queue</div>
+                        <div class="cb">
+                            <div id="clearanceBox"
+                                style="border:1.5px solid var(--c-primary); background:rgba(69, 105, 144, 0.05); padding:24px; border-radius:12px; transition: 0.3s;">
+                                <h4 style="margin-bottom:8px">Personnel Clearance: P. Njoroge</h4>
+                                <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px">Awaiting site
+                                    administrator permissions for Regional Site A access protocols.</p>
+                                <div style="display:flex; gap:12px">
+                                    <button class="btn btn-p" onclick="handleAction('clearanceBox', 'Authorized')">Grant
+                                        Access</button>
+                                    <button class="btn btn-ghost"
+                                        onclick="handleAction('clearanceBox', 'Declined')">Decline Request</button>
+                                </div>
+                            </div>
+                            <div id="emptyQueue"
+                                style="display:none; text-align:center; padding: 40px var(--radius-lg) var(--radius-lg); color: var(--text-muted);">
+                                <p style="font-size: 14px; font-weight: 600;">✓ Authorization queue clear.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-staff" class="sc">
+                    <div class="card">
+                        <div class="ch">Active Staff Operations Roster</div>
+                        <div class="cb" style="padding:0">
+                            <table class="ui-table">
+                                <thead>
+                                    <tr>
+                                        <th>Personnel Identification</th>
+                                        <th>Duty Station Base</th>
+                                        <th>Shift Rotation Block</th>
+                                        <th>On-Call Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Officer H. Mwinyi</strong></td>
+                                        <td>Regional Site A Clinic</td>
+                                        <td>Day Shift Block Alpha</td>
+                                        <td><span class="badge badge-success">Active Duty</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Coordinator D. Shein</strong></td>
+                                        <td>Mbuyuni Base Hospital</td>
+                                        <td>Night Shift Block Beta</td>
+                                        <td><span class="badge badge-pending-old">Standby Auxiliary</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-invoices" class="sc">
+                    <div class="card">
+                        <div class="ch">Accounts Payable Invoices Registry</div>
+                        <div class="cb" style="padding:0">
+                            <table class="ui-table">
+                                <thead>
+                                    <tr>
+                                        <th>Invoice Reference</th>
+                                        <th>Issuing Corporation</th>
+                                        <th>Posting Date</th>
+                                        <th>Net Terms Value</th>
+                                        <th>Settlement Verification</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>#INV-2026-941</strong></td>
+                                        <td>MediSupply Wholesale Corp</td>
+                                        <td>May 29, 2026</td>
+                                        <td>$18,400.00</td>
+                                        <td><span class="badge badge-pending-old">Pending Escrow Verify</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#INV-2026-912</strong></td>
+                                        <td>Tanzania Pharma Systems</td>
+                                        <td>May 14, 2026</td>
+                                        <td>$3,150.00</td>
+                                        <td><span class="badge badge-success">Settled Bank Clearance</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-inventory" class="sc">
+                    <div class="card">
+                        <div class="ch">Real-Time Core Depot Stock Inventory</div>
+                        <div class="cb" style="padding:0">
+                            <table class="ui-table">
+                                <thead>
+                                    <tr>
+                                        <th>Storage SKU Code</th>
+                                        <th>Supply Item Classification</th>
+                                        <th>Available Stock Count</th>
+                                        <th>Operational Buffer Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>#SKU-CATH-08</strong></td>
+                                        <td>Catheter Collection Packs</td>
+                                        <td>140 Boxes Standard</td>
+                                        <td><span class="badge badge-urgent">Critical Low (12%)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>#SKU-ENMB-12</strong></td>
+                                        <td>Enema Utility Kits</td>
+                                        <td>4 Boxes Restock Required</td>
+                                        <td><span class="badge badge-urgent">Depleted Outage</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#SKU-OXYB-99</td>
+                                        <td>Oxybutynin Med-Capsules</td>
+                                        <td>2,400 Units Loaded</td>
+                                        <td><span class="badge badge-success">Optimal Operational Buffer</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-donors" class="sc">
+                    <div class="card">
+                        <div class="ch">Philanthropic Endowments & Donor Commitments</div>
+                        <div class="cb" style="padding:0">
+                            <table class="ui-table">
+                                <thead>
+                                    <tr>
+                                        <th>Donor Patron Profile</th>
+                                        <th>Assigned Asset Fund</th>
+                                        <th>Total Grants Contributed</th>
+                                        <th>Fiduciary Verification Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>The Walter Foundation Group</strong></td>
+                                        <td>Procurement Allocation Escrow</td>
+                                        <td>$250,000.00 Raised</td>
+                                        <td><span class="badge badge-success">Verified Clear</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Amara Medical Trust International</strong></td>
+                                        <td>Emergency Consumables Supply Pool</td>
+                                        <td>$120,000.00 Raised</td>
+                                        <td><span class="badge badge-success">Verified Clear</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-hoh" class="sc">
+                    <div class="card">
+                        <div class="ch">House of Hope Transit Hub Operations</div>
+                        <div class="cb">
+                            <div
+                                style="display:grid; grid-template-columns: repeat(3,1fr); gap:16px; margin-bottom:24px;">
+                                <div class="stat-box" style="border-bottom: 3px solid var(--c-primary)">
+                                    <p>TRANSIT OCCUPANCY</p>
+                                    <p>84% Capacity</p>
+                                </div>
+                                <div class="stat-box" style="border-bottom: 3px solid var(--c-primary)">
+                                    <p>MED-SUPPLY SHIPMENTS PREPPED</p>
+                                    <p>28 Batches Out</p>
+                                </div>
+                                <div class="stat-box" style="border-bottom: 3px solid var(--c-primary)">
+                                    <p>CRITICAL ALERT ISSUES</p>
+                                    <p>0 Core Flags</p>
+                                </div>
+                            </div>
+                            <p style="font-size:13px; color:var(--text-muted)">The House of Hope tracking portal
+                                actively synchronizes temporary shelter staging nodes and regional clinic procurement
+                                chains across our field clusters.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-user-mgmt" class="sc">
+                    <div class="card">
+                        <div class="ch">
+                            <span>System Privileges & Identity Access Management</span>
+                            <button class="btn btn-p" style="padding: 4px 12px; font-size: 10px;">+ PROVISION
+                                PROFILE</button>
+                        </div>
+                        <div class="cb" style="padding:0">
+                            <table class="ui-table">
+                                <thead>
+                                    <tr>
+                                        <th>Identity Name</th>
+                                        <th>Network Role Credentials</th>
+                                        <th>Security Cleared Node Token</th>
+                                        <th>Authentication Level</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>A. Mchome</strong></td>
+                                        <td>Site Systems Lead Administrator</td>
+                                        <td>All Operations Centers Base Hub</td>
+                                        <td><span class="badge badge-success">Root Admin Access Level 3</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>S. Lowassa</strong></td>
+                                        <td>Supply Chain Logistics Manager</td>
+                                        <td>Central Logistics Depot Hub</td>
+                                        <td><span class="badge badge-success">Write Access Level 2</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>P. Njoroge</strong></td>
+                                        <td>Field Node Safety Watch Officer</td>
+                                        <td>Regional Site A Clinic Unit</td>
+                                        <td><span id="mgmt-user-status" class="badge badge-pending-old">Pending Access
+                                                Protocol</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-reports" class="sc">
+                    <div class="card">
+                        <div class="ch">Analytical Matrices & Performance Reporting</div>
+                        <div class="cb">
+                            <p style="font-size:14px; font-weight:700; margin-bottom:12px; color:var(--c-primary)">
+                                Generated System Metrics Summary</p>
+                            <div
+                                style="background:#f8fafc; border:1px solid var(--c-border); padding:16px; border-radius:8px; font-size:12px; line-height:1.6; color:var(--text-main);">
+                                <p>• <strong>Supply Fulfillment Rate Accuracy:</strong> 94.2% overall performance
+                                    efficiency metrics across all supply distribution lines.</p>
+                                <p style="margin-top:6px">• <strong>Average Escrow Validation Cycle Time:</strong> 4.2
+                                    Hours from application initialization to site distribution clearance.</p>
+                                <p style="margin-top:6px">• <strong>Depot Stock Depletion Rate Warnings:</strong> 2
+                                    critical inventory elements identified for procurement action protocols.</p>
+                            </div>
+                            <button class="btn btn-p" style="margin-top:16px"
+                                onclick="alert('Compiling comprehensive XLSX/PDF system audit logs...')">EXPORT SYSTEM
+                                PERFORMANCE DATA</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>
