@@ -711,12 +711,11 @@
                             <p>ENEMA BAGS</p>
                             <p id="cnt-enema">2</p>
                         </div>
-                        <div class="stat-box clickable" data-filter-type="Oxybutynin Caps"
-                            onclick="filterAppTable(this)">
+                        <div class="stat-box clickable" data-filter-type="Oxybutynin" onclick="filterAppTable(this)">
                             <p>OXYBUTYNIN CAPS</p>
                             <p id="cnt-oxy">2</p>
                         </div>
-                        <div class="stat-box clickable" data-filter-type="Shunt" onclick="filterAppTable(this)">
+                        <div class="stat-box clickable" data-filter-type="Shunts" onclick="filterAppTable(this)">
                             <p>SHUNT</p>
                             <p id="cnt-shunt">1</p>
                         </div>
@@ -747,11 +746,11 @@
                                             <option value="Cones">Cones</option>
                                             <option value="Catheters">Catheters</option>
                                             <option value="Enema Bags">Enema Bags</option>
-                                            <option value="Oxybutynin Caps">Oxybutynin Caps</option>
-                                            <option value="Shunt">Shunt</option>
+                                            <option value="Oxybutynin">Oxybutynin</option>
+                                            <option value="Shunts">Shunts</option>
                                         </select>
                                     </div>
-                    
+
                                     <div class="filter-control-group">
                                         <label for="f-status">Review Status</label>
                                         <select id="f-status" class="filter-select" onchange="evaluateMasterFilters()">
@@ -778,119 +777,8 @@
                                                 <th>Review Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr data-item-id="#APP-4921" data-item-category="Catheters"
-                                                data-item-dept="Emergency Triage Unit"
-                                                data-item-status="Waiting Approval"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4921</strong></td>
-                                                <td>Dr. J. Mwangi</td>
-                                                <td>Catheters</td>
-                                                <td>Emergency Triage Unit</td>
-                                                <td>June 02, 2026</td>
-                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
-                                            </tr>
-                                            <tr data-item-id="#APP-4918" data-item-category="Oxybutynin Caps"
-                                                data-item-dept="Pediatric Care Wing" data-item-status="Waiting Approval"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4918</strong></td>
-                                                <td>Nurse E. Sambu</td>
-                                                <td>Oxybutynin Caps</td>
-                                                <td>Pediatric Care Wing</td>
-                                                <td>May 31, 2026</td>
-                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
-                                            </tr>
-                                            <tr data-item-id="#APP-4890" data-item-category="Enema Bags"
-                                                data-item-dept="Central Distribution Supply"
-                                                data-item-status="Waiting Approval"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4890</strong></td>
-                                                <td>Logistics Lead K. Patel</td>
-                                                <td>Enema Bags</td>
-                                                <td>Central Distribution Supply</td>
-                                                <td>May 28, 2026</td>
-                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
-                                            </tr>
-                                            <tr data-item-id="#APP-4752" data-item-category="Cones"
-                                                data-item-dept="Outpatient Surgery Hub"
-                                                data-item-status="Waiting Approval"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4752</strong></td>
-                                                <td>Dr. S. Lowassa</td>
-                                                <td>Cones</td>
-                                                <td>Outpatient Surgery Hub</td>
-                                                <td>May 24, 2026</td>
-                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
-                                            </tr>
-                                            <tr data-item-id="#APP-4711" data-item-category="Catheters"
-                                                data-item-dept="Urology Ward B" data-item-status="Waiting Approval"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4711</strong></td>
-                                                <td>Clinical Officer A. Mchome</td>
-                                                <td>Catheters</td>
-                                                <td>Urology Ward B</td>
-                                                <td>May 22, 2026</td>
-                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
-                                            </tr>
+                                        <tbody id="admin-applications-body">
 
-                                            <!-- DIVERSITY PRE-LOAD: DENIED HISTORICAL ENTRIES -->
-                                            <tr data-item-id="#APP-4702" data-item-category="Catheters"
-                                                data-item-dept="Central Distribution Supply" data-item-status="Denied"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4702</strong></td>
-                                                <td>Officer G. Vanga</td>
-                                                <td>Catheters</td>
-                                                <td>Central Distribution Supply</td>
-                                                <td>May 20, 2026</td>
-                                                <td><span class="badge badge-denied">Denied</span></td>
-                                            </tr>
-
-                                            <tr data-item-id="#APP-4690" data-item-category="Shunt"
-                                                data-item-dept="Neurological Center Node"
-                                                data-item-status="Waiting Approval"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4690</strong></td>
-                                                <td>Surgeon T. Bilal</td>
-                                                <td>Shunt</td>
-                                                <td>Neurological Center Node</td>
-                                                <td>May 19, 2026</td>
-                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
-                                            </tr>
-                                            <tr data-item-id="#APP-4533" data-item-category="Oxybutynin Caps"
-                                                data-item-dept="Main Supply Depot Vault"
-                                                data-item-status="Waiting Approval"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4533</strong></td>
-                                                <td>Pharmacist L. Taylor</td>
-                                                <td>Oxybutynin Caps</td>
-                                                <td>Main Supply Depot Vault</td>
-                                                <td>May 12, 2026</td>
-                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
-                                            </tr>
-
-                                            <!-- DIVERSITY PRE-LOAD: DENIED HISTORICAL ENTRIES -->
-                                            <tr data-item-id="#APP-4495" data-item-category="Enema Bags"
-                                                data-item-dept="Emergency Triage Unit" data-item-status="Denied"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4495</strong></td>
-                                                <td>Nurse J. Doe</td>
-                                                <td>Enema Bags</td>
-                                                <td>Emergency Triage Unit</td>
-                                                <td>May 09, 2026</td>
-                                                <td><span class="badge badge-denied">Denied</span></td>
-                                            </tr>
-
-                                            <tr data-item-id="#APP-4410" data-item-category="Catheters"
-                                                data-item-dept="Geriatric Extension Wing"
-                                                data-item-status="Waiting Approval"
-                                                onclick="launchApplicationDetail(this)">
-                                                <td><strong>#APP-4410</strong></td>
-                                                <td>Nurse Leader M. Saidi</td>
-                                                <td>Catheters</td>
-                                                <td>Geriatric Extension Wing</td>
-                                                <td>May 05, 2026</td>
-                                                <td><span class="badge badge-waiting">Waiting Approval</span></td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -910,109 +798,120 @@
                                 <span id="det-badge-slot"></span>
                             </div>
                             <div class="cb" style="background: white; padding: 32px;">
-                                <div class="dashboard-split-grid"
-                                    style="grid-template-columns: 1.8fr 1.2fr; gap: 32px;">
+                                <div class="dashboard-split-grid" style="grid-template-columns: 1fr; gap: 32px;">
 
                                     <div>
                                         <div style="margin-bottom: 28px;">
                                             <p
                                                 style="font-size: 11px; font-weight: 800; color: var(--c-primary); letter-spacing: 1px; margin-bottom: 4px;">
-                                                PERSON REQUESTING</p>
+                                                PERSON REQUESTING
+                                            </p>
+
                                             <h3 id="det-applicant"
                                                 style="font-size: 24px; font-weight: 800; color: var(--c-dark); letter-spacing: -0.5px;">
                                             </h3>
+
                                             <p id="det-sub-text"
-                                                style="font-size: 13px; color: var(--text-muted); margin-top: 2px;"></p>
+                                                style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">
+                                            </p>
                                         </div>
 
-                                        <div
-                                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; background: #f8fafc; padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--c-border);">
+                                        <div style="
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:20px;
+            margin-bottom:32px;
+            background:#f8fafc;
+            padding:20px;
+            border-radius:var(--radius-md);
+            border:1px solid var(--c-border);
+        ">
+
                                             <div>
-                                                <p
-                                                    style="font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">
-                                                    ITEM NAME</p>
-                                                <p id="det-component"
-                                                    style="font-size: 14px; font-weight: 700; color: var(--c-dark); margin-top: 4px;">
-                                                </p>
+                                                <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                                    SUPPLY TYPE</p>
+                                                <p id="det-component"></p>
                                             </div>
+
                                             <div>
-                                                <p
-                                                    style="font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">
-                                                    DELIVERY LOCATION</p>
-                                                <p id="det-dept"
-                                                    style="font-size: 14px; font-weight: 700; color: var(--c-dark); margin-top: 4px;">
-                                                </p>
+                                                <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                                    PRIMARY CONTACT</p>
+                                                <p id="det-dept"></p>
                                             </div>
+
                                             <div>
-                                                <p
-                                                    style="font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">
-                                                    DATE SUBMITTED</p>
-                                                <p id="det-date"
-                                                    style="font-size: 14px; font-weight: 600; color: var(--c-dark); margin-top: 4px;">
-                                                </p>
+                                                <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                                    CONTACT EMAIL</p>
+                                                <p id="det-date"></p>
                                             </div>
+
                                             <div>
-                                                <p
-                                                    style="font-size: 10px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">
-                                                    TRACKING CODE</p>
-                                                <p id="det-token"
-                                                    style="font-size: 14px; font-weight: 600; color: var(--c-primary); margin-top: 4px;">
-                                                </p>
+                                                <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                                    TELEPHONE</p>
+                                                <p id="det-token"></p>
                                             </div>
+
+                                            <div>
+                                                <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                                    COUNTRY</p>
+                                                <p id="det-country"></p>
+                                            </div>
+
+                                            <div>
+                                                <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                                    DOCTOR</p>
+                                                <p id="det-doctor"></p>
+                                            </div>
+
+                                            <div>
+                                                <p style="font-size:10px;font-weight:800;color:var(--text-muted);">NURSE
+                                                </p>
+                                                <p id="det-nurse"></p>
+                                            </div>
+
+                                            <div>
+                                                <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                                    CHILDREN SEEN</p>
+                                                <p id="det-children"></p>
+                                            </div>
+
                                         </div>
 
                                         <div>
-                                            <h4
-                                                style="font-size: 12px; font-weight: 800; color: var(--c-primary); letter-spacing: 0.5px; margin-bottom: 12px; text-transform: uppercase;">
-                                                Reason for Request</h4>
-                                            <p
-                                                style="font-size: 13px; color: var(--c-dark); line-height: 1.6; background: #fff; padding: 16px; border-left: 3px solid var(--c-accent); border-top: 1px solid var(--c-border); border-right: 1px solid var(--c-border); border-bottom: 1px solid var(--c-border); border-radius: 0 var(--radius-md) var(--radius-md) 0;">
-                                                "We need these supplies immediately to keep up our backup inventory
-                                                levels
-                                                on the floor. Stock levels are getting low due to a sudden increase in
-                                                daily
-                                                patient arrivals. Everything has been double-checked locally."
-                                            </p>
-                                        </div>
-                                    </div>
+                                            <h4 style="
+                font-size:12px;
+                font-weight:800;
+                color:var(--c-primary);
+                letter-spacing:0.5px;
+                margin-bottom:12px;
+                text-transform:uppercase;
+            ">
+                                                Application Details
+                                            </h4>
 
-                                    <div
-                                        style="border-left: 1px solid var(--c-border); padding-left: 32px; display: flex; flex-direction: column; justify-content: flex-start; gap: 24px;">
-                                        <div id="det-admin-actions-card">
-                                            <h4
-                                                style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px;">
-                                                Administrative Actions</h4>
-                                            <p
-                                                style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px;">
-                                                Approving this request will remove it from the pipeline queue and
-                                                instantly
-                                                create a logistics procurement tracking block inside the active Orders
-                                                pipeline.
-                                            </p>
-
-                                            <div style="display: flex; flex-direction: column; gap: 8px;">
-                                                <button class="btn btn-p"
-                                                    style="width: 100%; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; padding: 12px;"
-                                                    onclick="approveAndConvertApplicationToOrder()">Approve & Convert to
-                                                    Order</button>
-                                                <button class="btn btn-ghost"
-                                                    style="width: 100%; text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; padding: 12px; color: #e63946; border-color: #dfe0e2;"
-                                                    onclick="denyApplicationInline()">Deny Application</button>
+                                            <div id="det-request-details"
+                                                style="display:grid;gap:12px;margin-top:12px;">
                                             </div>
                                         </div>
 
-                                        <div
-                                            style="background: var(--c-light); padding: 16px; border-radius: var(--radius-md); border: 1px solid rgba(69, 105, 144, 0.2);">
-                                            <h5
-                                                style="font-size: 11px; font-weight: 800; color: var(--c-primary); letter-spacing: 0.5px; margin-bottom: 6px;">
-                                                LOCAL PRIVACY DETECTOR</h5>
-                                            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.4;">
-                                                Running directly from your computer terminal. This file is safely
-                                                sandboxed
-                                                to run completely offline without tracking cookies, cloud ads, or
-                                                third-party connections.
-                                            </p>
+                                        <div id="det-admin-actions-card" style="
+            margin-top:32px;
+            padding-top:24px;
+            border-top:1px solid var(--c-border);
+        ">
+                                            <div style="display:flex;gap:12px;">
+                                                <button class="btn btn-p" style="flex:1;"
+                                                    onclick="approveAndConvertApplicationToOrder()">
+                                                    Approve
+                                                </button>
+
+                                                <button class="btn btn-ghost" style="flex:1;color:#e63946;"
+                                                    onclick="denyApplicationInline()">
+                                                    Deny
+                                                </button>
+                                            </div>
                                         </div>
+
                                     </div>
 
                                 </div>

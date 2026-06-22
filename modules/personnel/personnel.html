@@ -30,7 +30,11 @@
             </div>
 
             <div class="sb-item" onclick="window.location.href='../forms/forms.html#all'">
-                <span>New Request</span>
+                <span>New Application</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('applications', this)">
+                <span>My Applications</span>
             </div>
 
             <div class="sb-item" onclick="asc('order-tracking', this)">
@@ -412,6 +416,32 @@
                                     <button type="submit" class="btn btn-p">Send Order</button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="s-applications" class="sc">
+                    <div class="card">
+                        <div class="ch" style="color: var(--c-dark)">
+                            My Applications
+                        </div>
+
+                        <div class="cb" style="padding:0;">
+                            <table class="supply-table">
+                                <thead>
+                                    <tr>
+                                        <th>Application ID</th>
+                                        <th>Type</th>
+                                        <th>Applicant</th>
+                                        <th>Status</th>
+                                        <th>Date Submitted</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="applications-table-body">
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,297 @@
+@import url('../personnel/personnel.css');
+
+/* =========================
+   SUPPLIER PERFORMANCE CARD
+========================= */
+
+.supplier-performance{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+/* =========================
+   KPI ROWS
+========================= */
+
+.perf-kpi{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid var(--c-border);
+}
+
+.perf-kpi .label{
+    font-size:12px;
+    color:var(--text-muted);
+    font-weight:600;
+}
+
+.perf-kpi .value{
+    font-size:16px;
+    font-weight:800;
+    color:var(--c-dark);
+}
+
+.perf-kpi .value.highlight{
+    color:var(--c-accent);
+}
+
+.trend{
+    font-size:11px;
+    font-weight:700;
+    padding:3px 8px;
+    border-radius:999px;
+    background:#eef6f6;
+    color:var(--c-dark);
+}
+
+.trend.up{
+    background:#ecfdf5;
+    color:var(--status-delivered);
+}
+
+/* =========================
+   DONUT HERO (SINGLE VERSION)
+========================= */
+
+.perf-donut-hero{
+    display:flex;
+    justify-content:center;
+    padding:26px 0 14px;
+}
+
+/* ONLY ONE DONUT DEFINITION */
+.donut{
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    position:relative;
+    cursor:pointer;
+
+    background:
+        conic-gradient(
+            var(--c-dark) 0% 41%,
+            var(--status-delivered) 41% 79%,
+            var(--c-primary) 79% 82%,
+            var(--c-accent) 82% 100%
+        );
+}
+
+/* inner hole */
+.donut::before{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    background:white;
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+
+/* center content */
+.donut-center{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    text-align:center;
+    z-index:2;
+}
+
+.donut-value{
+    font-size:22px;
+    font-weight:800;
+    color:var(--c-dark);
+}
+
+.donut-label{
+    font-size:12px;
+    color:var(--text-muted);
+}
+
+/* =========================
+   LEGEND (2-column compact grid)
+========================= */
+
+.donut-explainer{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:10px 14px;
+    padding:12px 6px 6px;
+    border-top:1px solid var(--c-border);
+}
+
+.legend-row{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    min-width:0;
+}
+
+.legend-title{
+    font-size:12px;
+    font-weight:700;
+    margin:0;
+    color:var(--text-main);
+}
+
+.legend-sub{
+    font-size:11px;
+    margin:2px 0 0;
+    color:var(--text-muted);
+}
+
+/* dots */
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    margin-top:4px;
+}
+
+.dot.delivered{ background:var(--status-delivered); }
+.dot.claimed{ background:var(--c-dark); }
+.dot.active{ background:var(--c-primary); }
+.dot.pending{ background:var(--c-accent); }
+
+/* =========================
+   OPTIONAL: PROGRESS BARS (kept separate)
+========================= */
+
+.perf-bars{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top:6px;
+}
+
+.bar-row span{
+    font-size:11px;
+    color:var(--text-muted);
+    display:block;
+    margin-bottom:4px;
+}
+
+.bar-track{
+    height:6px;
+    background:#f1f5f9;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.bar-fill.success{
+    height:100%;
+    background:var(--status-delivered);
+}
+
+.bar-fill.accent{
+    height:100%;
+    background:var(--c-accent);
+}
+
+.bar-fill.dual{
+    height:100%;
+    width:78%;
+    background:linear-gradient(
+        90deg,
+        var(--c-dark),
+        var(--status-delivered)
+    );
+}
+
+.schedule-feed{
+    display:flex;
+    flex-direction:column;
+}
+
+/* each schedule item */
+.schedule-item{
+    padding:14px 0;
+    border-bottom:1px solid var(--c-border);
+}
+
+.schedule-item:last-child{
+    border-bottom:none;
+}
+
+/* top line (date / time label) */
+.schedule-title{
+    font-size:13px;
+    font-weight:800;
+    color:var(--c-dark);
+    margin-bottom:4px;
+}
+
+/* detail line */
+.schedule-sub{
+    font-size:12px;
+    color:var(--text-muted);
+    line-height:1.4;
+}
+
+/* optional visual accent bar */
+.schedule-item{
+    position:relative;
+    padding-left:10px;
+}
+
+.schedule-item::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:16px;
+    width:3px;
+    height:18px;
+    border-radius:2px;
+    background:var(--c-border);
+}
+
+.activity-feed{
+    display:flex;
+    flex-direction:column;
+}
+
+/* each item becomes a structured row */
+.activity-item{
+    display:flex;
+    gap:12px;
+    padding:14px 0;
+    border-bottom:1px solid var(--c-border);
+}
+
+.activity-item:last-child{
+    border-bottom:none;
+}
+
+/* left status dot */
+.activity-dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    margin-top:5px;
+    flex-shrink:0;
+}
+
+/* main content */
+.activity-content{
+    flex:1;
+}
+
+/* title */
+.activity-title{
+    font-size:13px;
+    font-weight:700;
+    color:var(--text-main);
+    margin-bottom:4px;
+}
+
+/* description */
+.activity-desc{
+    font-size:12px;
+    color:var(--text-muted);
+    line-height:1.4;
+}

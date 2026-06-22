@@ -24,11 +24,11 @@
             const backBtn = document.getElementById('dynamicBackBtn');
 
             if (formId === 'all') {
-                titleEl.innerText = "Forms Intake Registry";
-                subEl.innerText = "Select an administrative or clinical operational template to begin data collection.";
+                titleEl.innerText = "Supplies Application Center";
+                subEl.innerText = "Select the type of medical supply Request you would like to submit.";
                 if (backBtn) backBtn.innerText = '← Return to Dashboard';
             } else {
-                if (backBtn) backBtn.innerText = '← Return to Forms Registry';
+                if (backBtn) backBtn.innerText = '← Return to Application Center';
 
                 switch (formId) {
                     case 'catheter':
@@ -63,3 +63,270 @@
                 switchForm('all');
             }
         });
+
+       function saveApplication(application) {
+
+            let applications =
+            JSON.parse(localStorage.getItem("applications")) || [];
+
+            applications.push(application);
+
+            localStorage.setItem(
+            "applications",
+            JSON.stringify(applications)
+             );
+
+            alert("Application submitted!");
+
+            window.location.href = "../personnel/personnel.html";
+        }
+
+        document.getElementById("catheterForm").addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    const application = {
+        id: "APP-" + Date.now(),
+
+        type: "Cones",
+
+        applicant: document.getElementById("projectName").value,
+
+        address: document.getElementById("address").value,
+
+        country: document.getElementById("country").value,
+
+        contact: document.getElementById("contactPerson").value,
+
+        email: document.getElementById("email").value,
+
+        phone: document.getElementById("phone").value,
+
+        doctor: document.getElementById("doctorName").value,
+
+        nurse: document.getElementById("nurseName").value,
+
+        childrenSeen: document.getElementById("childrenSeen").value,
+
+        quantity: document.getElementById("conesRequested").value,
+
+        status: "Pending",
+
+        submitted: new Date().toLocaleDateString()
+    };
+
+    saveApplication(application);
+
+});
+
+document.getElementById("catheterSizesForm").addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    const application = {
+        id: "APP-" + Date.now(),
+
+        type: "Catheters",
+
+        applicant: document.getElementById("csProjectName").value,
+
+        address: document.getElementById("csAddress").value,
+
+        country: document.getElementById("csCountry").value,
+
+        contact: document.getElementById("csContactPerson").value,
+
+        email: document.getElementById("csEmail").value,
+
+        phone: document.getElementById("csPhone").value,
+
+        doctor: document.getElementById("csDoctorName").value,
+
+        nurse: document.getElementById("csNurseName").value,
+
+        childrenSeen: document.getElementById("csChildrenSeen").value,
+
+        catheters: {
+            ch8Short: document.getElementById("ch8Short").value,
+            ch8Long: document.getElementById("ch8Long").value,
+
+            ch10Short: document.getElementById("ch10Short").value,
+            ch10Long: document.getElementById("ch10Long").value,
+
+            ch12Short: document.getElementById("ch12Short").value,
+            ch12Long: document.getElementById("ch12Long").value,
+
+            ch14Short: document.getElementById("ch14Short").value,
+            ch14Long: document.getElementById("ch14Long").value
+        },
+
+        status: "Pending",
+
+        submitted: new Date().toLocaleDateString()
+    };
+
+    saveApplication(application);
+
+});
+
+document.getElementById("enemaForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const application = {
+        id: Date.now(),
+
+        type: "Enema Bags",
+
+        applicant: document.getElementById("enemaProjectName").value,
+
+        address: document.getElementById("enemaAddress").value,
+
+        country: document.getElementById("enemaCountry").value,
+
+        contact: document.getElementById("enemaContactPerson").value,
+
+        email: document.getElementById("enemaEmail").value,
+
+        phone: document.getElementById("enemaPhone").value,
+
+        doctor: document.getElementById("enemaDoctorName").value,
+
+        nurse: document.getElementById("enemaNurseName").value,
+
+        childrenSeen: document.getElementById("enemaChildrenSeen").value,
+
+        quantity: document.getElementById("enemaQuantity").value,
+
+        status: "Pending",
+
+        submitted: new Date().toLocaleDateString()
+    };
+
+    let applications =
+        JSON.parse(localStorage.getItem("applications")) || [];
+
+    applications.push(application);
+
+    localStorage.setItem(
+        "applications",
+        JSON.stringify(applications)
+    );
+
+    alert("Enema Bags Application Submitted!");
+
+    window.location.href = "../personnel/personnel.html";
+
+});
+
+document.getElementById("oxybutyninForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const application = {
+        id: Date.now(),
+
+        type: "Oxybutynin",
+
+        applicant: document.getElementById("oxyProjectName").value,
+
+        address: document.getElementById("oxyAddress").value,
+
+        country: document.getElementById("oxyCountry").value,
+
+        contact: document.getElementById("oxyContactPerson").value,
+
+        email: document.getElementById("oxyEmail").value,
+
+        phone: document.getElementById("oxyPhone").value,
+
+        doctor: document.getElementById("oxyDoctorName").value,
+
+        nurse: document.getElementById("oxyNurseName").value,
+
+        childrenSeen: document.getElementById("oxyChildrenSeen").value,
+
+        quantity: document.getElementById("oxyQuantity").value,
+
+        status: "Pending",
+
+        submitted: new Date().toLocaleDateString()
+    };
+
+    let applications =
+        JSON.parse(localStorage.getItem("applications")) || [];
+
+    applications.push(application);
+
+    localStorage.setItem(
+        "applications",
+        JSON.stringify(applications)
+    );
+
+    alert("Oxybutynin Application Submitted!");
+
+    window.location.href = "../personnel/personnel.html";
+
+});
+
+document.getElementById("shuntForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const application = {
+        id: Date.now(),
+
+        type: "Shunts",
+
+        applicant: document.getElementById("shuntProjectName").value,
+
+        address: document.getElementById("shuntAddress").value,
+
+        country: document.getElementById("shuntCountry").value,
+
+        contact: document.getElementById("shuntContactPerson").value,
+
+        email: document.getElementById("shuntEmail").value,
+
+        phone: document.getElementById("shuntPhone").value,
+
+        doctor: document.getElementById("shuntDoctor").value,
+
+        nurse: document.getElementById("shuntNurse").value,
+
+        hydroChildren: document.getElementById("shuntHydroChildren").value,
+
+        sbChildren: document.getElementById("shuntSBChildren").value,
+
+        requestedMaterials: {
+            lowPressure: document.getElementById("shuntLow").value,
+
+            mediumPressure: document.getElementById("shuntMedium").value,
+
+            highPressure: document.getElementById("shuntHigh").value,
+
+            evd: document.getElementById("shuntEVD").value,
+
+            reservoir: document.getElementById("shuntReservoir").value
+        },
+
+        status: "Pending",
+
+        submitted: new Date().toLocaleDateString()
+    };
+
+    let applications =
+        JSON.parse(localStorage.getItem("applications")) || [];
+
+    applications.push(application);
+
+    localStorage.setItem(
+        "applications",
+        JSON.stringify(applications)
+    );
+
+    alert("Shunt Application Submitted!");
+
+    window.location.href = "../personnel/personnel.html";
+
+});

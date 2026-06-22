@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Portal - CHITA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="supplier.css">
+
+</head>
+
+<body>
+
+
+    <div id="sbOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+    <div class="admin-layout">
+
+        <aside id="adminSidebar" class="sidebar">
+
+            <div class="sb-logo">
+                <img src="assets/Child-Help-Logo.png" alt="Logo" class="sb-logo-img">
+                <span style="color: var(--c-accent)">CHITA</span>
+            </div>
+
+            <div class="sb-sec">Dashboard</div>
+
+            <div class="sb-item on" onclick="asc('home', this)">
+                <span>Home</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('available-orders', this)">
+                <span>Available Orders</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('my-orders', this)">
+                <span>My Orders</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('deliveries', this)">
+                <span>Deliveries</span>
+            </div>
+
+            <div class="sb-sec">Inventory</div>
+
+            <div class="sb-item"><span>Cones</span></div>
+            <div class="sb-item"><span>Catheters</span></div>
+            <div class="sb-item"><span>Enema Bags</span></div>
+            <div class="sb-item"><span>Oxybutynin Capsules</span></div>
+            <div class="sb-item"><span>Shunts</span></div>
+
+            <div class="sb-sec">Other</div>
+
+            <div class="sb-item">
+                <span>Support</span>
+            </div>
+
+            <div class="sb-foot">
+                <a href="../home/home.html" class="sb-logout-btn">
+                    EXIT
+                </a>
+            </div>
+
+        </aside>
+
+        <main class="main-content">
+
+            <header class="top-bar">
+
+                <div style="display:flex;align-items:center;gap:12px;">
+
+                    <button class="menu-toggle" onclick="toggleSidebar(true)" aria-label="Open Navigation Menu">
+
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+
+                    </button>
+
+                </div>
+
+                <h2 id="atitle" style="font-size:18px;font-weight:800;letter-spacing:-0.5px;color:var(--c-dark);">
+                    Supplier Home
+                </h2>
+
+                <div class="header-actions">
+
+                    <div class="notif-wrapper" title="Order Updates">
+
+                        <svg class="notif-bell" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+
+                        </svg>
+
+                        <span class="notif-dot"></span>
+
+                    </div>
+
+                    <div class="user-profile-block">
+
+                        <div style="text-align:right">
+                            <p style="font-size:12px;font-weight:800;">MedSupply Tanzania</p>
+                            <p style="font-size:10px;color:var(--text-muted)">Supplier Network</p>
+                        </div>
+
+                        <div style="width:36px;height:36px;background:var(--c-dark);border-radius:50%;"></div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <div class="body-area">
+
+                <!-- HOME -->
+
+                <div id="s-home" class="sc on">
+
+                    <div class="stat-grid">
+
+                        <div class="stat-box" style="border-bottom-color: var(--c-accent);">
+                            <p>AVAILABLE ORDERS</p>
+                            <p id="stat-available" style="color:var(--c-accent);">12</p>
+                        </div>
+
+                        <div class="stat-box">
+                            <p>MY ACTIVE ORDERS</p>
+                            <p id="stat-my-orders" style="color:var(--status-approved);">4</p>
+                        </div>
+
+                        <div class="stat-box">
+                            <p>IN DELIVERY</p>
+                            <p id="stat-transit" style="color:var(--c-primary);">3</p>
+                        </div>
+
+                        <div class="stat-box" style="border-bottom-color: var(--status-delivered);">
+                            <p>DELIVERED THIS MONTH</p>
+                            <p id="stat-delivered" style="color:var(--status-delivered);">27</p>
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-split-grid">
+
+                        <div class="card">
+
+                            <div class="ch" style="color:var(--c-dark)">
+                                Available Orders Queue
+                            </div>
+
+                            <div class="cb" style="padding:0;">
+
+                                <table class="supply-table">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Facility</th>
+                                            <th>Item</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="home-orders-preview">
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card">
+
+                            <div class="ch" style="color:var(--c-dark)">
+                                Supplier Performance Snapshot
+                            </div>
+
+                            <div class="cb supplier-performance">
+
+                                <!-- DONUT -->
+                                <div class="perf-donut-hero">
+
+                                    <div class="donut" id="perfDonut">
+
+                                        <div class="donut-center">
+                                            <div class="donut-value" id="donutValue">92%</div>
+                                            <div class="donut-label" id="donutLabel">On-Time Delivery</div>
+                                        </div>
+
+                                        <!-- invisible interaction zones -->
+                                        <div class="donut-hit claimed" data-label="Orders Claimed" data-value="41">
+                                        </div>
+                                        <div class="donut-hit delivered" data-label="Orders Delivered" data-value="38">
+                                        </div>
+                                        <div class="donut-hit active" data-label="Active Deliveries" data-value="3">
+                                        </div>
+                                        <div class="donut-hit pending" data-label="Pending Queue" data-value="5"></div>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- LEGEND (still ALL info preserved) -->
+                                <div class="donut-explainer grid">
+
+                                    <div class="legend-row">
+                                        <span class="dot claimed"></span>
+                                        <div>
+                                            <p class="legend-title">Orders Claimed</p>
+                                            <p class="legend-sub">41</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="legend-row">
+                                        <span class="dot delivered"></span>
+                                        <div>
+                                            <p class="legend-title">Orders Delivered</p>
+                                            <p class="legend-sub">38</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="legend-row">
+                                        <span class="dot active"></span>
+                                        <div>
+                                            <p class="legend-title">Active Deliveries</p>
+                                            <p class="legend-sub">3</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="legend-row">
+                                        <span class="dot pending"></span>
+                                        <div>
+                                            <p class="legend-title">Pending Queue</p>
+                                            <p class="legend-sub">5</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-split-grid">
+
+                        <div class="card">
+
+                            <div class="ch" style="color:var(--c-dark)">
+                                Recent Activity
+                            </div>
+
+                            <div class="cb activity-feed">
+
+                                <div class="activity-item">
+
+                                    <div class="activity-dot" style="background:var(--status-approved)"></div>
+
+                                    <div class="activity-content">
+
+                                        <div class="activity-title">
+                                            Order ORD-1024 Assigned
+                                        </div>
+
+                                        <div class="activity-desc">
+                                            Catheters approved and assigned to your company.
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="activity-item">
+
+                                    <div class="activity-dot" style="background:var(--status-delivered)"></div>
+
+                                    <div class="activity-content">
+
+                                        <div class="activity-title">
+                                            Delivery Completed
+                                        </div>
+
+                                        <div class="activity-desc">
+                                            Order ORD-1017 delivered to Mbuyuni Hospital.
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="activity-item">
+
+                                    <div class="activity-dot" style="background:var(--c-accent)"></div>
+
+                                    <div class="activity-content">
+
+                                        <div class="activity-title">
+                                            New Order Published
+                                        </div>
+
+                                        <div class="activity-desc">
+                                            Shunt procurement request entered supplier queue.
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card">
+
+                            <div class="ch" style="color:var(--c-dark)">
+                                Delivery Schedule
+                            </div>
+
+                            <div class="cb schedule-feed">
+
+                                <div class="schedule-item">
+
+                                    <div class="schedule-title">
+                                        Tomorrow
+                                    </div>
+
+                                    <div class="schedule-sub">
+                                        ORD-1021 • Cones • Dar es Salaam
+                                    </div>
+
+                                </div>
+
+                                <div class="schedule-item">
+
+                                    <div class="schedule-title">
+                                        June 24
+                                    </div>
+
+                                    <div class="schedule-sub">
+                                        ORD-1024 • Catheters • Mwanza
+                                    </div>
+
+                                </div>
+
+                                <div class="schedule-item">
+
+                                    <div class="schedule-title">
+                                        June 25
+                                    </div>
+
+                                    <div class="schedule-sub">
+                                        ORD-1025 • Shunts • Arusha
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- AVAILABLE ORDERS -->
+
+                <div id="s-available-orders" class="sc">
+
+                    <div class="card">
+
+                        <div class="ch" style="color:var(--c-dark)">
+                            Available Orders
+                        </div>
+
+                        <div class="cb" style="padding:0;">
+
+                            <table class="supply-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Facility</th>
+                                        <th>Item</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="available-orders-body">
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- MY ORDERS -->
+
+                <div id="s-my-orders" class="sc">
+
+                    <div class="card">
+
+                        <div class="ch" style="color:var(--c-dark)">
+                            My Accepted Orders
+                        </div>
+
+                        <div class="cb" style="padding:0;">
+
+                            <table class="supply-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Facility</th>
+                                        <th>Item</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="my-orders-body">
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- DELIVERIES -->
+
+                <div id="s-deliveries" class="sc">
+
+                    <div class="card">
+
+                        <div class="ch" style="color:var(--c-dark)">
+                            Deliveries
+                        </div>
+
+                        <div class="cb" style="padding:0;">
+
+                            <table class="supply-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Destination</th>
+                                        <th>Item</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="deliveries-body">
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="supplier.js"></script>
+    ```
+
+</body>
+
+</html>

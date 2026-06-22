@@ -110,7 +110,8 @@ let selectedAppFilter = null;
         function evaluateMasterFilters() {
             const searchVal = document.getElementById('f-search').value.toLowerCase().trim();
             const typeVal = document.getElementById('f-type').value;
-            const deptVal = document.getElementById('f-dept').value;
+            const deptElement = document.getElementById('f-dept');
+            const deptVal = deptElement ? deptElement.value : '';
             const statusVal = document.getElementById('f-status').value;
 
             const tableRows = document.querySelectorAll('#main-apps-table tbody tr');
@@ -169,7 +170,8 @@ let selectedAppFilter = null;
         function resetPipelineFilters() {
             document.getElementById('f-search').value = '';
             document.getElementById('f-type').value = '';
-            document.getElementById('f-dept').value = '';
+            const deptElement = document.getElementById('f-dept');
+            if (deptElement) deptElement.value = '';
             document.getElementById('f-status').value = '';
 
             document.querySelectorAll('.app-stat-grid .stat-box').forEach(box => box.classList.remove('active'));
@@ -179,6 +181,30 @@ let selectedAppFilter = null;
         }
 
         function launchApplicationDetail(rowElement) {
+
+            const applications =
+            JSON.parse(localStorage.getItem("applications")) || [];
+
+            const rowId = rowElement.getAttribute("data-item-id");
+
+const app = applications.find(a =>
+    String(a.id) === String(rowId).replace("#APP-", "")
+);
+
+if (!app) {
+    console.error("Application not found:", rowId);
+    return;
+}
+
+            console.log(
+    "ROW ID:",
+    rowElement.getAttribute("data-item-id")
+);
+
+console.log(
+    "FOUND APP:",
+    app
+);
 
             const detailView = document.getElementById('app-instance-detail-view');
             detailView.style.display = 'block';
@@ -195,11 +221,149 @@ let selectedAppFilter = null;
             document.getElementById('det-breadcrumb').textContent = `Requests List > Details for Request ${appId}`;
             document.getElementById('det-badge-slot').innerHTML = statusBadgeHTML;
             document.getElementById('det-applicant').textContent = applicant;
-            document.getElementById('det-sub-text').textContent = `Tracking Reference Log Number: ${appId}`;
-            document.getElementById('det-component').textContent = category;
-            document.getElementById('det-dept').textContent = dept;
-            document.getElementById('det-date').textContent = dateStr;
-            document.getElementById('det-token').textContent = `${appId.replace('#', '')}-MBU`;
+            document.getElementById('det-sub-text').textContent =`${app.contact} • ${app.email}`;
+            document.getElementById('det-component').textContent = app.type;
+            document.getElementById('det-dept').textContent = app.contact;
+            document.getElementById('det-date').textContent = app.email;
+            document.getElementById('det-token').textContent = app.phone;
+
+            document.getElementById('det-country').textContent = app.country || '-';
+document.getElementById('det-doctor').textContent = app.doctor || '-';
+document.getElementById('det-nurse').textContent = app.nurse || '-';
+document.getElementById('det-children').textContent =
+    app.childrenSeen || app.hydroChildren || '-';
+
+            let detailsHTML = '';
+
+            if (app.type === 'Cones') {
+
+    detailsHTML = `
+        <table class="ui-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th style="width:120px;">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cones</td>
+                    <td>${app.quantity || 0}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+}
+
+           else if (app.type === 'Catheters') {
+
+    const requested = Object.entries(app.catheters)
+        .filter(([key, value]) => value && value !== '0');
+
+        const catheterLabels = {
+    ch8Short: 'CH8 Short',
+    ch8Long: 'CH8 Long',
+    ch10Short: 'CH10 Short',
+    ch10Long: 'CH10 Long',
+    ch12Short: 'CH12 Short',
+    ch12Long: 'CH12 Long',
+    ch14Short: 'CH14 Short',
+    ch14Long: 'CH14 Long'
+};
+
+    detailsHTML = `
+        <table class="ui-table">
+            <thead>
+                <tr>
+                    <th>Catheter Type</th>
+<th style="width:120px;">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${requested.map(([key, value]) => `
+                    <tr>
+                        <td>${catheterLabels[key] || key}</td>
+                        <td>${value}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+            else if (app.type === 'Enema Bags') {
+
+    detailsHTML = `
+        <table class="ui-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th style="width:120px;">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Enema Bags</td>
+                    <td>${app.quantity || 0}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+}
+
+            else if (app.type === 'Oxybutynin') {
+
+    detailsHTML = `
+        <table class="ui-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th style="width:120px;">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Oxybutynin Caps</td>
+                    <td>${app.quantity || 0}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+}
+
+            else if (app.type === 'Shunts') {
+
+    const materialLabels = {
+        lowPressure: 'Low Pressure Shunt',
+        mediumPressure: 'Medium Pressure Shunt',
+        highPressure: 'High Pressure Shunt',
+        evd: 'EVD Kit',
+        reservoir: 'Reservoir'
+    };
+
+    const requested = Object.entries(app.requestedMaterials)
+        .filter(([key, value]) => value && value !== '0');
+
+    detailsHTML = `
+        <table class="ui-table">
+            <thead>
+                <tr>
+                    <th>Requested Material</th>
+                    <th style="width:120px;">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${requested.map(([key, value]) => `
+                    <tr>
+                        <td>${materialLabels[key] || key}</td>
+                        <td>${value}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+
+            document.getElementById('det-request-details').innerHTML = detailsHTML;
 
             // If it's already denied or approved, hide the action buttons to stay consistent
             const actionsCard = document.getElementById('det-admin-actions-card');
@@ -236,6 +400,45 @@ let selectedAppFilter = null;
             if (!activeRowReference) return;
 
             const appId = activeRowReference.getAttribute('data-item-id');
+
+            console.log(appId);
+
+            const applications =
+            JSON.parse(localStorage.getItem("applications")) || [];
+
+            const appIndex = applications.findIndex(
+            a => a.id === appId
+            );
+
+            if (appIndex !== -1) {
+                applications[appIndex].status = "Approved";
+
+                const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+const orderId = "ORD-" + Date.now();
+
+const exists = orders.find(o => o.applicationId === appId);
+
+if (!exists) {
+    orders.push({
+        id: orderId,
+        applicationId: appId,
+        department: activeRowReference.getAttribute('data-item-dept'),
+        item: applications[appIndex].type,
+        quantity: applications[appIndex].quantity || 1,
+        status: "Available",
+        assignedTo: null
+    });
+
+    localStorage.setItem("orders", JSON.stringify(orders));
+}
+
+                localStorage.setItem(
+                "applications",
+                JSON.stringify(applications)
+                );
+            }
+
             const category = activeRowReference.getAttribute('data-item-category');
             const dept = activeRowReference.getAttribute('data-item-dept');
             const orderId = appId.replace('APP', 'ORD');
@@ -255,7 +458,7 @@ let selectedAppFilter = null;
             ordersTableBody.insertBefore(newRow, ordersTableBody.firstChild);
             decrementUpperHomeCounters();
             recalculateUpperStatBoxCounters(category);
-            activeRowReference.remove();
+            loadAdminApplications();
 
             alert(`Mockup Action Success:\nApplication ${appId} has been verified and converted into Active Logistics Procurement Order ${orderId}!`);
             exitApplicationDetail();
@@ -265,11 +468,27 @@ let selectedAppFilter = null;
         function denyApplicationInline() {
             if (!activeRowReference) return;
             const appId = activeRowReference.getAttribute('data-item-id');
+
+            const applications =
+            JSON.parse(localStorage.getItem("applications")) || [];
+
+            const appIndex = applications.findIndex(
+                a => a.id === appId
+            );
+
+            if (appIndex !== -1) {
+                applications[appIndex].status = "Denied";
+            
+                localStorage.setItem(
+                    "applications",
+                    JSON.stringify(applications)
+                );
+            }
+
             const category = activeRowReference.getAttribute('data-item-category');
 
             // Update row attributes and visual cells instead of destroying it
-            activeRowReference.setAttribute('data-item-status', 'Denied');
-            activeRowReference.cells[5].innerHTML = '<span class="badge badge-denied">Denied</span>';
+            loadAdminApplications();
 
             // Push it down to the bottom of the table log visually
             const tableBody = document.querySelector('#main-apps-table tbody');
@@ -352,3 +571,98 @@ let selectedAppFilter = null;
                 overlay.classList.remove('visible');
             }
         }
+
+        function loadAdminApplications() {
+
+            const applications =
+            JSON.parse(localStorage.getItem("applications")) || [];
+
+            document.getElementById("cnt-cones").innerText =
+            applications.filter(a => a.type === "Cones").length;
+
+document.getElementById("cnt-catheters").innerText =
+    applications.filter(a => a.type === "Catheters").length;
+
+document.getElementById("cnt-enema").innerText =
+    applications.filter(a => a.type === "Enema Bags").length;
+
+document.getElementById("cnt-oxy").innerText =
+    applications.filter(a => a.type === "Oxybutynin").length;
+
+document.getElementById("cnt-shunt").innerText =
+    applications.filter(a => a.type === "Shunts").length;
+
+            const tbody =
+            document.getElementById("admin-applications-body");
+
+            if (!tbody) return;
+
+            tbody.innerHTML = "";
+
+            applications.forEach(app => {
+
+                tbody.innerHTML += `
+                     <tr
+                    data-item-id="${app.id}"
+                    data-item-category="${app.type}"
+                    data-item-dept="${app.address}"
+                    data-item-status="${app.status}"
+                    onclick="launchApplicationDetail(this)"
+                    >
+
+                    <td><strong>#APP-${app.id}</strong></td>
+                    <td>${app.applicant}</td>
+                    <td>${app.type}</td>
+                    <td>${app.address}</td>
+                    <td>${app.submitted}</td>
+                    <td>
+                    <span class="
+                    ${app.status === 'Approved'
+                        ? 'badge badge-success'
+                        : app.status === 'Denied'
+                        ? 'badge badge-denied'
+                        : 'badge badge-waiting'}
+                    ">
+                        ${app.status}
+                    </span>
+                    </td>
+                     </tr>
+                `;
+         });
+
+         
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    loadAdminApplications();
+});
+
+function loadAdminOrders() {
+
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    const tbody = document.querySelector("#main-orders-table tbody");
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    orders.forEach(order => {
+        tbody.innerHTML += `
+            <tr>
+                <td><strong>${order.id}</strong></td>
+                <td>${order.item}</td>
+                <td>${order.department}</td>
+                <td>${order.quantity}</td>
+                <td>
+                    <span class="badge ${
+                        order.status === "Assigned"
+                            ? "badge-success"
+                            : "badge-waiting"
+                    }">
+                        ${order.status}
+                    </span>
+                </td>
+            </tr>
+        `;
+    });
+}

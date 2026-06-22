@@ -109,3 +109,37 @@
             document.getElementById("demoBanner").style.display = "none";
 
 }
+
+function loadApplications() {
+
+    const applications =
+        JSON.parse(localStorage.getItem("applications")) || [];
+
+    const tbody =
+        document.getElementById("applications-table-body");
+
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    applications.forEach(app => {
+
+        tbody.innerHTML += `
+            <tr>
+                <td><strong>APP-${app.id}</strong></td>
+                <td>${app.type}</td>
+                <td>${app.applicant}</td>
+                <td>
+                    <span class="badge badge-pending">
+                        ${app.status}
+                    </span>
+                </td>
+                <td>${app.submitted}</td>
+            </tr>
+        `;
+    });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    loadApplications();
+});
