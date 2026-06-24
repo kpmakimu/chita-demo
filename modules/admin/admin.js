@@ -440,7 +440,9 @@ function approveAndConvertApplicationToOrder () {
 
   const applications = JSON.parse(localStorage.getItem('applications')) || []
 
-  const appIndex = applications.findIndex(a => a.id === appId)
+  const cleanId = String(appId).replace('#APP-', '')
+
+  const appIndex = applications.findIndex(a => String(a.id) === cleanId)
 
   if (appIndex !== -1) {
     applications[appIndex].status = 'Approved'
@@ -640,10 +642,14 @@ function loadAdminApplications () {
   tbody.innerHTML = ''
 
   applications.sort((a, b) => {
-    const [da, ma, ya] = a.submitted.split('/')
-    const [db, mb, yb] = b.submitted.split('/')
+    if (a.submitted !== b.submitted) {
+      const [da, ma, ya] = a.submitted.split('/')
+      const [db, mb, yb] = b.submitted.split('/')
 
-    return new Date(yb, mb - 1, db) - new Date(ya, ma - 1, da)
+      return new Date(yb, mb - 1, db) - new Date(ya, ma - 1, da)
+    }
+
+    return Number(b.id) - Number(a.id)
   })
 
   const start = (currentPage - 1) * ITEMS_PER_PAGE
