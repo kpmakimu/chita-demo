@@ -1,3 +1,5 @@
+//SUPPLIER.JS//
+
 function asc (section, el) {
   document.querySelectorAll('.sc').forEach(s => s.classList.remove('on'))
   document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('on'))
@@ -18,7 +20,6 @@ function loadSupplierOrders () {
   const orders = JSON.parse(localStorage.getItem('orders')) || []
 
   const availableBody = document.getElementById('available-orders-body')
-
   const previewBody = document.getElementById('home-orders-preview')
 
   const availableOrders = orders.filter(o => o.status === 'Available')
@@ -28,25 +29,31 @@ function loadSupplierOrders () {
 
   availableOrders.forEach(order => {
     const row = `
-            <tr>
-                <td>${order.id}</td>
-                <td>${order.department || '-'}</td>
-                <td>${order.item || '-'}</td>
-                <td>${order.quantity || '-'}</td>
-                <td>
-                    <span class="badge badge-pending">
-                        ${order.status || 'Assigned'}
-                    </span>
-                </td>
-                <td>
-                        ${
-                          order.status === 'Available'
-                            ? `<button class="btn btn-p" onclick="acceptOrder('${order.id}')">Accept</button>`
-                            : `<span style="color:var(--text-muted);font-size:12px;">Assigned</span>`
-                        }
-                        </td>
-                                    </tr>
-                                `
+      <tr>
+        <td>${order.id}</td>
+        <td>${order.department || '-'}</td>
+        <td>${order.item || '-'}</td>
+        <td>${order.quantity || '-'}</td>
+        <td>
+          <span class="badge badge-pending">
+            ${order.status}
+          </span>
+        </td>
+        <td>
+          ${
+            order.status === 'Available'
+              ? `<button class="btn btn-p" onclick="acceptOrder('${order.id}')">Accept</button>`
+              : order.status === 'Assigned'
+              ? `<button class="btn btn-p" onclick="openSupplierUploadModal('${order.id}')">
+                   Upload Docs
+                 </button>`
+              : order.status === 'IN REVIEW'
+              ? `<span style="color:var(--text-muted);font-size:12px;">Submitted</span>`
+              : `<span style="color:var(--text-muted);font-size:12px;">Locked</span>`
+          }
+        </td>
+      </tr>
+    `
 
     availableBody.innerHTML += row
     previewBody.innerHTML += row
@@ -65,12 +72,16 @@ function acceptOrder (orderId) {
   const order = orders.find(o => o.id === orderId)
   if (!order) return
 
+  if (order.status !== 'Available') return
+
   order.assignedTo = 'Supplier User'
-  order.status = 'Accepted'
+  order.status = 'Assigned'
+  order.acceptedAt = Date.now()
 
   localStorage.setItem('orders', JSON.stringify(orders))
 
   loadSupplierOrders()
+  loadSupplierMyOrders()
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -117,15 +128,95 @@ function loadSupplierMyOrders () {
     .filter(o => o.assignedTo === 'Supplier User')
     .forEach(order => {
       tbody.innerHTML += `
-        <tr>
-          <td>${order.id}</td>
-          <td>${order.department || '-'}</td>
-          <td>${order.item || '-'}</td>
-          <td>${order.quantity || '-'}</td>
-          <td>
-            <span class="badge badge-success">${order.status}</span>
-          </td>
-        </tr>
-      `
+      <tr>
+        <td>${order.id}</td>
+        <td>${order.department || '-'}</td>
+        <td>${order.item || '-'}</td>
+        <td>${order.quantity || '-'}</td>
+        <td>
+          <span class="badge badge-success">${order.status}</span>
+        </td>
+        <td>
+          ${
+            order.status === 'Assigned'
+              ? `<button class="btn btn-p" onclick="openSupplierUploadModal('${order.id}')">
+                   Upload Docs
+                 </button>`
+              : order.status === 'IN REVIEW'
+              ? `<span style="color:var(--text-muted);font-size:12px;">Submitted</span>`
+              : ``
+          }
+        </td>
+      </tr>
+    `
     })
 }
+
+function uploadProformaAndPacking (
+  orderId,
+  invoiceData,
+  packingListData,
+  amount
+) {
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const order = orders.find(o => o.id === orderId)
+  if (!order) return
+
+  if (order.status !== 'Assigned') return
+
+  order.proformaInvoice = invoiceData
+  order.packingList = packingListData
+  order.amount = amount
+
+  order.status = 'IN REVIEW'
+  order.submittedAt = Date.now()
+
+  localStorage.setItem('orders', JSON.stringify(orders))
+
+  loadSupplierOrders()
+  loadSupplierMyOrders()
+}
+
+function submitSupplierDocs () {
+  const invoice = document.getElementById('invoiceInput').files[0]
+  const packing = document.getElementById('packingInput').files[0]
+  const amount = document.getElementById('amountInput').value
+
+  uploadProformaAndPacking(
+    activeUploadOrderId,
+    invoice?.name || '',
+    packing?.name || '',
+    Number(amount)
+  )
+
+  closeUploadModal()
+}
+
+let activeUploadOrderId = null
+
+function openSupplierUploadModal (orderId) {
+  activeUploadOrderId = orderId
+
+  const modal = document.getElementById('uploadModal')
+  if (!modal) {
+    console.error('uploadModal not found in HTML')
+    return
+  }
+
+  modal.style.display = 'flex'
+}
+
+/**function openSupplierUploadModal (orderId) {
+  alert('FUNCTION FIRED: ' + orderId)
+}**/
+
+function closeUploadModal () {
+  activeUploadOrderId = null
+
+  const modal = document.getElementById('uploadModal')
+  if (modal) modal.style.display = 'none'
+}
+
+window.openSupplierUploadModal = openSupplierUploadModal
+window.closeUploadModal = closeUploadModal

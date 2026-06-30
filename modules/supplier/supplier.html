@@ -172,6 +172,7 @@
                                             <th>Facility</th>
                                             <th>Item</th>
                                             <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
 
@@ -493,8 +494,27 @@
 
     </div>
 
+    <div id="uploadModal" class="modal" style="display:none;">
+        <div class="modal-content" style="background:#fff;padding:20px;border-radius:8px;max-width:500px;margin:auto;">
+
+            <h3>Upload Proforma & Packing List</h3>
+
+            <label>Proforma Invoice (PDF)</label>
+            <input id="invoiceInput" type="file" accept=".pdf,application/pdf">
+
+            <label>Packing List (PDF)</label>
+            <input id="packingInput" type="file" accept=".pdf,application/pdf">
+            <input id="amountInput" type="number" placeholder="Amount" style="width:100%;margin:8px 0;" />
+
+            <div style="display:flex;gap:10px;justify-content:flex-end;">
+                <button onclick="closeUploadModal()">Cancel</button>
+                <button onclick="submitSupplierDocs()" class="btn btn-p">Submit</button>
+            </div>
+
+        </div>
+    </div>
+
     <script src="supplier.js"></script>
-    ```
 
 </body>
 
