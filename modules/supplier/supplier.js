@@ -169,7 +169,7 @@ function uploadProformaAndPacking (
   order.packingList = packingListData
   order.amount = amount
 
-  order.status = 'IN REVIEW'
+  order.status = 'In Review'
   order.submittedAt = Date.now()
 
   localStorage.setItem('orders', JSON.stringify(orders))

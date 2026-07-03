@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Module - CHITA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="finance.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div id="sbOverlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+    <div class="admin-layout">
+
+        <aside id="adminSidebar" class="sidebar">
+
+            <div class="sb-logo">
+                <span style="color: var(--c-primary); font-weight:800;">CHITA FINANCE</span>
+            </div>
+
+            <div class="sb-sec">Overview</div>
+
+            <div class="sb-item on" onclick="asc('home', this)">
+                <span>Dashboard</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('payables', this)">
+                <span>Accounts Payable</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('receivables', this)">
+                <span>Accounts Receivable</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('budgets', this)">
+                <span>Budgets</span>
+            </div>
+
+            <div class="sb-item" onclick="asc('reports', this)">
+                <span>Reports</span>
+            </div>
+
+            <div class="sb-sec">Operations</div>
+
+            <div class="sb-item" onclick="showFinanceSection('invoices', this)">
+                <span>Invoices</span>
+            </div>
+
+            <div class="sb-item">
+                <span>Approvals</span>
+            </div>
+
+            <div class="sb-sec">Other</div>
+
+            <div class="sb-item">
+                <span>Settings</span>
+            </div>
+
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main-content">
+
+            <!-- TOP BAR -->
+            <header class="top-bar">
+
+                <button class="menu-toggle" onclick="toggleSidebar(true)">☰</button>
+
+                <h2 id="atitle">Finance Dashboard</h2>
+
+                <div class="header-actions">
+                    <span style="font-size:12px;font-weight:700;">Finance Control Panel</span>
+                </div>
+
+            </header>
+
+            <!-- BODY -->
+            <div class="body-area">
+
+                <!-- HOME -->
+                <div id="s-home" class="sc on">
+
+                    <!-- STATS -->
+                    <div class="stat-grid">
+
+                        <div class="stat-box">
+                            <p>TOTAL PAYABLES</p>
+                            <h2>$128,450</h2>
+                        </div>
+
+                        <div class="stat-box">
+                            <p>TOTAL RECEIVABLES</p>
+                            <h2>$84,120</h2>
+                        </div>
+
+                        <div class="stat-box">
+                            <p>PENDING APPROVALS</p>
+                            <h2>9</h2>
+                        </div>
+
+                        <div class="stat-box">
+                            <p>MONTHLY CASHFLOW</p>
+                            <h2>$42,300</h2>
+                        </div>
+
+                    </div>
+
+                    <!-- DASHBOARD GRID -->
+                    <div class="dashboard-split-grid">
+
+                        <!-- LEFT -->
+                        <div class="card">
+
+                            <div class="ch">Recent Invoices</div>
+
+                            <div class="cb">
+
+                                <div class="fake-list">
+
+                                    <div class="fake-row">
+                                        <span>INV-10021</span>
+                                        <span>$12,300</span>
+                                        <span class="badge badge-pending">Pending</span>
+                                    </div>
+
+                                    <div class="fake-row">
+                                        <span>INV-10022</span>
+                                        <span>$8,900</span>
+                                        <span class="badge badge-success">Paid</span>
+                                    </div>
+
+                                    <div class="fake-row">
+                                        <span>INV-10023</span>
+                                        <span>$15,200</span>
+                                        <span class="badge badge-waiting">Processing</span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT -->
+                        <div class="card">
+
+                            <div class="ch">Finance Snapshot</div>
+
+                            <div class="cb">
+
+                                <div class="fake-metric">
+                                    <p>Approved Budget Usage</p>
+                                    <h3>72%</h3>
+                                </div>
+
+                                <div class="fake-metric">
+                                    <p>Pending Payments</p>
+                                    <h3>6</h3>
+                                </div>
+
+                                <div class="fake-metric">
+                                    <p>Overdue Items</p>
+                                    <h3>2</h3>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- PLACEHOLDER SECTIONS -->
+                <div id="s-payables" class="sc">
+                    <div class="card">
+                        <div class="ch">Accounts Payable</div>
+                        <div class="cb">Dummy content</div>
+                    </div>
+                </div>
+
+                <div id="s-receivables" class="sc">
+                    <div class="card">
+                        <div class="ch">Accounts Receivable</div>
+                        <div class="cb">Dummy content</div>
+                    </div>
+                </div>
+
+                <div id="s-budgets" class="sc">
+                    <div class="card">
+                        <div class="ch">Budgets</div>
+                        <div class="cb">Dummy content</div>
+                    </div>
+                </div>
+
+                <div id="s-reports" class="sc">
+                    <div class="card">
+                        <div class="ch">Reports</div>
+                        <div class="cb">Dummy content</div>
+                    </div>
+                </div>
+
+                <!-- INVOICES -->
+                <div id="s-invoices" class="sc">
+
+                    <div class="card">
+
+                        <div class="ch">Invoices</div>
+
+                        <div class="cb">
+
+                            <div class="fake-list" id="finance-invoice-list">
+                                <!-- JS loads orders here -->
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- SIMPLE NAV SCRIPT HOOK -->
+    <script>
+        function asc(id, el) {
+            document.querySelectorAll('.sc').forEach(s => s.classList.remove('on'))
+            document.getElementById('s-' + id).classList.add('on')
+
+            document.querySelectorAll('.sb-item').forEach(n => n.classList.remove('on'))
+            if (el) el.classList.add('on')
+
+            document.getElementById('atitle').textContent =
+                id.charAt(0).toUpperCase() + id.slice(1)
+        }
+
+        function toggleSidebar(open) {
+            document.getElementById('adminSidebar')
+                .classList.toggle('open', open)
+
+            document.getElementById('sbOverlay')
+                .classList.toggle('visible', open)
+        }
+    </script>
+
+    <script src="finance.js"></script>
+
+</body>
+
+</html>

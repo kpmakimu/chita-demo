@@ -1,8 +1,25 @@
 let selectedAppFilter = null
 let activeRowReference = null
+let activeOrderReference = null
 
 let currentPage = 1
 const ITEMS_PER_PAGE = 5
+
+function formatStatus (status = '') {
+  return status.replaceAll('_', ' ')
+}
+
+function getStatusBadgeClass (status = '') {
+  const s = status.toLowerCase()
+
+  if (s === 'available') return 'badge badge-blue'
+  if (s === 'assigned') return 'badge badge-purple'
+  if (s === 'in_review') return 'badge badge-yellow'
+  if (s === 'approved') return 'badge badge-green'
+  if (s === 'denied') return 'badge badge-red'
+
+  return 'badge'
+}
 
 function asc (id, el) {
   document.querySelectorAll('.sc').forEach(s => s.classList.remove('on'))
@@ -457,14 +474,26 @@ function approveAndConvertApplicationToOrder () {
       orders.push({
         id: orderId,
         applicationId: appId,
+
         department: activeRowReference.getAttribute('data-item-dept'),
+        facility: activeRowReference.getAttribute('data-item-dept'),
+
         item: applications[appIndex].type,
         quantity: applications[appIndex].quantity || 1,
-        status: 'Available',
-        assignedTo: null
+
+        status: 'Pending Finance',
+        financeStatus: 'unpaid',
+        assignedTo: null,
+
+        createdAt: Date.now(),
+
+        amount: null,
+        proformaInvoice: null,
+        packingList: null
       })
 
       localStorage.setItem('orders', JSON.stringify(orders))
+      window.dispatchEvent(new Event('ordersUpdated'))
     }
 
     localStorage.setItem('applications', JSON.stringify(applications))
@@ -672,15 +701,9 @@ function loadAdminApplications () {
         <div class="app-id">APP-${app.id}</div>
 
         <span class="
-        ${
-          app.status === 'Approved'
-            ? 'badge badge-success'
-            : app.status === 'Denied'
-            ? 'badge badge-denied'
-            : 'badge badge-waiting'
-        }
+        ${`badge ${getStatusBadgeClass(app.status)}`}
         ">
-            ${app.status}
+            ${formatStatus(app.status)}
         </span>
     </div>
 
@@ -752,36 +775,140 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function loadAdminOrders () {
   const orders = JSON.parse(localStorage.getItem('orders')) || []
-
   const tbody = document.querySelector('#main-orders-table tbody')
   if (!tbody) return
 
   tbody.innerHTML = ''
 
-  orders
-    .sort((a, b) => {
-      const aTime = Number(a.id.replace('ORD-', ''))
-      const bTime = Number(b.id.replace('ORD-', ''))
-      return bTime - aTime
-    })
+  const sorted = [...orders].sort(
+    (a, b) =>
+      Number(b.id.replace('ORD-', '')) - Number(a.id.replace('ORD-', ''))
+  )
 
-    .forEach(order => {
-      tbody.innerHTML += `
-            <tr>
-                <td><strong>${order.id}</strong></td>
-                <td>${order.item}</td>
-                <td>${order.department}</td>
-                <td>${order.quantity}</td>
-                <td>
-                    <span class="badge ${
-                      order.status === 'Assigned'
-                        ? 'badge-success'
-                        : 'badge-waiting'
-                    }">
-                        ${order.status}
-                    </span>
-                </td>
-            </tr>
-        `
-    })
+  sorted.forEach(order => {
+    const row = document.createElement('tr')
+    row.style.cursor = 'pointer'
+    row.setAttribute('data-order-id', order.id)
+    row.onclick = () => launchOrderDetail(row)
+
+    row.innerHTML = `
+      <td><strong>${order.id}</strong></td>
+      <td>${order.item}</td>
+      <td>${order.department}</td>
+      <td>${order.quantity}</td>
+
+      <td>
+        ${
+          order.proformaInvoice
+            ? `<span class="badge badge-success">View</span>`
+            : `<span style="color:var(--text-muted)">-</span>`
+        }
+      </td>
+
+      <td>
+        ${
+          order.packingList
+            ? `<span class="badge badge-success">View</span>`
+            : `<span style="color:var(--text-muted)">-</span>`
+        }
+      </td>
+
+      <td>
+        <span class="badge ${getStatusBadgeClass(order.status)}">
+          ${formatStatus(order.status)}
+        </span>
+      </td>
+    `
+
+    tbody.appendChild(row)
+  })
+}
+
+function openOrderDetail (orderId) {
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+  const order = orders.find(o => o.id === orderId)
+  if (!order) return
+
+  // hide list view (same pattern as apps)
+  document.querySelector('#main-orders-table').style.display = 'none'
+
+  // show detail view
+  const view = document.getElementById('order-instance-detail-view')
+  view.style.display = 'block'
+
+  document.getElementById('od-id').textContent = order.id
+  document.getElementById('od-item').textContent = order.item
+  document.getElementById('od-dept').textContent = order.department
+  document.getElementById('od-qty').textContent = order.quantity
+  document.getElementById('od-amount').textContent = order.amount || '-'
+  document.getElementById('od-status').textContent = formatStatus(order.status)
+
+  const approveBtn = document.getElementById('od-approve-btn')
+
+  if (order.status === 'in_review') {
+    approveBtn.style.display = 'inline-block'
+    approveBtn.onclick = () => approveOrder(order.id)
+  } else {
+    approveBtn.style.display = 'none'
+  }
+}
+
+function exitOrderDetail () {
+  document.getElementById('order-instance-detail-view').style.display = 'none'
+}
+
+function launchOrderDetail (row) {
+  const orderId = row.getAttribute('data-order-id')
+
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+  const order = orders.find(o => o.id === orderId)
+
+  if (!order) return
+
+  activeOrderReference = row
+
+  // hide list if you want true split-view feel (optional)
+  document.getElementById('orders-ledger-view').style.display = 'block'
+  document.getElementById('order-instance-detail-view').style.display = 'block'
+
+  // fill fields
+  document.getElementById('od-id').textContent = order.id
+  document.getElementById('od-item').textContent = order.item
+  document.getElementById('od-dept').textContent = order.department
+  document.getElementById('od-qty').textContent = order.quantity
+
+  document.getElementById('od-proforma').innerHTML = order.proformaInvoice
+    ? `<a href="${order.proformaInvoice}" target="_blank">View Invoice</a>`
+    : '-'
+
+  document.getElementById('od-packing').innerHTML = order.packingList
+    ? `<a href="${order.packingList}" target="_blank">View PDF</a>`
+    : '-'
+
+  document.getElementById(
+    'od-status-badge'
+  ).innerHTML = `<span class="badge ${getStatusBadgeClass(order.status)}">
+      ${formatStatus(order.status)}
+    </span>`
+
+  document.getElementById('od-actions').style.display = 'flex'
+
+  document.getElementById('od-breadcrumb').textContent = `Orders > ${order.id}`
+}
+
+function approveOrder () {
+  if (!activeOrderReference) return
+
+  const orderId = activeOrderReference.getAttribute('data-order-id')
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const idx = orders.findIndex(o => o.id === orderId)
+  if (idx === -1) return
+
+  orders[idx].status = 'approved'
+
+  localStorage.setItem('orders', JSON.stringify(orders))
+
+  alert('Order approved and sent to Finance')
+  loadAdminOrders()
 }

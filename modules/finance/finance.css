@@ -1,0 +1,221 @@
+@import url('../personnel/personnel.css');
+
+/* =========================
+   FINANCE THEME OVERRIDES
+========================= */
+
+:root {
+  --finance-accent: #2563eb;
+  --finance-success: #16a34a;
+  --finance-warning: #f59e0b;
+  --finance-danger: #ef4444;
+  --finance-muted: #64748b;
+}
+
+/* =========================
+   LAYOUT CLEANUP (FINANCE FEEL)
+========================= */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  background: white;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 16px;
+  transition: 0.2s ease;
+}
+
+.stat-box:hover {
+  transform: translateY(-2px);
+  border-color: var(--finance-accent);
+}
+
+/* stat label */
+.stat-box p {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--finance-muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+/* stat value */
+.stat-box h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--c-dark);
+}
+
+/* =========================
+   DASHBOARD CARDS (FINANCE CLEANER LOOK)
+========================= */
+
+.card {
+  border-radius: 14px;
+  border: 1px solid var(--c-border);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+}
+
+.ch {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--c-dark);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.cb {
+  padding: 16px;
+}
+
+/* =========================
+   FINANCE TABLE STYLE (CLEANER THAN SUPPLIER)
+========================= */
+
+.supply-table,
+.ui-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.supply-table th,
+.ui-table th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--finance-muted);
+  padding: 12px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.supply-table td,
+.ui-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--c-border);
+  color: var(--c-dark);
+}
+
+/* hover rows (important for finance UX) */
+.supply-table tbody tr:hover,
+.ui-table tbody tr:hover {
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+/* =========================
+   BADGES (MAKE THEM POP FOR FINANCE)
+========================= */
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+/* status variants */
+.badge-success {
+  background: #ecfdf5;
+  color: var(--finance-success);
+}
+
+.badge-pending {
+  background: #fff7ed;
+  color: var(--finance-warning);
+}
+
+.badge-waiting {
+  background: #eff6ff;
+  color: var(--finance-accent);
+}
+
+.badge-denied {
+  background: #fef2f2;
+  color: var(--finance-danger);
+}
+
+/* =========================
+   FINANCE DASHBOARD LIST ITEMS
+========================= */
+
+.fake-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fake-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 90px;
+  gap: 10px;
+  font-size: 12px;
+  padding: 10px;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.fake-row span:nth-child(2) {
+  font-weight: 700;
+  text-align: right;
+}
+
+/* =========================
+   FINANCE METRIC BOXES
+========================= */
+
+.fake-metric {
+  padding: 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.fake-metric p {
+  font-size: 11px;
+  color: var(--finance-muted);
+  margin-bottom: 4px;
+}
+
+.fake-metric h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--c-dark);
+}
+
+/* =========================
+   SIDEBAR ACTIVE STATE (FINANCE BLUE FOCUS)
+========================= */
+
+.sb-item.on {
+  border-left: 3px solid var(--finance-accent);
+  background: #eff6ff;
+  font-weight: 700;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1024px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+}

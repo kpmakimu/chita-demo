@@ -771,6 +771,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- INDIVIDUAL DETAIL VIEW COMPONENT -->
                         <div id="app-instance-detail-view" class="card">
                             <div class="ch" style="background: #f8fafc;">
@@ -803,15 +804,15 @@
                                         </div>
 
                                         <div style="
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:20px;
-            margin-bottom:32px;
-            background:#f8fafc;
-            padding:20px;
-            border-radius:var(--radius-md);
-            border:1px solid var(--c-border);
-        ">
+                                                    display:grid;
+                                                    grid-template-columns:1fr 1fr;
+                                                    gap:20px;
+                                                    margin-bottom:32px;
+                                                    background:#f8fafc;
+                                                    padding:20px;
+                                                    border-radius:var(--radius-md);
+                                                    border:1px solid var(--c-border);
+                                                ">
 
                                             <div>
                                                 <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
@@ -865,13 +866,13 @@
 
                                         <div>
                                             <h4 style="
-                font-size:12px;
-                font-weight:800;
-                color:var(--c-primary);
-                letter-spacing:0.5px;
-                margin-bottom:12px;
-                text-transform:uppercase;
-            ">
+                                                    font-size:12px;
+                                                    font-weight:800;
+                                                    color:var(--c-primary);
+                                                    letter-spacing:0.5px;
+                                                    margin-bottom:12px;
+                                                    text-transform:uppercase;
+                                                ">
                                                 Application Details
                                             </h4>
 
@@ -881,10 +882,10 @@
                                         </div>
 
                                         <div id="det-admin-actions-card" style="
-            margin-top:32px;
-            padding-top:24px;
-            border-top:1px solid var(--c-border);
-        ">
+                                                margin-top:32px;
+                                                padding-top:24px;
+                                                border-top:1px solid var(--c-border);
+                                            ">
                                             <div style="display:flex;gap:12px;">
                                                 <button class="btn btn-p" style="flex:1;"
                                                     onclick="approveAndConvertApplicationToOrder()">
@@ -907,75 +908,132 @@
                     </div>
                 </div>
 
+                <!-- ORDERS VIEW  -->
+
                 <div id="s-orders" class="sc">
-                    <div class="card">
-                        <div class="ch">Procurement Orders Ledger Pipeline</div>
-                        <div class="cb" style="padding:0">
-                            <table class="ui-table" id="main-orders-table">
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Procurement Description</th>
-                                        <th>Dest. Destination Node</th>
-                                        <th>Financial Outlay</th>
-                                        <th>Tracking State</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
-                                        <td><strong>#ORD-4918</strong></td>
-                                        <td>Oxybutynin Caps Supply Parcel</td>
-                                        <td>Pediatric Care Wing</td>
-                                        <td>$1,420.00</td>
-                                        <td><span class="badge badge-process">In Process</span></td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
-                                        <td><strong>#ORD-4890</strong></td>
-                                        <td>Enema Bags Heavy Crate</td>
-                                        <td>Central Distribution Supply</td>
-                                        <td>$3,850.00</td>
-                                        <td><span class="badge badge-delivered">Delivered</span></td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
-                                        <td><strong>#ORD-4752</strong></td>
-                                        <td>Cones Operational Pack</td>
-                                        <td>Outpatient Surgery Hub</td>
-                                        <td>$920.00</td>
-                                        <td><span class="badge badge-accepted">Accepted by Vendor</span></td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
-                                        <td><strong>#ORD-4711</strong></td>
-                                        <td>Catheters Bulk Consolidation</td>
-                                        <td>Urology Ward B</td>
-                                        <td>$2,150.00</td>
-                                        <td><span class="badge badge-pending">Vendor Pending</span></td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
-                                        <td><strong>#ORD-388</strong></td>
-                                        <td>Catheter Disposables & Enema Kits Batch</td>
-                                        <td>Central Warehouse</td>
-                                        <td>$4,890.00</td>
-                                        <td><span class="badge badge-success">Dispatched En Route</span></td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
-                                        <td><strong>#ORD-543</strong></td>
-                                        <td>Replacement Diagnostic Monitors Matrix</td>
-                                        <td>Mbuyuni Base Hospital</td>
-                                        <td>$12,400.00</td>
-                                        <td><span class="badge badge-pending-old">Awaiting Escrow Transfer</span></td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid rgba(223, 224, 226, 0.5);">
-                                        <td><strong>#ORD-612</strong></td>
-                                        <td>Critical Care Oxybutynin Capsule Sets</td>
-                                        <td>Regional Site A Clinic</td>
-                                        <td>$1,950.00</td>
-                                        <td><span class="badge badge-urgent">Priority Manufacturing</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                    <div class="apps-split-wrapper" style="display:flex; gap:16px; align-items:stretch;">
+
+                        <!-- LEFT LIST -->
+                        <div id="orders-ledger-view" style="flex:1; min-width:0;">
+
+                            <div class="card" style="height:100%; display:flex; flex-direction:column;">
+
+                                <div class="ch">
+                                    <span>Orders Ledger</span>
+                                    <span style="font-size:11px;color:var(--text-muted);font-weight:500;">
+                                        Click order to view details
+                                    </span>
+                                </div>
+
+                                <div class="cb" style="padding:0; overflow:auto; max-height:70vh;">
+
+                                    <table class="ui-table" id="main-orders-table" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Item</th>
+                                                <th>Dept</th>
+                                                <th>Qty</th>
+                                                <th>Invoice</th>
+                                                <th>Packing</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+
                         </div>
+
+                        <!-- RIGHT DETAIL -->
+                        <div id="order-instance-detail-view" class="card" style="display:none;">
+
+                            <div class="ch" style="display:flex;justify-content:space-between;align-items:center;">
+
+                                <button class="btn btn-ghost" onclick="exitOrderDetail()">
+                                    ← Back to Orders
+                                </button>
+
+                                <span id="od-breadcrumb"
+                                    style="font-size:12px;color:var(--text-muted);font-weight:600;"></span>
+
+                                <span id="od-status-badge"></span>
+                            </div>
+
+                            <div class="cb" style="padding:28px;">
+
+                                <!-- HEADER -->
+                                <div style="margin-bottom:18px;">
+                                    <p
+                                        style="font-size:10px; font-weight:800; color:var(--c-primary); letter-spacing:1px;">
+                                        ORDER DETAILS
+                                    </p>
+
+                                    <h2 id="od-id" style="margin:6px 0 2px 0;"></h2>
+
+                                    <p id="od-item" style="color:var(--text-muted); font-size:13px;"></p>
+                                </div>
+
+                                <!-- GRID -->
+                                <div style="
+                                          display:grid;
+                                          grid-template-columns:1fr 1fr;
+                                          gap:16px;
+                                          background:#f8fafc;
+                                          padding:16px;
+                                          border-radius:12px;
+                                          border:1px solid var(--c-border);
+                                          margin-bottom:20px;
+                                     ">
+
+                                    <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">DEPARTMENT
+                                        </p>
+                                        <p id="od-dept"></p>
+                                    </div>
+
+                                    <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">QUANTITY</p>
+                                        <p id="od-qty"></p>
+                                    </div>
+
+                                    <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">PROFORMA
+                                            INVOICE</p>
+                                        <div id="od-proforma"></div>
+                                    </div>
+
+                                    <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">PACKING LIST
+                                        </p>
+                                        <p id="od-packing"></p>
+                                    </div>
+
+                                </div>
+
+                                <!-- ACTIONS -->
+                                <div id="od-actions" style="display:none; margin-top:20px; gap:12px;">
+  <button class="btn btn-p" style="flex:1;" onclick="approveOrder()">
+    Approve
+  </button>
+
+  <button class="btn btn-ghost" style="flex:1; color:#e11d48;" onclick="denyOrder()">
+    Deny
+  </button>
+</div>
+
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
+
+                <!-- DELIVERIES VIEW -->
 
                 <div id="s-deliveries" class="sc">
                     <div class="card">
