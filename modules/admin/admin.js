@@ -448,7 +448,7 @@ function exitApplicationDetail () {
   return
 }
 
-function approveAndConvertApplicationToOrder () {
+/**function approveAndConvertApplicationToOrder () {
   if (!activeRowReference) return
 
   const appId = activeRowReference.getAttribute('data-item-id')
@@ -520,10 +520,62 @@ function approveAndConvertApplicationToOrder () {
   recalculateUpperStatBoxCounters(category)
   loadAdminApplications()
 
-  alert(
-    `Mockup Action Success:\nApplication ${appId} has been verified and converted into Active Logistics Procurement Order ${orderId}!`
-  )
+  alert(`Application ${appId} has been approved. Active: Order ${orderId}!`)
   exitApplicationDetail()
+}**/
+
+function approveAndConvertApplicationToOrder () {
+  if (!activeRowReference) return
+
+  const appId = activeRowReference.getAttribute('data-item-id')
+
+  const applications = JSON.parse(localStorage.getItem('applications')) || []
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const cleanId = String(appId).replace('APP-', '')
+
+  const appIndex = applications.findIndex(a => String(a.id) === cleanId)
+
+  if (appIndex === -1) return
+
+  // update application
+  applications[appIndex].status = 'Approved'
+
+  // prevent duplicates
+  const exists = orders.find(o => o.applicationId === appId)
+
+  if (!exists) {
+    orders.push({
+      id: 'ORD-' + Date.now(),
+      applicationId: appId,
+
+      department: activeRowReference.getAttribute('data-item-dept'),
+      facility: activeRowReference.getAttribute('data-item-dept'),
+
+      item: applications[appIndex].type,
+      quantity: applications[appIndex].quantity || 1,
+
+      status: 'Available', // IMPORTANT PIPELINE FIX
+      financeStatus: 'unpaid',
+      assignedTo: null,
+
+      createdAt: Date.now(),
+
+      amount: null,
+      proformaInvoice: null,
+      packingList: null
+    })
+  }
+
+  localStorage.setItem('applications', JSON.stringify(applications))
+  localStorage.setItem('orders', JSON.stringify(orders))
+
+  syncOrdersUI()
+
+  loadAdminApplications()
+  exitApplicationDetail()
+
+  refreshAdminCounters()
 }
 
 /* INLINE APPLICATION DENIAL STRATEGY - UPDATED TO KEEP ROW BUT CHANGE STATE */
@@ -553,34 +605,54 @@ function denyApplicationInline () {
   decrementUpperHomeCounters()
   recalculateUpperStatBoxCounters(category)
 
-  alert(
-    `Mockup Action:\nApplication ${appId} has been formally Denied. Row retained in database history.`
-  )
+  alert(`Mockup Action:\nApplication ${appId} has been formally Denied.`)
   exitApplicationDetail()
+
+  refreshAdminCounters()
 }
 
 function decrementUpperHomeCounters () {
   const appStatText = document.getElementById('home-stat-apps-count')
-  if (appStatText) {
-    let currentTotal = parseInt(appStatText.innerText) || 0
-    if (currentTotal > 0) appStatText.innerText = currentTotal - 1
-  }
+  if (!appStatText) return
+
+  const applications = JSON.parse(localStorage.getItem('applications')) || []
+
+  appStatText.innerText = applications.length
 }
 
 function recalculateUpperStatBoxCounters (category) {
-  let targetCardId = ''
-  if (category === 'Cones') targetCardId = 'cnt-cones'
-  if (category === 'Catheters') targetCardId = 'cnt-catheters'
-  if (category === 'Enema Bags') targetCardId = 'cnt-enema'
-  if (category === 'Oxybutynin Caps') targetCardId = 'cnt-oxy'
-  if (category === 'Shunt') targetCardId = 'cnt-shunt'
+  const applications = JSON.parse(localStorage.getItem('applications')) || []
 
-  const itemCounterElement = document.getElementById(targetCardId)
-  if (itemCounterElement) {
-    let currentItemCount = parseInt(itemCounterElement.innerText) || 0
-    if (currentItemCount > 0)
-      itemCounterElement.innerText = currentItemCount - 1
+  const count = cat => applications.filter(a => a.type === cat).length
+
+  const map = {
+    Cones: 'cnt-cones',
+    Catheters: 'cnt-catheters',
+    'Enema Bags': 'cnt-enema',
+    Oxybutynin: 'cnt-oxy',
+    Shunt: 'cnt-shunt'
   }
+
+  Object.entries(map).forEach(([cat, id]) => {
+    const el = document.getElementById(id)
+    if (el) el.innerText = count(cat)
+  })
+}
+
+function refreshAdminCounters () {
+  const applications = JSON.parse(localStorage.getItem('applications')) || []
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const categoryCount = type => applications.filter(a => a.type === type).length
+
+  document.getElementById('cnt-cones').innerText = categoryCount('Cones')
+  document.getElementById('cnt-catheters').innerText =
+    categoryCount('Catheters')
+  document.getElementById('cnt-enema').innerText = categoryCount('Enema Bags')
+  document.getElementById('cnt-oxy').innerText = categoryCount('Oxybutynin')
+  document.getElementById('cnt-shunt').innerText = categoryCount('Shunts')
+
+  document.getElementById('stat-orders').innerText = orders.length
 }
 
 function handleAction (elementId, outcome) {
@@ -773,6 +845,8 @@ window.addEventListener('DOMContentLoaded', () => {
   loadAdminApplications()
 })
 
+window.addEventListener('ordersUpdated', syncOrdersUI)
+
 function loadAdminOrders () {
   const orders = JSON.parse(localStorage.getItem('orders')) || []
   const tbody = document.querySelector('#main-orders-table tbody')
@@ -894,6 +968,12 @@ function launchOrderDetail (row) {
   document.getElementById('od-actions').style.display = 'flex'
 
   document.getElementById('od-breadcrumb').textContent = `Orders > ${order.id}`
+
+  document.getElementById('od-actions').innerHTML = `
+  <button class="btn btn-p" onclick="approveInvoiceForPayment('${order.id}')">
+    Approve for Finance
+  </button>
+`
 }
 
 function approveOrder () {
@@ -905,10 +985,34 @@ function approveOrder () {
   const idx = orders.findIndex(o => o.id === orderId)
   if (idx === -1) return
 
-  orders[idx].status = 'approved'
+  orders[idx].status = 'Approved'
 
   localStorage.setItem('orders', JSON.stringify(orders))
 
   alert('Order approved and sent to Finance')
   loadAdminOrders()
+}
+
+function syncOrdersUI () {
+  if (typeof loadAdminOrders === 'function') loadAdminOrders()
+  if (typeof loadSupplierOrders === 'function') loadSupplierOrders()
+  if (typeof loadSupplierDashboardOrders === 'function')
+    loadSupplierDashboardOrders()
+  if (typeof loadFinanceInvoices === 'function') loadFinanceInvoices()
+}
+
+function approveInvoiceForPayment (orderId) {
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const order = orders.find(o => o.id === orderId)
+  if (!order) return
+
+  if (order.status !== 'In Review') return
+
+  order.status = 'Approved'
+
+  localStorage.setItem('orders', JSON.stringify(orders))
+
+  loadAdminOrders?.()
+  window.dispatchEvent(new Event('ordersUpdated'))
 }

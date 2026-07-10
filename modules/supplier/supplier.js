@@ -22,7 +22,9 @@ function loadSupplierOrders () {
   const availableBody = document.getElementById('available-orders-body')
   const previewBody = document.getElementById('home-orders-preview')
 
-  const availableOrders = orders.filter(o => o.status === 'Available')
+  const availableOrders = orders.filter(
+    o => o.status === 'Available' || o.status === 'Approved'
+  )
 
   availableBody.innerHTML = ''
   previewBody.innerHTML = ''
@@ -47,7 +49,7 @@ function loadSupplierOrders () {
               ? `<button class="btn btn-p" onclick="openSupplierUploadModal('${order.id}')">
                    Upload Docs
                  </button>`
-              : order.status === 'IN REVIEW'
+              : order.status === 'In Review'
               ? `<span style="color:var(--text-muted);font-size:12px;">Submitted</span>`
               : `<span style="color:var(--text-muted);font-size:12px;">Locked</span>`
           }
@@ -142,7 +144,7 @@ function loadSupplierMyOrders () {
               ? `<button class="btn btn-p" onclick="openSupplierUploadModal('${order.id}')">
                    Upload Docs
                  </button>`
-              : order.status === 'IN REVIEW'
+              : order.status === 'In Review'
               ? `<span style="color:var(--text-muted);font-size:12px;">Submitted</span>`
               : ``
           }
@@ -216,6 +218,13 @@ function closeUploadModal () {
 
   const modal = document.getElementById('uploadModal')
   if (modal) modal.style.display = 'none'
+}
+
+function syncOrdersUI () {
+  loadAdminOrders?.()
+  loadSupplierOrders?.()
+  loadSupplierDashboardOrders?.()
+  loadFinanceInvoices?.()
 }
 
 window.openSupplierUploadModal = openSupplierUploadModal
