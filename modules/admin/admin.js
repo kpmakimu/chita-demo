@@ -448,98 +448,26 @@ function exitApplicationDetail () {
   return
 }
 
-/**function approveAndConvertApplicationToOrder () {
-  if (!activeRowReference) return
-
-  const appId = activeRowReference.getAttribute('data-item-id')
-
-  console.log(appId)
-
-  const applications = JSON.parse(localStorage.getItem('applications')) || []
-
-  const cleanId = String(appId).replace('#APP-', '')
-
-  const appIndex = applications.findIndex(a => String(a.id) === cleanId)
-
-  if (appIndex !== -1) {
-    applications[appIndex].status = 'Approved'
-
-    const orders = JSON.parse(localStorage.getItem('orders')) || []
-
-    const orderId = 'ORD-' + Date.now()
-
-    const exists = orders.find(o => o.applicationId === appId)
-
-    if (!exists) {
-      orders.push({
-        id: orderId,
-        applicationId: appId,
-
-        department: activeRowReference.getAttribute('data-item-dept'),
-        facility: activeRowReference.getAttribute('data-item-dept'),
-
-        item: applications[appIndex].type,
-        quantity: applications[appIndex].quantity || 1,
-
-        status: 'Pending Finance',
-        financeStatus: 'unpaid',
-        assignedTo: null,
-
-        createdAt: Date.now(),
-
-        amount: null,
-        proformaInvoice: null,
-        packingList: null
-      })
-
-      localStorage.setItem('orders', JSON.stringify(orders))
-      window.dispatchEvent(new Event('ordersUpdated'))
-    }
-
-    localStorage.setItem('applications', JSON.stringify(applications))
-  }
-
-  const category = activeRowReference.getAttribute('data-item-category')
-  const dept = activeRowReference.getAttribute('data-item-dept')
-  const orderId = appId.replace('APP', 'ORD')
-
-  const ordersTableBody = document.querySelector('#main-orders-table tbody')
-  const newRow = document.createElement('tr')
-  newRow.style.borderBottom = '1px solid rgba(223, 224, 226, 0.5)'
-
-  newRow.innerHTML = `
-                <td><strong>${orderId}</strong></td>
-                <td>${category} Supply Parcel</td>
-                <td>${dept}</td>
-                <td>$1,250.00</td>
-                <td><span class="badge badge-pending">Vendor Pending</span></td>
-            `
-
-  ordersTableBody.insertBefore(newRow, ordersTableBody.firstChild)
-  decrementUpperHomeCounters()
-  recalculateUpperStatBoxCounters(category)
-  loadAdminApplications()
-
-  alert(`Application ${appId} has been approved. Active: Order ${orderId}!`)
-  exitApplicationDetail()
-}**/
-
 function approveAndConvertApplicationToOrder () {
+  console.log('approve clicked')
+  console.log('active row:', activeRowReference)
+
   if (!activeRowReference) return
 
   const appId = activeRowReference.getAttribute('data-item-id')
+  console.log('app id:', appId)
 
   const applications = JSON.parse(localStorage.getItem('applications')) || []
   const orders = JSON.parse(localStorage.getItem('orders')) || []
 
-  const cleanId = String(appId).replace('APP-', '')
-
-  const appIndex = applications.findIndex(a => String(a.id) === cleanId)
+  const appIndex = applications.findIndex(a => String(a.id) === String(appId))
+  console.log('app index:', appIndex)
 
   if (appIndex === -1) return
 
   // update application
   applications[appIndex].status = 'Approved'
+  applications[appIndex].pipelineStatus = 'Approved'
 
   // prevent duplicates
   const exists = orders.find(o => o.applicationId === appId)
@@ -555,7 +483,8 @@ function approveAndConvertApplicationToOrder () {
       item: applications[appIndex].type,
       quantity: applications[appIndex].quantity || 1,
 
-      status: 'Available', // IMPORTANT PIPELINE FIX
+      status: 'Available',
+      pipelineStatus: 'Order Created',
       financeStatus: 'unpaid',
       assignedTo: null,
 
@@ -760,39 +689,43 @@ function loadAdminApplications () {
 
   pagedApps.forEach(app => {
     tbody.innerHTML += `
-<div
-    class="application-card"
-    data-item-id="${app.id}"
-    data-item-category="${app.type}"
-    data-item-dept="${app.address}"
-    data-item-status="${app.status}"
-    onclick="launchApplicationDetail(this)"
->
-
-    <div style="display:flex;justify-content:space-between;align-items:start;">
-        <div class="app-id">APP-${app.id}</div>
-
-        <span class="
-        ${`badge ${getStatusBadgeClass(app.status)}`}
-        ">
-            ${formatStatus(app.status)}
-        </span>
-    </div>
-
-    <div class="app-name">
-        ${app.applicant}
-    </div>
-
-    <div class="app-meta">
-        ${app.type}
-    </div>
-
-    <div class="app-meta">
-        ${app.submitted}
-    </div>
-
-</div>
-`
+                      <div
+                          class="application-card"
+                          data-item-id="${app.id}"
+                          data-item-category="${app.type}"
+                          data-item-dept="${app.address}"
+                          data-item-status="${app.pipelineStatus || app.status}"
+                          onclick="launchApplicationDetail(this)"
+                      >
+                        
+                          <div style="display:flex;justify-content:space-between;align-items:start;">
+                              <div class="app-id">APP-${app.id}</div>
+                        
+                              <span class="
+                              ${`badge ${getStatusBadgeClass(
+                                app.pipelineStatus || app.status
+                              )}`}
+                              ">
+                                  ${formatStatus(
+                                    app.pipelineStatus || app.status
+                                  )}
+                              </span>
+                          </div>
+                        
+                          <div class="app-name">
+                              ${app.applicant}
+                          </div>
+                        
+                          <div class="app-meta">
+                              ${app.type}
+                          </div>
+                        
+                          <div class="app-meta">
+                              ${app.submitted}
+                          </div>
+                        
+                      </div>
+                      `
   })
 
   const totalPages = Math.ceil(applications.length / ITEMS_PER_PAGE)

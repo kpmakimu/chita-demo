@@ -1,332 +1,310 @@
-        let currentFormId = 'all';
+let currentFormId = 'all'
 
-        function handleBackNavigation() {
-            if (currentFormId === 'all') {
-                window.location.href = 'admin.html';
-            } else {
-                switchForm('all');
-            }
-        }
+function handleBackNavigation () {
+  if (currentFormId === 'all') {
+    window.location.href = 'admin.html'
+  } else {
+    switchForm('all')
+  }
+}
 
-        function switchForm(formId) {
-            currentFormId = formId;
+function switchForm (formId) {
+  currentFormId = formId
 
-            document.querySelectorAll('.form-pane').forEach(pane => pane.classList.remove('active'));
+  document
+    .querySelectorAll('.form-pane')
+    .forEach(pane => pane.classList.remove('active'))
 
-            const targetPane = document.getElementById('pane-' + formId);
-            if (targetPane) {
-                targetPane.classList.add('active');
-                window.location.hash = formId;
-            }
+  const targetPane = document.getElementById('pane-' + formId)
+  if (targetPane) {
+    targetPane.classList.add('active')
+    window.location.hash = formId
+  }
 
-            const titleEl = document.getElementById('mainRegistryTitle');
-            const subEl = document.getElementById('mainRegistrySubtitle');
-            const backBtn = document.getElementById('dynamicBackBtn');
+  const titleEl = document.getElementById('mainRegistryTitle')
+  const subEl = document.getElementById('mainRegistrySubtitle')
+  const backBtn = document.getElementById('dynamicBackBtn')
 
-            if (formId === 'all') {
-                titleEl.innerText = "Supplies Application Center";
-                subEl.innerText = "Select the type of medical supply Request you would like to submit.";
-                if (backBtn) backBtn.innerText = '← Return to Dashboard';
-            } else {
-                if (backBtn) backBtn.innerText = '← Return to Application Center';
+  if (formId === 'all') {
+    titleEl.innerText = 'Supplies Application Center'
+    subEl.innerText =
+      'Select the type of medical supply Request you would like to submit.'
+    if (backBtn) backBtn.innerText = '← Return to Dashboard'
+  } else {
+    if (backBtn) backBtn.innerText = '← Return to Application Center'
 
-                switch (formId) {
-                    case 'catheter':
-                        titleEl.innerText = "Application for Medical Materials (Cones)";
-                        subEl.innerText = "Distribution pipeline processing template for non-sized cone catheters.";
-                        break;
-                    case 'catheter-sizes':
-                        titleEl.innerText = "Application for Medical Materials (Catheters)";
-                        subEl.innerText = "Sizing-specific clinical request configuration matrix by CH gauge and lengths.";
-                        break;
-                    case 'enema':
-                        titleEl.innerText = "Application for Medical Materials (Enema Bags)";
-                        subEl.innerText = "Bowel management administrative support allocation registry documentation form.";
-                        break;
-                    case 'oxybutynin':
-                        titleEl.innerText = "Application for Medical Materials (Oxybutynin)";
-                        subEl.innerText = "Pharmaceutical supply line ingestion configuration form for capsule items.";
-                        break;
-                    case 'shunt':
-                        titleEl.innerText = "Application for Surgical Materials (Shunts)";
-                        subEl.innerText = "Hydrocephalus shunt allocation template for valve profiles, EVD pathways, and reservoirs.";
-                        break;
-                }
-            }
-        }
+    switch (formId) {
+      case 'catheter':
+        titleEl.innerText = 'Application for Medical Materials (Cones)'
+        subEl.innerText =
+          'Distribution pipeline processing template for non-sized cone catheters.'
+        break
+      case 'catheter-sizes':
+        titleEl.innerText = 'Application for Medical Materials (Catheters)'
+        subEl.innerText =
+          'Sizing-specific clinical request configuration matrix by CH gauge and lengths.'
+        break
+      case 'enema':
+        titleEl.innerText = 'Application for Medical Materials (Enema Bags)'
+        subEl.innerText =
+          'Bowel management administrative support allocation registry documentation form.'
+        break
+      case 'oxybutynin':
+        titleEl.innerText = 'Application for Medical Materials (Oxybutynin)'
+        subEl.innerText =
+          'Pharmaceutical supply line ingestion configuration form for capsule items.'
+        break
+      case 'shunt':
+        titleEl.innerText = 'Application for Surgical Materials (Shunts)'
+        subEl.innerText =
+          'Hydrocephalus shunt allocation template for valve profiles, EVD pathways, and reservoirs.'
+        break
+    }
+  }
+}
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const initialHash = window.location.hash.replace('#', '');
-            if (initialHash && document.getElementById('pane-' + initialHash)) {
-                switchForm(initialHash);
-            } else {
-                switchForm('all');
-            }
-        });
+window.addEventListener('DOMContentLoaded', () => {
+  const initialHash = window.location.hash.replace('#', '')
+  if (initialHash && document.getElementById('pane-' + initialHash)) {
+    switchForm(initialHash)
+  } else {
+    switchForm('all')
+  }
+})
 
-       function saveApplication(application) {
+function saveApplication (application) {
+  let applications = JSON.parse(localStorage.getItem('applications')) || []
 
-            let applications =
-            JSON.parse(localStorage.getItem("applications")) || [];
+  applications.push(application)
 
-            applications.push(application);
+  localStorage.setItem('applications', JSON.stringify(applications))
 
-            localStorage.setItem(
-            "applications",
-            JSON.stringify(applications)
-             );
+  alert('Application submitted!')
 
-            alert("Application submitted!");
+  window.location.href = '../personnel/personnel.html'
+}
 
-            window.location.href = "../personnel/personnel.html";
-        }
-
-        document.getElementById("catheterForm").addEventListener("submit", function (e) {
-
-    e.preventDefault();
-
-    const application = {
-        id: "APP-" + Date.now(),
-
-        type: "Cones",
-
-        applicant: document.getElementById("projectName").value,
-
-        address: document.getElementById("address").value,
-
-        country: document.getElementById("country").value,
-
-        contact: document.getElementById("contactPerson").value,
-
-        email: document.getElementById("email").value,
-
-        phone: document.getElementById("phone").value,
-
-        doctor: document.getElementById("doctorName").value,
-
-        nurse: document.getElementById("nurseName").value,
-
-        childrenSeen: document.getElementById("childrenSeen").value,
-
-        quantity: document.getElementById("conesRequested").value,
-
-        status: "Pending",
-
-        submitted: new Date().toLocaleDateString()
-    };
-
-    saveApplication(application);
-
-});
-
-document.getElementById("catheterSizesForm").addEventListener("submit", function (e) {
-
-    e.preventDefault();
+document
+  .getElementById('catheterForm')
+  .addEventListener('submit', function (e) {
+    e.preventDefault()
 
     const application = {
-        id: "APP-" + Date.now(),
+      id: 'APP-' + Date.now(),
 
-        type: "Catheters",
+      type: 'Cones',
 
-        applicant: document.getElementById("csProjectName").value,
+      applicant: document.getElementById('projectName').value,
 
-        address: document.getElementById("csAddress").value,
+      address: document.getElementById('address').value,
 
-        country: document.getElementById("csCountry").value,
+      country: document.getElementById('country').value,
 
-        contact: document.getElementById("csContactPerson").value,
+      contact: document.getElementById('contactPerson').value,
 
-        email: document.getElementById("csEmail").value,
+      email: document.getElementById('email').value,
 
-        phone: document.getElementById("csPhone").value,
+      phone: document.getElementById('phone').value,
 
-        doctor: document.getElementById("csDoctorName").value,
+      doctor: document.getElementById('doctorName').value,
 
-        nurse: document.getElementById("csNurseName").value,
+      nurse: document.getElementById('nurseName').value,
 
-        childrenSeen: document.getElementById("csChildrenSeen").value,
+      childrenSeen: document.getElementById('childrenSeen').value,
 
-        catheters: {
-            ch8Short: document.getElementById("ch8Short").value,
-            ch8Long: document.getElementById("ch8Long").value,
+      quantity: document.getElementById('conesRequested').value,
 
-            ch10Short: document.getElementById("ch10Short").value,
-            ch10Long: document.getElementById("ch10Long").value,
+      status: 'Pending',
+      pipelineStatus: 'Submitted',
 
-            ch12Short: document.getElementById("ch12Short").value,
-            ch12Long: document.getElementById("ch12Long").value,
+      submitted: new Date().toLocaleDateString()
+    }
 
-            ch14Short: document.getElementById("ch14Short").value,
-            ch14Long: document.getElementById("ch14Long").value
-        },
+    saveApplication(application)
+  })
 
-        status: "Pending",
-
-        submitted: new Date().toLocaleDateString()
-    };
-
-    saveApplication(application);
-
-});
-
-document.getElementById("enemaForm").addEventListener("submit", function(e){
-
-    e.preventDefault();
+document
+  .getElementById('catheterSizesForm')
+  .addEventListener('submit', function (e) {
+    e.preventDefault()
 
     const application = {
-        id: Date.now(),
+      id: 'APP-' + Date.now(),
 
-        type: "Enema Bags",
+      type: 'Catheters',
 
-        applicant: document.getElementById("enemaProjectName").value,
+      applicant: document.getElementById('csProjectName').value,
 
-        address: document.getElementById("enemaAddress").value,
+      address: document.getElementById('csAddress').value,
 
-        country: document.getElementById("enemaCountry").value,
+      country: document.getElementById('csCountry').value,
 
-        contact: document.getElementById("enemaContactPerson").value,
+      contact: document.getElementById('csContactPerson').value,
 
-        email: document.getElementById("enemaEmail").value,
+      email: document.getElementById('csEmail').value,
 
-        phone: document.getElementById("enemaPhone").value,
+      phone: document.getElementById('csPhone').value,
 
-        doctor: document.getElementById("enemaDoctorName").value,
+      doctor: document.getElementById('csDoctorName').value,
 
-        nurse: document.getElementById("enemaNurseName").value,
+      nurse: document.getElementById('csNurseName').value,
 
-        childrenSeen: document.getElementById("enemaChildrenSeen").value,
+      childrenSeen: document.getElementById('csChildrenSeen').value,
 
-        quantity: document.getElementById("enemaQuantity").value,
+      catheters: {
+        ch8Short: document.getElementById('ch8Short').value,
+        ch8Long: document.getElementById('ch8Long').value,
 
-        status: "Pending",
+        ch10Short: document.getElementById('ch10Short').value,
+        ch10Long: document.getElementById('ch10Long').value,
 
-        submitted: new Date().toLocaleDateString()
-    };
+        ch12Short: document.getElementById('ch12Short').value,
+        ch12Long: document.getElementById('ch12Long').value,
 
-    let applications =
-        JSON.parse(localStorage.getItem("applications")) || [];
+        ch14Short: document.getElementById('ch14Short').value,
+        ch14Long: document.getElementById('ch14Long').value
+      },
 
-    applications.push(application);
+      quantity:
+        Number(document.getElementById('ch8Short').value || 0) +
+        Number(document.getElementById('ch8Long').value || 0) +
+        Number(document.getElementById('ch10Short').value || 0) +
+        Number(document.getElementById('ch10Long').value || 0) +
+        Number(document.getElementById('ch12Short').value || 0) +
+        Number(document.getElementById('ch12Long').value || 0) +
+        Number(document.getElementById('ch14Short').value || 0) +
+        Number(document.getElementById('ch14Long').value || 0),
 
-    localStorage.setItem(
-        "applications",
-        JSON.stringify(applications)
-    );
+      status: 'Pending',
+      pipelineStatus: 'Submitted',
 
-    alert("Enema Bags Application Submitted!");
+      submitted: new Date().toLocaleDateString()
+    }
 
-    window.location.href = "../personnel/personnel.html";
+    saveApplication(application)
+  })
 
-});
+document.getElementById('enemaForm').addEventListener('submit', function (e) {
+  e.preventDefault()
 
-document.getElementById("oxybutyninForm").addEventListener("submit", function(e){
+  const application = {
+    id: 'APP-' + Date.now(),
 
-    e.preventDefault();
+    type: 'Enema Bags',
 
-    const application = {
-        id: Date.now(),
+    applicant: document.getElementById('enemaProjectName').value,
 
-        type: "Oxybutynin",
+    address: document.getElementById('enemaAddress').value,
 
-        applicant: document.getElementById("oxyProjectName").value,
+    country: document.getElementById('enemaCountry').value,
 
-        address: document.getElementById("oxyAddress").value,
+    contact: document.getElementById('enemaContactPerson').value,
 
-        country: document.getElementById("oxyCountry").value,
+    email: document.getElementById('enemaEmail').value,
 
-        contact: document.getElementById("oxyContactPerson").value,
+    phone: document.getElementById('enemaPhone').value,
 
-        email: document.getElementById("oxyEmail").value,
+    doctor: document.getElementById('enemaDoctorName').value,
 
-        phone: document.getElementById("oxyPhone").value,
+    nurse: document.getElementById('enemaNurseName').value,
 
-        doctor: document.getElementById("oxyDoctorName").value,
+    childrenSeen: document.getElementById('enemaChildrenSeen').value,
 
-        nurse: document.getElementById("oxyNurseName").value,
+    quantity: document.getElementById('enemaQuantity').value,
 
-        childrenSeen: document.getElementById("oxyChildrenSeen").value,
+    status: 'Pending',
+    pipelineStatus: 'Submitted',
 
-        quantity: document.getElementById("oxyQuantity").value,
+    submitted: new Date().toLocaleDateString()
+  }
 
-        status: "Pending",
+  saveApplication(application)
+})
 
-        submitted: new Date().toLocaleDateString()
-    };
-
-    let applications =
-        JSON.parse(localStorage.getItem("applications")) || [];
-
-    applications.push(application);
-
-    localStorage.setItem(
-        "applications",
-        JSON.stringify(applications)
-    );
-
-    alert("Oxybutynin Application Submitted!");
-
-    window.location.href = "../personnel/personnel.html";
-
-});
-
-document.getElementById("shuntForm").addEventListener("submit", function(e){
-
-    e.preventDefault();
+document
+  .getElementById('oxybutyninForm')
+  .addEventListener('submit', function (e) {
+    e.preventDefault()
 
     const application = {
-        id: Date.now(),
+      id: 'APP-' + Date.now(),
 
-        type: "Shunts",
+      type: 'Oxybutynin Caps',
 
-        applicant: document.getElementById("shuntProjectName").value,
+      applicant: document.getElementById('oxyProjectName').value,
 
-        address: document.getElementById("shuntAddress").value,
+      address: document.getElementById('oxyAddress').value,
 
-        country: document.getElementById("shuntCountry").value,
+      country: document.getElementById('oxyCountry').value,
 
-        contact: document.getElementById("shuntContactPerson").value,
+      contact: document.getElementById('oxyContactPerson').value,
 
-        email: document.getElementById("shuntEmail").value,
+      email: document.getElementById('oxyEmail').value,
 
-        phone: document.getElementById("shuntPhone").value,
+      phone: document.getElementById('oxyPhone').value,
 
-        doctor: document.getElementById("shuntDoctor").value,
+      doctor: document.getElementById('oxyDoctorName').value,
 
-        nurse: document.getElementById("shuntNurse").value,
+      nurse: document.getElementById('oxyNurseName').value,
 
-        hydroChildren: document.getElementById("shuntHydroChildren").value,
+      childrenSeen: document.getElementById('oxyChildrenSeen').value,
 
-        sbChildren: document.getElementById("shuntSBChildren").value,
+      quantity: document.getElementById('oxyQuantity').value,
 
-        requestedMaterials: {
-            lowPressure: document.getElementById("shuntLow").value,
+      status: 'Pending',
+      pipelineStatus: 'Submitted',
 
-            mediumPressure: document.getElementById("shuntMedium").value,
+      submitted: new Date().toLocaleDateString()
+    }
 
-            highPressure: document.getElementById("shuntHigh").value,
+    saveApplication(application)
+  })
 
-            evd: document.getElementById("shuntEVD").value,
+document.getElementById('shuntForm').addEventListener('submit', function (e) {
+  e.preventDefault()
 
-            reservoir: document.getElementById("shuntReservoir").value
-        },
+  const application = {
+    id: 'APP-' + Date.now(),
 
-        status: "Pending",
+    type: 'Shunt',
 
-        submitted: new Date().toLocaleDateString()
-    };
+    applicant: document.getElementById('shuntProjectName').value,
 
-    let applications =
-        JSON.parse(localStorage.getItem("applications")) || [];
+    address: document.getElementById('shuntAddress').value,
 
-    applications.push(application);
+    country: document.getElementById('shuntCountry').value,
 
-    localStorage.setItem(
-        "applications",
-        JSON.stringify(applications)
-    );
+    contact: document.getElementById('shuntContactPerson').value,
 
-    alert("Shunt Application Submitted!");
+    email: document.getElementById('shuntEmail').value,
 
-    window.location.href = "../personnel/personnel.html";
+    phone: document.getElementById('shuntPhone').value,
 
-});
+    doctor: document.getElementById('shuntDoctor').value,
+
+    nurse: document.getElementById('shuntNurse').value,
+
+    hydroChildren: document.getElementById('shuntHydroChildren').value,
+
+    sbChildren: document.getElementById('shuntSBChildren').value,
+
+    requestedMaterials: {
+      lowPressure: document.getElementById('shuntLow').value,
+
+      mediumPressure: document.getElementById('shuntMedium').value,
+
+      highPressure: document.getElementById('shuntHigh').value,
+
+      evd: document.getElementById('shuntEVD').value,
+
+      reservoir: document.getElementById('shuntReservoir').value
+    },
+
+    status: 'Pending',
+    pipelineStatus: 'Submitted',
+
+    submitted: new Date().toLocaleDateString()
+  }
+
+  saveApplication(application)
+})
