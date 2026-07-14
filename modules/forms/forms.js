@@ -84,44 +84,42 @@ function saveApplication (application) {
   window.location.href = '../personnel/personnel.html'
 }
 
-document
-  .getElementById('catheterForm')
-  .addEventListener('submit', function (e) {
-    e.preventDefault()
+document.getElementById('conesForm').addEventListener('submit', function (e) {
+  e.preventDefault()
 
-    const application = {
-      id: 'APP-' + Date.now(),
+  const application = {
+    id: 'APP-' + Date.now(),
 
-      type: 'Cones',
+    type: 'Cones',
 
-      applicant: document.getElementById('projectName').value,
+    applicant: document.getElementById('projectName').value,
 
-      address: document.getElementById('address').value,
+    address: document.getElementById('address').value,
 
-      country: document.getElementById('country').value,
+    country: document.getElementById('country').value,
 
-      contact: document.getElementById('contactPerson').value,
+    contact: document.getElementById('contactPerson').value,
 
-      email: document.getElementById('email').value,
+    email: document.getElementById('email').value,
 
-      phone: document.getElementById('phone').value,
+    phone: document.getElementById('phone').value,
 
-      doctor: document.getElementById('doctorName').value,
+    doctor: document.getElementById('doctorName').value,
 
-      nurse: document.getElementById('nurseName').value,
+    nurse: document.getElementById('nurseName').value,
 
-      childrenSeen: document.getElementById('childrenSeen').value,
+    childrenSeen: document.getElementById('childrenSeen').value,
 
-      quantity: document.getElementById('conesRequested').value,
+    quantity: document.getElementById('conesRequested').value,
 
-      status: 'Pending',
-      pipelineStatus: 'Submitted',
+    status: 'Pending',
+    pipelineStatus: 'Submitted',
 
-      submitted: new Date().toLocaleDateString()
-    }
+    submitted: new Date().toLocaleDateString()
+  }
 
-    saveApplication(application)
-  })
+  saveApplication(application)
+})
 
 document
   .getElementById('catheterSizesForm')
@@ -268,6 +266,7 @@ document.getElementById('shuntForm').addEventListener('submit', function (e) {
 
     type: 'Shunt',
 
+    // A(i) Applicant Information
     applicant: document.getElementById('shuntProjectName').value,
 
     address: document.getElementById('shuntAddress').value,
@@ -280,13 +279,157 @@ document.getElementById('shuntForm').addEventListener('submit', function (e) {
 
     phone: document.getElementById('shuntPhone').value,
 
-    doctor: document.getElementById('shuntDoctor').value,
+    // A(ii) Contacts
+    adminContact: document.getElementById('shuntAdminContact').value,
 
-    nurse: document.getElementById('shuntNurse').value,
+    clearingContact: document.getElementById('shuntClearingContact').value,
+
+    clinicalContact: document.getElementById('shuntClinicalContact').value,
+
+    // B(1) Surgical and Clinical
+
+    shuntProtocol: document.getElementById('shuntProtocol').files[0]
+      ? document.getElementById('shuntProtocol').files[0].name
+      : '',
+
+    surgeonName: document.getElementById('shuntSurgeonName').value,
+
+    surgeonSpeciality: document.getElementById('shuntSurgeonSpeciality').value,
+
+    surgeons: {
+      neurosurgeon: document.getElementById('shuntNeurosurgeon').checked,
+
+      neurosurgicalResidents: document.getElementById(
+        'shuntNeurosurgicalResidents'
+      ).checked,
+
+      pediatricSurgeon: document.getElementById('shuntPediatricSurgeon')
+        .checked,
+
+      generalSurgeon: document.getElementById('shuntGeneralSurgeon').checked,
+
+      otherSurgeon: document.getElementById('shuntOtherSurgeon').checked
+    },
+
+    shuntProgramData: document.getElementById('shuntProgramData').files[0]
+      ? document.getElementById('shuntProgramData').files[0].name
+      : '',
+
+    alternatives: {
+      etvRigid: document.getElementById('shuntETVRigid').checked,
+
+      etvCpc: document.getElementById('shuntETVCPC').checked
+    },
+
+    // Follow-up System
+
+    postOpVisits: document.getElementById('shuntPostOpVisits').value,
+
+    phoneFollowUp: {
+      appointmentReminder: document.getElementById(
+        'shuntPhoneAppointmentReminder'
+      ).checked,
+
+      missedAppointment: document.getElementById('shuntPhoneMissedAppointment')
+        .checked,
+
+      generalSupport: document.getElementById('shuntPhoneGeneralSupport')
+        .checked
+    },
+
+    homeVisits: {
+      systematic: document.getElementById('shuntHomeVisitsSystematic').checked,
+
+      targeted: document.getElementById('shuntHomeVisitsTargeted').checked
+    },
+
+    // B(2) Demonstration of Need
+
+    projectedAnnualNeed: document.getElementById('shuntProjectedAnnualNeed')
+      .value,
+
+    requestedQuantity: document.getElementById('shuntRequestedQuantity').value,
+
+    supplySources: {
+      hospital: document.getElementById('shuntSupplyHospital').checked,
+
+      organizations: document.getElementById('shuntSupplyOrganizations')
+        .checked,
+
+      families: document.getElementById('shuntSupplyFamilies').checked
+    },
+
+    otherSupplySources: document.getElementById('shuntOtherSupplySources')
+      .value,
+
+    alternativeSources: document.getElementById('shuntAlternativeSources')
+      .value,
+
+    localDistributorAvailability: document.getElementById(
+      'shuntLocalDistributorAvailability'
+    ).value,
+
+    needFactors: {
+      supplierChanges: document.getElementById('shuntNeedSupplierChanges')
+        .checked,
+
+      supplyCost: document.getElementById('shuntNeedSupplyCost').checked,
+
+      serviceCosts: document.getElementById('shuntNeedServiceCosts').checked,
+
+      etvUnavailable: document.getElementById('shuntNeedETVUnavailable')
+        .checked,
+
+      fundingChanges: document.getElementById('shuntNeedFundingChanges')
+        .checked,
+
+      patientIncrease: document.getElementById('shuntNeedPatientIncrease')
+        .checked
+    },
+
+    waitingList: document.getElementById('shuntWaitingList').value,
+
+    secondaryMarketCost: {
+      currency: document.getElementById('shuntSecondaryMarketCurrency').value,
+      amount: document.getElementById('shuntSecondaryMarketCost').value
+    },
+
+    futurePlan: document.getElementById('shuntFuturePlan').value,
+
+    // Documents
+
+    mohCommunication: document.getElementById('shuntMohCommunication').files[0]
+      ? document.getElementById('shuntMohCommunication').files[0].name
+      : '',
+
+    // Data Sheet
+
+    dataSheet: {
+      lossFollowUp: document.getElementById('shuntLossFollowUp').value,
+
+      lossFollowUpTotal: document.getElementById('shuntLossFollowUpTotal')
+        .value,
+
+      badOutcome: document.getElementById('shuntBadOutcome').value,
+
+      badOutcomeTotal: document.getElementById('shuntBadOutcomeTotal').value
+    },
+
+    badOutcomeReasons: {
+      infections: document.getElementById('shuntInfections').value,
+
+      blocked: document.getElementById('shuntBlocked').value,
+
+      otherMalfunctions: document.getElementById('shuntOtherMalfunctions').value
+    },
+
+    // Patient Numbers
 
     hydroChildren: document.getElementById('shuntHydroChildren').value,
 
     sbChildren: document.getElementById('shuntSBChildren').value,
+
+    // Requested Materials
 
     requestedMaterials: {
       lowPressure: document.getElementById('shuntLow').value,
@@ -301,6 +444,7 @@ document.getElementById('shuntForm').addEventListener('submit', function (e) {
     },
 
     status: 'Pending',
+
     pipelineStatus: 'Submitted',
 
     submitted: new Date().toLocaleDateString()

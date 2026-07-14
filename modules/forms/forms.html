@@ -24,25 +24,6 @@
             <h1 id="mainRegistryTitle">Supply Application Center</h1>
             <p id="mainRegistrySubtitle">Select the type of medical supply request you would like to submit.</p>
             <div class="divider"></div>
-
-            <!--div class="registry-summary">
-
-                <div class="summary-item">
-                    <span>Available Forms</span>
-                    <strong>5</strong>
-                </div>
-
-                <div class="summary-item">
-                    <span>Medical Supplies</span>
-                    <strong>4</strong>
-                </div>
-
-                <div class="summary-item">
-                    <span>Surgical Supplies</span>
-                    <strong>1</strong>
-                </div>
-
-            </div-->
         </div>
 
         <!-- MAIN DASHBOARD CARD GRID -->
@@ -146,17 +127,17 @@
             </div>
         </div>
 
-        <!-- PANEL 1: CATHETER CONES -->
+        <!-- PANEL 1: CONES -->
         <div id="pane-catheter" class="form-pane">
             <div class="card">
                 <div class="ch">
-                    <span>Application Form Setup — Cones</span>
+                    <span>Cones Application Form</span>
                     <span
                         style="font-size: 10px; background: var(--c-dark); color: white; padding: 4px 8px; border-radius: 4px;">Child-Help
                         International</span>
                 </div>
                 <div class="cb">
-                    <form id="catheterForm">
+                    <form id="conesForm">
                         <h3
                             style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
                             1. Applicant Information</h3>
@@ -215,19 +196,34 @@
                             <label
                                 style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
                                     type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I confirm that these catheters will be used strictly for children whose parents
+                                <span>I agree that these catheters will be used for children whose parents
                                     cannot afford to pay.</span></label>
                             <label
                                 style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
                                     type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I agree that under no condition will these materials yield any financial
-                                    profit.</span></label>
+                                <span>I agree that these catheters under no condition can give any financial
+                                    profit by selling them or by asking parents to pay for thsese catheters.
+                                </span></label>
                             <label
                                 style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
                                     type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I commit to reporting directly to Child-Help International on execution
-                                    metrics.</span></label>
+                                <span>I agree that I will report to Child-Help International on the use of the
+                                    catheters by using the provided template or in a similar format.
+                                </span></label>
                         </div>
+
+                        <div class="form-help-note">
+                            <strong>Need assistance?</strong><br>
+                            Please contact
+                            <a href="mailto:janet.manoni@childhelp.int">
+                                Janet Manoni (janet.manoni@child-help.international)
+                            </a>
+                            if you require further assistance with your application.
+                            <br>
+                            <p>*Child-Help International only provides the Catheters from its
+                                reliable suppliers in China or India.</p>
+                        </div>
+
                         <div
                             style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--c-border); padding-top: 20px;">
                             <button type="button" class="btn btn-ghost" onclick="switchForm('all')">Cancel</button>
@@ -279,21 +275,21 @@
                             <div class="field-group"><label>Name of Nurse in Charge of CIC</label><input type="text"
                                     id="csNurseName" required></div>
                             <div style="grid-column: span 2;" class="field-group"><label>Estimated # of children seen
-                                    per year with Spina Bifida</label><input type="number" id="csChildrenSeen" min="0"
-                                    required></div>
+                                    per year with Spina Bifida (with or without Hydrocephalus)</label><input
+                                    type="number" id="csChildrenSeen" min="0" required></div>
                         </div>
 
                         <h3
                             style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
-                            3. Requested Catheters Sizing Matrix</h3>
+                            3. Requested Catheters Sizing</h3>
                         <div
                             style="background: var(--bg-main); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--c-border); margin-bottom: 24px; overflow-x: auto;">
                             <table class="size-matrix">
                                 <thead>
                                     <tr>
                                         <th>Catheter Gauge</th>
-                                        <th>Short Variant (18cm)</th>
-                                        <th>Long Variant (41cm)</th>
+                                        <th>Short (18cm)</th>
+                                        <th>Long (41cm)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -331,8 +327,32 @@
                             <label
                                 style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
                                     type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I confirm that these materials will be used strictly for non-profit
-                                    welfare.</span></label>
+                                <span>I agree that these catheters will be used for children whose parents
+                                    cannot afford to pay.</span></label>
+                            <label
+                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
+                                    type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
+                                <span>I agree that these catheters under no condition can give any financial
+                                    profit by selling them or by asking parents to pay for thsese catheters.
+                                </span></label>
+                            <label
+                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
+                                    type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
+                                <span>I agree that I will report to Child-Help International on the use of the
+                                    catheters by using the provided template or in a similar format.
+                                </span></label>
+                        </div>
+
+                        <div class="form-help-note">
+                            <strong>Need assistance?</strong><br>
+                            Please contact
+                            <a href="mailto:janet.manoni@childhelp.int">
+                                Janet Manoni (janet.manoni@child-help.international)
+                            </a>
+                            if you require further assistance with your application.
+                            <br>
+                            <p>*Child-Help International only provides the Catheters from its
+                                reliable suppliers in China or India.</p>
                         </div>
                         <div
                             style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--c-border); padding-top: 20px;">
@@ -414,7 +434,8 @@
                             </div>
 
                             <div style="grid-column: span 2;" class="field-group">
-                                <label>Estimated # of children seen per year with or without Spina Bifida</label>
+                                <label>Estimated # of children seen
+                                    per year with Spina Bifida (with or without Hydrocephalus)</label>
                                 <input type="number" id="enemaChildrenSeen" min="0" required>
                             </div>
 
@@ -434,26 +455,39 @@
 
                         <h3
                             style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
-                            4. Regulatory Compliance Agreement
-                        </h3>
-
+                            4. Regulatory Compliance Agreement</h3>
                         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px;">
-
                             <label
-                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.5;">
-                                <input type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I confirm that these enema supplies will be used strictly for children whose
-                                    parents cannot afford to pay.</span>
-                            </label>
-
+                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
+                                    type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
+                                <span>I agree that these catheters will be used for children whose parents
+                                    cannot afford to pay.</span></label>
                             <label
-                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.5;">
-                                <input type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I agree that under no condition will these materials yield any financial
-                                    profit.</span>
-                            </label>
-
+                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
+                                    type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
+                                <span>I agree that these catheters under no condition can give any financial
+                                    profit by selling them or by asking parents to pay for thsese catheters.
+                                </span></label>
+                            <label
+                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
+                                    type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
+                                <span>I agree that I will report to Child-Help International on the use of the
+                                    catheters by using the provided template or in a similar format.
+                                </span></label>
                         </div>
+
+                        <div class="form-help-note">
+                            <strong>Need assistance?</strong><br>
+                            Please contact
+                            <a href="mailto:janet.manoni@childhelp.int">
+                                Janet Manoni (janet.manoni@child-help.international)
+                            </a>
+                            if you require further assistance with your application.
+                            <br>
+                            <p>*Child-Help International only provides the Catheters from its
+                                reliable suppliers in China or India.</p>
+                        </div>
+
                         <div
                             style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--c-border); padding-top: 20px;">
                             <button type="button" class="btn btn-ghost" onclick="switchForm('all')">Cancel</button>
@@ -534,7 +568,8 @@
                             </div>
 
                             <div style="grid-column: span 2;" class="field-group">
-                                <label>Estimated # of children seen per year with Spina Bifida</label>
+                                <label>Estimated # of children seen
+                                    per year with Spina Bifida (with or without Hydrocephalus)</label>
                                 <input type="number" id="oxyChildrenSeen" min="0" required>
                             </div>
 
@@ -554,38 +589,37 @@
 
                         <h3
                             style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
-                            4. Regulatory Compliance Agreement
-                        </h3>
-
+                            4. Regulatory Compliance Agreement</h3>
                         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px;">
-
                             <label
-                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.5;">
-                                <input type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>
-                                    I confirm that these pharmaceutical materials will be used strictly
-                                    for children whose parents cannot afford to pay.
-                                </span>
-                            </label>
-
+                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
+                                    type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
+                                <span>I agree that these catheters will be used for children whose parents
+                                    cannot afford to pay.</span></label>
                             <label
-                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.5;">
-                                <input type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>
-                                    I agree that under no condition will these materials be sold or
-                                    generate financial profit.
-                                </span>
-                            </label>
-
+                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
+                                    type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
+                                <span>I agree that these catheters under no condition can give any financial
+                                    profit by selling them or by asking parents to pay for thsese catheters.
+                                </span></label>
                             <label
-                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; line-height: 1.5;">
-                                <input type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>
-                                    I commit to reporting utilization and distribution data to
-                                    Child-Help International.
-                                </span>
-                            </label>
+                                style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
+                                    type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
+                                <span>I agree that I will report to Child-Help International on the use of the
+                                    catheters by using the provided template or in a similar format.
+                                </span></label>
+                        </div>
 
+                        <div class="form-help-note">
+                            <strong>Need assistance?</strong><br>
+                            Please contact
+                            <a href="mailto:janet.manoni@childhelp.int">
+                                Janet Manoni (janet.manoni@child-help.international)
+                            </a>
+                            if you require further assistance with your application.
+                            <br>
+                            <p>*Child-Help International only provides the Catheters from its
+                                reliable suppliers in China or India.</p>
                         </div>
 
                         <div
@@ -602,7 +636,7 @@
         <div id="pane-shunt" class="form-pane">
             <div class="card">
                 <div class="ch">
-                    <span>Application Form Setup — Shunts</span>
+                    <span>Shunt Application Form Setup</span>
                     <span
                         style="font-size: 10px; background: var(--c-dark); color: white; padding: 4px 8px; border-radius: 4px;">Child-Help
                         International</span>
@@ -612,7 +646,7 @@
 
                         <h3
                             style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
-                            1. Applicant Information</h3>
+                            A(i). Applicant Information</h3>
                         <div
                             style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px;">
                             <div style="grid-column: span 2;" class="field-group"><label>Project / Applicant
@@ -627,28 +661,552 @@
                                     required></div>
                             <div class="field-group"><label>Phone Number</label><input type="tel" id="shuntPhone"
                                     required></div>
+
                         </div>
 
                         <h3
                             style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
-                            2. Clinical Oversight</h3>
+                            A(ii). Clinical Oversight
+                        </h3>
+
                         <div
                             style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px;">
-                            <div class="field-group"><label>Doctor in Charge</label><input type="text" id="shuntDoctor"
-                                    required></div>
-                            <div class="field-group"><label>Name of Nurse / Clinic Coordinator</label><input type="text"
-                                    id="shuntNurse" required></div>
-                            <div class="field-group"><label>Estimated # of children seen per year with
-                                    Hydrocephalus</label><input type="number" id="shuntHydroChildren" min="0" required>
+
+                            <div class="field-group">
+                                <label>Administrative / Legal Name & Contact</label>
+                                <input type="text" id="shuntAdminContact" required>
                             </div>
-                            <div class="field-group"><label>Estimated # of children seen per year with Spina Bifida
-                                    (with or without hydrocephalus)</label><input type="number" id="shuntSBChildren"
-                                    min="0" required></div>
+
+                            <div class="field-group">
+                                <label>Shunt Clearing Contact (if different than POC)</label>
+                                <input type="text" id="shuntClearingContact" required>
+                            </div>
+
+                            <div class="field-group">
+                                <label>Clinical / Surgical Name & Contact</label>
+                                <input type="text" id="shuntClinicalContact" required>
+                            </div>
+
+
                         </div>
 
+                        <!-- SECTION B(1) -->
                         <h3
                             style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
-                            3. Requested Materials Matrix</h3>
+                            B(1). Comprehensive Hydrocephalus Program Information
+                        </h3>
+
+
+                        <h4 class="form-subsection">
+                            i. Surgical and Clinical
+                        </h4>
+
+                        <div style="margin-bottom:24px;">
+
+                            <div class="field-group">
+
+                                <h4 class="form-subtitle">
+                                    1. Shunt Protocol
+                                </h4>
+
+                                <label>
+                                    Submit a copy of the shunt protocol and any relevant checklist used.
+                                </label>
+
+                                <input type="file" id="shuntProtocol" accept=".pdf,.doc,.docx">
+
+                            </div>
+
+                            <div class="field-group">
+
+                                <h4 class="form-subtitle">
+                                    2. Shunt Workforce
+                                </h4>
+
+                                <label>
+                                    Name of surgeon supervising and/or placing shunts
+                                </label>
+
+                                <input type="text" id="shuntSurgeonName">
+
+
+                                <label>
+                                    Function and medical degree/speciality
+                                </label>
+
+                                <input type="text" id="shuntSurgeonSpeciality">
+
+
+                                <label>
+                                    Who does the shunt surgeries? (Check all that apply)
+                                </label>
+
+
+                                <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntNeurosurgeon">
+                                        <span>Neurosurgeons only</span>
+                                    </label>
+
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntNeurosurgicalResidents">
+                                        <span>Neurosurgical Residents</span>
+                                    </label>
+
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntPediatricSurgeon">
+                                        <span>Pediatric Surgeon</span>
+                                    </label>
+
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntGeneralSurgeon">
+                                        <span>General Surgeon</span>
+                                    </label>
+
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntOtherSurgeon">
+                                        <span>Others</span>
+                                    </label>
+
+                                    <input type="text" id="shuntOtherSurgeonDetails" placeholder="Please specify">
+
+                                </div>
+
+                            </div>
+
+                            <div class="field-group">
+
+                                <h4 class="form-subtitle">
+                                    3. Data (Attach)
+                                </h4>
+
+                                <label>
+                                    Attach data (.pdf or .docx).
+                                </label>
+
+                                <input type="file" id="shuntProgramData" accept=".pdf,.doc,.docx">
+
+                            </div>
+
+
+                            <div class="field-group">
+
+                                <h4 class="form-subtitle">
+                                    4. Alternatives to Shunting
+                                </h4>
+
+                                <label>
+                                    Please tick what is available/done at your place.
+                                </label>
+
+
+                                <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntETVRigid">
+                                        <span>ETV (Rigid)</span>
+                                    </label>
+
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntETVCPC">
+                                        <span>ETV + CPC (Flexible)</span>
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <h4 class="form-subsection">
+                            ii. Follow-up System
+                        </h4>
+
+
+
+                        <div style="margin-bottom:24px;">
+
+
+                            <div class="field-group">
+
+                                <h4 class="form-subtitle">
+                                    1. Post-op visits
+                                </h4>
+
+                                <label>
+                                    Indicate current system.
+                                </label>
+
+                                <input type="text" id="shuntPostOpVisits">
+
+                            </div>
+
+
+
+                            <div class="field-group">
+
+                                <h4 class="form-subtitle">
+                                    2. Phone calls (Check all that apply)
+                                </h4>
+
+
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntPhoneAppointmentReminder">
+                                        <span>Appointment reminder</span>
+                                    </label>
+
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntPhoneMissedAppointment">
+                                        <span>Missed appointment</span>
+                                    </label>
+
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntPhoneGeneralSupport">
+                                        <span>General/support</span>
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="field-group">
+
+                                <h4 class="form-subtitle">
+                                    3. Home visits
+                                </h4>
+
+
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntHomeVisitsSystematic">
+                                        <span>Systematic</span>
+                                    </label>
+
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntHomeVisitsTargeted">
+                                        <span>Targeted: Those in need</span>
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <!-- SECTION B(ii) -->
+                        <h3
+                            style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
+                            B(2). Demonstration of Need
+                        </h3>
+
+                        <div style="margin-bottom: 24px;">
+
+                            <!-- i. Total Need vs Total Request -->
+                            <div class="field-group">
+
+                                <h4 class="form-subsection">
+                                    i. Total Need vs. Total Request
+                                </h4>
+
+                                <label>
+                                    1. Projected shunt need per year:
+                                </label>
+                                <input type="number" id="shuntProjectedAnnualNeed" min="0">
+
+                                <label>
+                                    2. Number of shunts requested:
+                                </label>
+                                <input type="number" id="shuntRequestedQuantity" min="0">
+
+                            </div>
+
+
+                            <!-- ii. Sources of Supply -->
+                            <div class="field-group">
+
+                                <h4 class="form-subsection">
+                                    ii. Source(s) of Supply (check all that apply, including shortages)
+                                </h4>
+
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntSupplyHospital">
+                                        <span>Self-supplied (Hospital)</span>
+                                    </label>
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntSupplyOrganizations">
+                                        <span>Other organizations/donors (list)</span>
+                                    </label>
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntSupplyFamilies">
+                                        <span>Patients/families provide shunts</span>
+                                    </label>
+
+                                </div>
+
+                                <label style="margin-top:16px;">
+                                    If other organizations/donors supply shunts, please list:
+                                </label>
+                                <textarea rows="2" id="shuntOtherSupplySources"></textarea>
+
+                            </div>
+
+
+                            <!-- iii. Other Sources -->
+                            <div class="field-group">
+
+                                <h4 class="form-subsection">
+                                    iii. Alternative Sources
+                                </h4>
+
+                                <label>
+                                    List any other potential sources of shunts or alternatives to Child-Help
+                                    International:
+                                </label>
+
+                                <textarea rows="3" id="shuntAlternativeSources"></textarea>
+
+                            </div>
+
+
+                            <!-- iv. Local Purchase Availability -->
+                            <div class="field-group">
+
+                                <h4 class="form-subsection">
+                                    iv. Local Availability
+                                </h4>
+
+                                <label>
+                                    Is it possible to purchase shunts in-country from distributors?
+                                </label>
+
+                                <textarea rows="2" id="shuntLocalDistributorAvailability"></textarea>
+
+                            </div>
+
+
+                            <!-- v. Cause of Need -->
+                            <div class="field-group">
+
+                                <h4 class="form-subsection">
+                                    v. Factors Creating the Need (check all that apply)
+                                </h4>
+
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntNeedSupplierChanges">
+                                        <span>Change in supplier availability</span>
+                                    </label>
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntNeedSupplyCost">
+                                        <span>Change in costs or availability of supply</span>
+                                    </label>
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntNeedServiceCosts">
+                                        <span>Change in costs of services provided</span>
+                                    </label>
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntNeedETVUnavailable">
+                                        <span>Change in alternatives (ETV) not being available</span>
+                                    </label>
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntNeedFundingChanges">
+                                        <span>Change in organizational funding</span>
+                                    </label>
+
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="shuntNeedPatientIncrease">
+                                        <span>Increase in number of patients requiring shunts</span>
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- vi. Waiting List -->
+                            <div class="field-group">
+
+                                <h4 class="form-subsection">
+                                    vi. Waiting List
+                                </h4>
+
+                                <label>
+                                    Does your hospital have a waiting list due to shunt shortages?
+                                </label>
+
+                                <textarea rows="2" id="shuntWaitingList"></textarea>
+
+                            </div>
+
+
+                            <!-- vii. Secondary Market Cost -->
+                            <div class="field-group">
+
+                                <h4 class="form-subsection">
+                                    vii. Local Cost
+                                </h4>
+
+                                <label>
+                                    What is the cost of a shunt if purchased on the local secondary market?
+                                </label>
+
+                                <div style="display:flex; gap:12px; align-items:center;" class="currency-input-group">
+
+                                    <select id="shuntSecondaryMarketCurrency">
+                                        <option value="USD">USD ($)</option>
+                                        <option value="TZS">TZS (TSh)</option>
+                                    </select>
+
+                                    <input type="number" id="shuntSecondaryMarketCost" min="0" placeholder="Amount">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- viii. Future Plan -->
+                            <div class="field-group">
+
+                                <h4 class="form-subsection">
+                                    viii. Plan Beyond Application Year(s)
+                                </h4>
+
+                                <label>
+                                    If Child-Help supplies shunts this year, what steps are being taken to address this
+                                    need in future years?
+                                </label>
+
+                                <textarea rows="4" id="shuntFuturePlan"></textarea>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- SECTION C -->
+                        <h3
+                            style="font-size:12px;font-weight:800;color:var(--c-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;padding-bottom:6px;border-bottom:2px solid var(--c-accent);">
+                            C. Supporting Application Documents (Mini Checklist)
+                        </h3>
+
+                        <!-- 1 -->
+                        <div class="field-group">
+
+                            <h4 class="form-subsection">
+                                1. Copy of communication sent to MOH requesting shunts (sample supplied)
+                            </h4>
+
+                            <label>
+                                Attach copy
+                            </label>
+
+                            <input type="file" id="shuntMohCommunication" accept=".pdf,.doc,.docx">
+
+                        </div>
+
+                        <div class="field-group">
+
+                            <h4 class="form-subsection">
+                                2. Data Sheet
+                            </h4>
+
+                            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+
+                                <div>
+                                    <label>Loss to follow up</label>
+                                    <input type="number" id="shuntLossFollowUp" min="0">
+                                </div>
+
+                                <div>
+                                    <label>of total</label>
+                                    <input type="number" id="shuntLossFollowUpTotal" min="0">
+                                </div>
+
+                                <div>
+                                    <label>Bad Outcome</label>
+                                    <input type="number" id="shuntBadOutcome" min="0">
+                                </div>
+
+                                <div>
+                                    <label>of total</label>
+                                    <input type="number" id="shuntBadOutcomeTotal" min="0">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- 3 -->
+                        <div class="field-group">
+
+                            <h4 class="form-subsection">
+                                3. Bad Outcome due to
+                            </h4>
+
+                            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+
+                                <div>
+                                    <label>i. Shunt infections</label>
+                                    <input type="number" id="shuntInfections" min="0">
+                                </div>
+
+                                <div>
+                                    <label>ii. Blocked Shunt</label>
+                                    <input type="number" id="shuntBlocked" min="0">
+                                </div>
+
+                                <div>
+                                    <label>iii. Other malfunction</label>
+                                    <input type="number" id="shuntOtherMalfunctions" min="0">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="field-group">
+                            <label>Estimated # of children seen per year with Hydrocephalus</label>
+                            <input type="number" id="shuntHydroChildren" min="0" required>
+                        </div>
+
+                        <div class="field-group">
+                            <label>
+                                Estimated # of children seen per year with Spina Bifida
+                                (with or without hydrocephalus)
+                            </label>
+                            <input type="number" id="shuntSBChildren" min="0" required>
+                        </div>
+                        <h3
+                            style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
+                            Requested Materials</h3>
                         <div
                             style="background: var(--bg-main); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--c-border); margin-bottom: 24px; overflow-x: auto;">
                             <table class="size-matrix">
@@ -695,23 +1253,37 @@
 
                         <h3
                             style="font-size: 12px; font-weight: 800; color: var(--c-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 6px; border-bottom: 2px solid var(--c-accent);">
-                            4. Regulatory Compliance Agreement</h3>
+                            D. Regulatory Compliance Agreement</h3>
                         <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px;">
                             <label
                                 style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
                                     type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I confirm that these shunt systems and specialized components will be used
-                                    strictly for children whose parents cannot afford to pay.</span></label>
+                                <span>I agree that these catheters will be used for children whose parents
+                                    cannot afford to pay.</span></label>
                             <label
                                 style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
                                     type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I agree that under no condition will these surgical materials yield any financial
-                                    profit by selling them or by charging parents for the items.</span></label>
+                                <span>I agree that these catheters under no condition can give any financial
+                                    profit by selling them or by asking parents to pay for thsese catheters.
+                                </span></label>
                             <label
                                 style="display: flex; align-items: flex-start; gap: 10px; font-size: 12px; color: var(--text-main); line-height: 1.5; cursor: pointer; text-transform: none; font-weight: normal;"><input
                                     type="checkbox" required style="margin-top: 3px; accent-color: var(--c-dark);">
-                                <span>I commit to reporting directly to Child-Help International on surgical outcome
-                                    data and tracking deployment metrics.</span></label>
+                                <span>I agree that I will report to Child-Help International on the use of the
+                                    catheters by using the provided template or in a similar format.
+                                </span></label>
+                        </div>
+
+                        <div class="form-help-note">
+                            <strong>Need assistance?</strong><br>
+                            Please contact
+                            <a href="mailto:janet.manoni@childhelp.int">
+                                Janet Manoni (janet.manoni@child-help.international)
+                            </a>
+                            if you require further assistance with your application.
+                            <br>
+                            <p>*Child-Help International only provides the Catheters from its
+                                reliable suppliers in China or India.</p>
                         </div>
 
                         <div
