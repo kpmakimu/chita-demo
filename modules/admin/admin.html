@@ -1002,6 +1002,30 @@
                                     </div>
 
                                     <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">REQUESTED BY
+                                        </p>
+                                        <p id="od-applicant"></p>
+                                    </div>
+
+                                    <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">FACILITY</p>
+                                        <p id="od-facility"></p>
+                                    </div>
+
+                                    <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">APPLICATION
+                                        </p>
+                                        <div id="od-application"></div>
+                                    </div>
+
+                                    <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                            INVOICE AMOUNT
+                                        </p>
+                                        <p id="od-amount"></p>
+                                    </div>
+
+                                    <div>
                                         <p style="font-size:10px;font-weight:800;color:var(--text-muted);">PROFORMA
                                             INVOICE</p>
                                         <div id="od-proforma"></div>
@@ -1013,18 +1037,25 @@
                                         <p id="od-packing"></p>
                                     </div>
 
+                                    <div>
+                                        <p style="font-size:10px;font-weight:800;color:var(--text-muted);">
+                                            DONATION CERTIFICATE
+                                        </p>
+                                        <div id="od-donation"></div>
+                                    </div>
+
                                 </div>
 
                                 <!-- ACTIONS -->
                                 <div id="od-actions" style="display:none; margin-top:20px; gap:12px;">
-  <button class="btn btn-p" style="flex:1;" onclick="approveOrder()">
-    Approve
-  </button>
+                                    <button class="btn btn-p" style="flex:1;" onclick="approveOrder()">
+                                        Approve
+                                    </button>
 
-  <button class="btn btn-ghost" style="flex:1; color:#e11d48;" onclick="denyOrder()">
-    Deny
-  </button>
-</div>
+                                    <button class="btn btn-ghost" style="flex:1; color:#e11d48;" onclick="denyOrder()">
+                                        Deny
+                                    </button>
+                                </div>
 
                             </div>
                         </div>
@@ -1326,6 +1357,7 @@
         </main>
     </div>
 
+    <script src="certificate-generator.js"></script>
     <script src="admin.js"></script>
 </body>
 

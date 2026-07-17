@@ -63,8 +63,62 @@ function switchForm (formId) {
   }
 }
 
+function loadEditingApplication () {
+  const editingId = localStorage.getItem('editingApplicationId')
+
+  if (!editingId) return
+
+  const applications = JSON.parse(localStorage.getItem('applications')) || []
+
+  const app = applications.find(a => String(a.id) === String(editingId))
+
+  if (!app) return
+
+  console.log('Editing application found:', app)
+
+  window.editingApplication = app
+
+  setTimeout(() => {
+    if (app.formType === 'catheter') {
+      preloadConesForm(app)
+    }
+
+    if (app.formType === 'catheter-sizes') {
+      preloadCatheterSizesForm(app)
+    }
+
+    if (app.formType === 'enema') {
+      preloadEnemaForm(app)
+    }
+
+    if (app.formType === 'oxybutynin') {
+      preloadOxybutyninForm(app)
+    }
+
+    if (app.formType === 'shunt') {
+      preloadShuntForm(app)
+    }
+  }, 100)
+}
+
 window.addEventListener('DOMContentLoaded', () => {
+  loadEditingApplication()
+
   const initialHash = window.location.hash.replace('#', '')
+
+  // If user explicitly opened the registry
+  if (initialHash === 'all') {
+    switchForm('all')
+    return
+  }
+
+  // If editing an application, open its form
+  if (window.editingApplication && window.editingApplication.formType) {
+    switchForm(window.editingApplication.formType)
+    return
+  }
+
+  // Default
   if (initialHash && document.getElementById('pane-' + initialHash)) {
     switchForm(initialHash)
   } else {
@@ -73,9 +127,49 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 function saveApplication (application) {
+  console.log('EDIT MODE:', window.editingApplication)
+  console.log('EDIT ID:', localStorage.getItem('editingApplicationId'))
+
   let applications = JSON.parse(localStorage.getItem('applications')) || []
 
-  applications.push(application)
+  const editingId = localStorage.getItem('editingApplicationId')
+
+  if (editingId) {
+    const index = applications.findIndex(
+      a => String(a.id) === String(editingId)
+    )
+
+    if (index !== -1) {
+      // keep original creation time
+      application.createdAt = applications[index].createdAt
+
+      // mark update time
+      application.updatedAt = Date.now()
+
+      // mark resubmission time
+      application.resubmittedAt = Date.now()
+
+      // replace existing application
+      applications[index] = application
+    }
+
+    // exit edit mode
+    localStorage.removeItem('editingApplicationId')
+    localStorage.removeItem('editingApplication')
+
+    window.editingApplication = null
+  } else {
+    // brand new application
+    application.createdAt = Date.now()
+    application.submittedAt = Date.now()
+    applications.push(application)
+  }
+
+  // newest first
+  applications.sort(
+    (a, b) =>
+      (b.updatedAt || b.createdAt || 0) - (a.updatedAt || a.createdAt || 0)
+  )
 
   localStorage.setItem('applications', JSON.stringify(applications))
 
@@ -88,9 +182,13 @@ document.getElementById('conesForm').addEventListener('submit', function (e) {
   e.preventDefault()
 
   const application = {
-    id: 'APP-' + Date.now(),
+    id: window.editingApplication
+      ? window.editingApplication.id
+      : 'APP-' + Date.now(),
 
     type: 'Cones',
+
+    formType: 'catheter',
 
     applicant: document.getElementById('projectName').value,
 
@@ -113,7 +211,8 @@ document.getElementById('conesForm').addEventListener('submit', function (e) {
     quantity: document.getElementById('conesRequested').value,
 
     status: 'Pending',
-    pipelineStatus: 'Submitted',
+
+    pipelineStatus: window.editingApplication ? 'Resubmitted' : 'Submitted',
 
     submitted: new Date().toLocaleDateString()
   }
@@ -121,15 +220,36 @@ document.getElementById('conesForm').addEventListener('submit', function (e) {
   saveApplication(application)
 })
 
+function preloadConesForm (app) {
+  document.getElementById('projectName').value = app.applicant || ''
+  document.getElementById('address').value = app.address || ''
+  document.getElementById('country').value = app.country || ''
+
+  document.getElementById('contactPerson').value = app.contact || ''
+  document.getElementById('email').value = app.email || ''
+  document.getElementById('phone').value = app.phone || ''
+
+  document.getElementById('doctorName').value = app.doctor || ''
+  document.getElementById('nurseName').value = app.nurse || ''
+
+  document.getElementById('childrenSeen').value = app.childrenSeen || ''
+
+  document.getElementById('conesRequested').value = app.quantity || ''
+}
+
 document
   .getElementById('catheterSizesForm')
   .addEventListener('submit', function (e) {
     e.preventDefault()
 
     const application = {
-      id: 'APP-' + Date.now(),
+      id: window.editingApplication
+        ? window.editingApplication.id
+        : 'APP-' + Date.now(),
 
       type: 'Catheters',
+
+      formType: 'catheter-sizes',
 
       applicant: document.getElementById('csProjectName').value,
 
@@ -174,7 +294,8 @@ document
         Number(document.getElementById('ch14Long').value || 0),
 
       status: 'Pending',
-      pipelineStatus: 'Submitted',
+
+      pipelineStatus: window.editingApplication ? 'Resubmitted' : 'Submitted',
 
       submitted: new Date().toLocaleDateString()
     }
@@ -182,13 +303,55 @@ document
     saveApplication(application)
   })
 
+function preloadCatheterSizesForm (app) {
+  document.getElementById('csProjectName').value = app.applicant || ''
+
+  document.getElementById('csAddress').value = app.address || ''
+
+  document.getElementById('csCountry').value = app.country || ''
+
+  document.getElementById('csContactPerson').value = app.contact || ''
+
+  document.getElementById('csEmail').value = app.email || ''
+
+  document.getElementById('csPhone').value = app.phone || ''
+
+  document.getElementById('csDoctorName').value = app.doctor || ''
+
+  document.getElementById('csNurseName').value = app.nurse || ''
+
+  document.getElementById('csChildrenSeen').value = app.childrenSeen || ''
+
+  // catheter quantities
+
+  document.getElementById('ch8Short').value = app.catheters?.ch8Short || ''
+
+  document.getElementById('ch8Long').value = app.catheters?.ch8Long || ''
+
+  document.getElementById('ch10Short').value = app.catheters?.ch10Short || ''
+
+  document.getElementById('ch10Long').value = app.catheters?.ch10Long || ''
+
+  document.getElementById('ch12Short').value = app.catheters?.ch12Short || ''
+
+  document.getElementById('ch12Long').value = app.catheters?.ch12Long || ''
+
+  document.getElementById('ch14Short').value = app.catheters?.ch14Short || ''
+
+  document.getElementById('ch14Long').value = app.catheters?.ch14Long || ''
+}
+
 document.getElementById('enemaForm').addEventListener('submit', function (e) {
   e.preventDefault()
 
   const application = {
-    id: 'APP-' + Date.now(),
+    id: window.editingApplication
+      ? window.editingApplication.id
+      : 'APP-' + Date.now(),
 
     type: 'Enema Bags',
+
+    formType: 'enema',
 
     applicant: document.getElementById('enemaProjectName').value,
 
@@ -211,7 +374,8 @@ document.getElementById('enemaForm').addEventListener('submit', function (e) {
     quantity: document.getElementById('enemaQuantity').value,
 
     status: 'Pending',
-    pipelineStatus: 'Submitted',
+
+    pipelineStatus: window.editingApplication ? 'Resubmitted' : 'Submitted',
 
     submitted: new Date().toLocaleDateString()
   }
@@ -219,15 +383,41 @@ document.getElementById('enemaForm').addEventListener('submit', function (e) {
   saveApplication(application)
 })
 
+function preloadEnemaForm (app) {
+  document.getElementById('enemaProjectName').value = app.applicant || ''
+
+  document.getElementById('enemaAddress').value = app.address || ''
+
+  document.getElementById('enemaCountry').value = app.country || ''
+
+  document.getElementById('enemaContactPerson').value = app.contact || ''
+
+  document.getElementById('enemaEmail').value = app.email || ''
+
+  document.getElementById('enemaPhone').value = app.phone || ''
+
+  document.getElementById('enemaDoctorName').value = app.doctor || ''
+
+  document.getElementById('enemaNurseName').value = app.nurse || ''
+
+  document.getElementById('enemaChildrenSeen').value = app.childrenSeen || ''
+
+  document.getElementById('enemaQuantity').value = app.quantity || ''
+}
+
 document
   .getElementById('oxybutyninForm')
   .addEventListener('submit', function (e) {
     e.preventDefault()
 
     const application = {
-      id: 'APP-' + Date.now(),
+      id: window.editingApplication
+        ? window.editingApplication.id
+        : 'APP-' + Date.now(),
 
       type: 'Oxybutynin Caps',
+
+      formType: 'oxybutynin',
 
       applicant: document.getElementById('oxyProjectName').value,
 
@@ -250,7 +440,8 @@ document
       quantity: document.getElementById('oxyQuantity').value,
 
       status: 'Pending',
-      pipelineStatus: 'Submitted',
+
+      pipelineStatus: window.editingApplication ? 'Resubmitted' : 'Submitted',
 
       submitted: new Date().toLocaleDateString()
     }
@@ -258,13 +449,39 @@ document
     saveApplication(application)
   })
 
+function preloadOxybutyninForm (app) {
+  document.getElementById('oxyProjectName').value = app.applicant || ''
+
+  document.getElementById('oxyAddress').value = app.address || ''
+
+  document.getElementById('oxyCountry').value = app.country || ''
+
+  document.getElementById('oxyContactPerson').value = app.contact || ''
+
+  document.getElementById('oxyEmail').value = app.email || ''
+
+  document.getElementById('oxyPhone').value = app.phone || ''
+
+  document.getElementById('oxyDoctorName').value = app.doctor || ''
+
+  document.getElementById('oxyNurseName').value = app.nurse || ''
+
+  document.getElementById('oxyChildrenSeen').value = app.childrenSeen || ''
+
+  document.getElementById('oxyQuantity').value = app.quantity || ''
+}
+
 document.getElementById('shuntForm').addEventListener('submit', function (e) {
   e.preventDefault()
 
   const application = {
-    id: 'APP-' + Date.now(),
+    id: window.editingApplication
+      ? window.editingApplication.id
+      : 'APP-' + Date.now(),
 
     type: 'Shunt',
+
+    formType: 'shunt',
 
     // A(i) Applicant Information
     applicant: document.getElementById('shuntProjectName').value,
@@ -445,10 +662,185 @@ document.getElementById('shuntForm').addEventListener('submit', function (e) {
 
     status: 'Pending',
 
-    pipelineStatus: 'Submitted',
+    pipelineStatus: window.editingApplication ? 'Resubmitted' : 'Submitted',
 
     submitted: new Date().toLocaleDateString()
   }
 
   saveApplication(application)
 })
+
+function preloadShuntForm (app) {
+  // Applicant Information
+
+  document.getElementById('shuntProjectName').value = app.applicant || ''
+  document.getElementById('shuntAddress').value = app.address || ''
+  document.getElementById('shuntCountry').value = app.country || ''
+  document.getElementById('shuntContactPerson').value = app.contact || ''
+  document.getElementById('shuntEmail').value = app.email || ''
+  document.getElementById('shuntPhone').value = app.phone || ''
+
+  // Programme Contacts
+
+  document.getElementById('shuntAdminContact').value = app.adminContact || ''
+
+  document.getElementById('shuntClearingContact').value =
+    app.clearingContact || ''
+
+  document.getElementById('shuntClinicalContact').value =
+    app.clinicalContact || ''
+
+  // Surgical Information
+
+  document.getElementById('shuntSurgeonName').value = app.surgeonName || ''
+
+  document.getElementById('shuntSurgeonSpeciality').value =
+    app.surgeonSpeciality || ''
+
+  document.getElementById('shuntNeurosurgeon').checked =
+    app.surgeons?.neurosurgeon || false
+
+  document.getElementById('shuntNeurosurgicalResidents').checked =
+    app.surgeons?.neurosurgicalResidents || false
+
+  document.getElementById('shuntPediatricSurgeon').checked =
+    app.surgeons?.pediatricSurgeon || false
+
+  document.getElementById('shuntGeneralSurgeon').checked =
+    app.surgeons?.generalSurgeon || false
+
+  document.getElementById('shuntOtherSurgeon').checked =
+    app.surgeons?.otherSurgeon || false
+
+  // Alternatives
+
+  document.getElementById('shuntETVRigid').checked =
+    app.alternatives?.etvRigid || false
+
+  document.getElementById('shuntETVCPC').checked =
+    app.alternatives?.etvCpc || false
+
+  // Follow-up System
+
+  document.getElementById('shuntPostOpVisits').value = app.postOpVisits || ''
+
+  document.getElementById('shuntPhoneAppointmentReminder').checked =
+    app.phoneFollowUp?.appointmentReminder || false
+
+  document.getElementById('shuntPhoneMissedAppointment').checked =
+    app.phoneFollowUp?.missedAppointment || false
+
+  document.getElementById('shuntPhoneGeneralSupport').checked =
+    app.phoneFollowUp?.generalSupport || false
+
+  document.getElementById('shuntHomeVisitsSystematic').checked =
+    app.homeVisits?.systematic || false
+
+  document.getElementById('shuntHomeVisitsTargeted').checked =
+    app.homeVisits?.targeted || false
+
+  // Demonstration of Need
+
+  document.getElementById('shuntProjectedAnnualNeed').value =
+    app.projectedAnnualNeed || ''
+
+  document.getElementById('shuntRequestedQuantity').value =
+    app.requestedQuantity || ''
+
+  // Supply Sources
+
+  document.getElementById('shuntSupplyHospital').checked =
+    app.supplySources?.hospital || false
+
+  document.getElementById('shuntSupplyOrganizations').checked =
+    app.supplySources?.organizations || false
+
+  document.getElementById('shuntSupplyFamilies').checked =
+    app.supplySources?.families || false
+
+  document.getElementById('shuntOtherSupplySources').value =
+    app.otherSupplySources || ''
+
+  document.getElementById('shuntAlternativeSources').value =
+    app.alternativeSources || ''
+
+  document.getElementById('shuntLocalDistributorAvailability').value =
+    app.localDistributorAvailability || ''
+
+  // Need Factors
+
+  document.getElementById('shuntNeedSupplierChanges').checked =
+    app.needFactors?.supplierChanges || false
+
+  document.getElementById('shuntNeedSupplyCost').checked =
+    app.needFactors?.supplyCost || false
+
+  document.getElementById('shuntNeedServiceCosts').checked =
+    app.needFactors?.serviceCosts || false
+
+  document.getElementById('shuntNeedETVUnavailable').checked =
+    app.needFactors?.etvUnavailable || false
+
+  document.getElementById('shuntNeedFundingChanges').checked =
+    app.needFactors?.fundingChanges || false
+
+  document.getElementById('shuntNeedPatientIncrease').checked =
+    app.needFactors?.patientIncrease || false
+
+  // Planning
+
+  document.getElementById('shuntWaitingList').value = app.waitingList || ''
+
+  document.getElementById('shuntSecondaryMarketCurrency').value =
+    app.secondaryMarketCost?.currency || ''
+
+  document.getElementById('shuntSecondaryMarketCost').value =
+    app.secondaryMarketCost?.amount || ''
+
+  document.getElementById('shuntFuturePlan').value = app.futurePlan || ''
+
+  // Outcome Tracking
+
+  document.getElementById('shuntLossFollowUp').value =
+    app.dataSheet?.lossFollowUp || ''
+
+  document.getElementById('shuntLossFollowUpTotal').value =
+    app.dataSheet?.lossFollowUpTotal || ''
+
+  document.getElementById('shuntBadOutcome').value =
+    app.dataSheet?.badOutcome || ''
+
+  document.getElementById('shuntBadOutcomeTotal').value =
+    app.dataSheet?.badOutcomeTotal || ''
+
+  document.getElementById('shuntInfections').value =
+    app.badOutcomeReasons?.infections || ''
+
+  document.getElementById('shuntBlocked').value =
+    app.badOutcomeReasons?.blocked || ''
+
+  document.getElementById('shuntOtherMalfunctions').value =
+    app.badOutcomeReasons?.otherMalfunctions || ''
+
+  // Patient Numbers
+
+  document.getElementById('shuntHydroChildren').value = app.hydroChildren || ''
+
+  document.getElementById('shuntSBChildren').value = app.sbChildren || ''
+
+  // Requested Materials
+
+  document.getElementById('shuntLow').value =
+    app.requestedMaterials?.lowPressure || ''
+
+  document.getElementById('shuntMedium').value =
+    app.requestedMaterials?.mediumPressure || ''
+
+  document.getElementById('shuntHigh').value =
+    app.requestedMaterials?.highPressure || ''
+
+  document.getElementById('shuntEVD').value = app.requestedMaterials?.evd || ''
+
+  document.getElementById('shuntReservoir').value =
+    app.requestedMaterials?.reservoir || ''
+}

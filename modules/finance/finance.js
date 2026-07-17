@@ -7,16 +7,38 @@ function loadFinanceOrders () {
   container.innerHTML = ''
 
   orders.forEach(order => {
-    const row = document.createElement('div')
-    row.className = 'fake-row'
+    const row = document.createElement('tr')
 
     row.innerHTML = `
-      <span>${order.id}</span>
-      <span>${order.item || '-'}</span>
-      <span>${order.quantity || '-'}</span>
-      <span class="badge ${getFinanceBadge(order.status)}">
-        ${formatFinanceStatus(order.status)}
-      </span>
+      <td>
+        <strong>${order.id}</strong>
+      </td>
+
+      <td>
+        ${order.applicant || '-'}
+      </td>
+
+      <td>
+        ${order.type || '-'}
+      </td>
+
+      <td>
+        ${order.quantity || '-'}
+      </td>
+
+      <td>
+        <span class="badge ${getFinanceBadge(order.status)}">
+          ${formatFinanceStatus(order.status)}
+        </span>
+      </td>
+
+      <td>
+        ${
+          order.paymentStatus
+            ? order.paymentStatus.replaceAll('_', ' ')
+            : 'Not Ready'
+        }
+      </td>
     `
 
     container.appendChild(row)
@@ -31,26 +53,49 @@ function loadFinanceInvoices () {
 
   container.innerHTML = ''
 
-  const invoiceOrders = orders.filter(order => order.status === 'Approved')
+  const invoiceOrders = orders.filter(order => order.invoiceAmount)
 
   invoiceOrders.forEach(order => {
-    const row = document.createElement('div')
-    row.className = 'fake-row'
+    const row = document.createElement('tr')
 
     row.innerHTML = `
-      <span>${order.id}</span>
-      <span>${order.item || '-'}</span>
-      <span>$${(order.quantity * 250).toLocaleString()}</span>
-      <span class="badge ${getFinanceBadge(order.status)}">
-        ${formatFinanceStatus(order.status)}
-      </span>
+      <td>${order.id}</td>
 
-      <button 
-        class="btn btn-p"
-        onclick="markOrderPaid('${order.id}')">
-        Pay
-      </button>
-          `
+      <td>${order.supplier || '-'}</td>
+
+      <td>
+        ${
+          order.invoiceAmount
+            ? `${order.invoiceAmount.currency} ${order.invoiceAmount.value}`
+            : '-'
+        }
+      </td>
+
+      <td>
+        ${
+          order.documents?.donationCertificate
+            ? `<button class="btn btn-ghost"
+                onclick="viewDonationCertificate('${order.id}')">
+                View Certificate
+              </button>`
+            : '-'
+        }
+      </td>
+
+      <td>
+        <span class="badge ${getFinanceBadge(order.status)}">
+          ${formatFinanceStatus(order.status)}
+        </span>
+      </td>
+
+      <td>
+        <button
+          class="btn btn-p"
+          onclick="markOrderPaid('${order.id}')">
+          Pay
+        </button>
+      </td>
+    `
 
     container.appendChild(row)
   })

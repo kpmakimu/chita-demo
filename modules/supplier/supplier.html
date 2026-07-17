@@ -173,6 +173,7 @@
                                             <th>Item</th>
                                             <th>Status</th>
                                             <th>Action</th>
+                                            <th>Documents</th>
                                         </tr>
                                     </thead>
 
@@ -435,9 +436,11 @@
                                     <tr>
                                         <th>Order ID</th>
                                         <th>Facility</th>
-                                        <th>Item</th>
+                                        <th>Type</th>
                                         <th>Quantity</th>
                                         <th>Status</th>
+                                        <th>Donation Certificate</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
 
@@ -495,25 +498,103 @@
     </div>
 
     <div id="uploadModal" class="modal" style="display:none;">
-        <div class="modal-content" style="background:#fff;padding:20px;border-radius:8px;max-width:500px;margin:auto;">
+        <div class="modal-content">
 
-            <h3>Upload Proforma & Packing List</h3>
+            <h3>Upload Order Documents</h3>
 
-            <label>Proforma Invoice (PDF)</label>
-            <input id="invoiceInput" type="file" accept=".pdf,application/pdf">
+            <div class="form-group">
+                <label for="invoiceInput">
+                    Proforma Invoice (PDF)
+                </label>
 
-            <label>Packing List (PDF)</label>
-            <input id="packingInput" type="file" accept=".pdf,application/pdf">
-            <input id="amountInput" type="number" placeholder="Amount" style="width:100%;margin:8px 0;" />
+                <input id="invoiceInput" type="file" accept=".pdf,application/pdf" class="file-input">
+            </div>
 
-            <div style="display:flex;gap:10px;justify-content:flex-end;">
-                <button onclick="closeUploadModal()">Cancel</button>
-                <button onclick="submitSupplierDocs()" class="btn btn-p">Submit</button>
+
+            <div class="form-group">
+                <label for="packingInput">
+                    Packing List (PDF)
+                </label>
+
+                <input id="packingInput" type="file" accept=".pdf,application/pdf" class="file-input">
+            </div>
+
+
+            <div class="form-group">
+                <label for="currencySelect">
+                    Invoice Currency
+                </label>
+
+                <select id="currencySelect" class="form-control">
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="TZS">TZS - Tanzanian Shilling</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="amountInput">
+                    Invoice Amount
+                </label>
+
+                <input id="amountInput" type="number" class="form-control" placeholder="Enter invoice amount" min="0">
+            </div>
+
+
+            <div class="modal-actions">
+                <button onclick="closeUploadModal()" class="btn btn-ghost">
+                    Cancel
+                </button>
+
+                <button onclick="submitSupplierDocs()" class="btn btn-p">
+                    Submit
+                </button>
             </div>
 
         </div>
     </div>
 
+    <div id="fulfilmentUploadModal" class="modal" style="display:none;">
+
+        <div class="modal-content">
+
+            <h3>Upload Fulfilment Documents</h3>
+
+            <div class="form-group">
+                <label for="shippingInput">
+                    Shipping Documents (PDF)
+                </label>
+
+                <input id="shippingInput" type="file" accept=".pdf,application/pdf" class="file-input">
+            </div>
+
+
+            <div class="form-group">
+                <label for="regulatoryInput">
+                    Regulatory Certificate (PDF - if required)
+                </label>
+
+                <input id="regulatoryInput" type="file" accept=".pdf,application/pdf" class="file-input">
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button onclick="closeFulfilmentUploadModal()" class="btn btn-ghost">
+                    Cancel
+                </button>
+
+                <button onclick="submitFulfilmentDocs()" class="btn btn-p">
+                    Submit
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="../admin/certificate-generator.js"></script>
     <script src="supplier.js"></script>
 
 </body>

@@ -29,7 +29,7 @@
                 <span>Home</span>
             </div>
 
-            <div class="sb-item" onclick="window.location.href='../forms/forms.html#all'">
+            <div class="sb-item" onclick="startNewApplication()">
                 <span>New Application</span>
             </div>
 
@@ -421,29 +421,50 @@
                 </div>
 
                 <div id="s-applications" class="sc">
-                    <div class="card">
-                        <div class="ch" style="color: var(--c-dark)">
-                            My Applications
+
+                    <div class="personnel-split-wrapper">
+
+                        <div id="personnel-list-view" class="card">
+
+                            <div class="ch" style="color: var(--c-dark)">
+                                My Applications
+                            </div>
+
+                            <div class="cb" style="padding:0;">
+                                <table class="supply-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Application ID</th>
+                                            <th>Type</th>
+                                            <th>Applicant</th>
+                                            <th>Status</th>
+                                            <th>Date Submitted</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="applications-table-body">
+
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
 
-                        <div class="cb" style="padding:0;">
-                            <table class="supply-table">
-                                <thead>
-                                    <tr>
-                                        <th>Application ID</th>
-                                        <th>Type</th>
-                                        <th>Applicant</th>
-                                        <th>Status</th>
-                                        <th>Date Submitted</th>
-                                    </tr>
-                                </thead>
 
-                                <tbody id="applications-table-body">
+                        <div id="personnel-application-detail" class="card" style="display:none;">
 
-                                </tbody>
-                            </table>
+                            <div class="ch">
+                                Application Details
+                            </div>
+
+                            <div class="cb" id="personnel-application-detail-body">
+                            </div>
+
                         </div>
+
+
                     </div>
+
                 </div>
 
                 <div id="s-order-tracking" class="sc">
@@ -454,43 +475,15 @@
                                 <thead>
                                     <tr>
                                         <th>Order ID</th>
-                                        <th>Item Name</th>
+                                        <th>Supply Type</th>
                                         <th>Quantity</th>
-                                        <th>Requested By</th>
                                         <th>Status</th>
-                                        <th>Where is it?</th>
+                                        <th>Donation Certificate</th>
+                                        <th>Application</th>
                                     </tr>
                                 </thead>
-                                <tbody id="order-table-body">
-                                    <tr id="simulated-row">
-                                        <td style="font-weight: 700;">ORD-9942</td>
-                                        <td>Sterile Syringes (10ml) - Pack of 100</td>
-                                        <td>5</td>
-                                        <td>Dr. A. Mwangi</td>
-                                        <td><span id="table-status-badge" class="badge badge-pending">Waiting for
-                                                approval</span></td>
-                                        <td><span id="table-fulfillment-text"
-                                                style="color: var(--text-muted); font-style: italic;">Sitting in Admin
-                                                queue</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-weight: 700;">ORD-9104</td>
-                                        <td>Oxytocin Ampoules (10 IU)</td>
-                                        <td>50</td>
-                                        <td>Dr. A. Mwangi</td>
-                                        <td><span class="badge badge-approved">Approved</span></td>
-                                        <td style="color: var(--status-approved); font-weight: 600;">On the way
-                                            (Delivery Vehicle)</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-weight: 700;">ORD-8821</td>
-                                        <td>Sterile Surgical Gloves (Size 7.5)</td>
-                                        <td>10</td>
-                                        <td>Nurse J. Toili</td>
-                                        <td><span class="badge badge-delivered">Delivered</span></td>
-                                        <td style="color: var(--status-delivered); font-weight: 600;">Arrived & Put Away
-                                        </td>
-                                    </tr>
+                                <tbody id="personnel-orders-table-body">
+
                                 </tbody>
                             </table>
                         </div>
@@ -501,6 +494,7 @@
         </main>
     </div>
 
+    <script src="../admin/certificate-generator.js"></script>
     <script src="personnel.js"></script>
 </body>
 

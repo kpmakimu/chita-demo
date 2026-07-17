@@ -33,8 +33,8 @@ function loadSupplierOrders () {
     const row = `
       <tr>
         <td>${order.id}</td>
-        <td>${order.department || '-'}</td>
-        <td>${order.item || '-'}</td>
+        <td>${order.facility || '-'}</td>
+        <td>${order.type || '-'}</td>
         <td>${order.quantity || '-'}</td>
         <td>
           <span class="badge badge-pending">
@@ -61,7 +61,7 @@ function loadSupplierOrders () {
     previewBody.innerHTML += row
   })
 
-  document.getElementById('stat-available').textContent = orders.length
+  document.getElementById('stat-available').textContent = availableOrders.length
 
   document.getElementById('stat-my-orders').textContent = orders.filter(
     o => o.assignedTo === 'Supplier User'
@@ -105,8 +105,8 @@ function loadSupplierDashboardOrders () {
     const row = `
       <tr>
         <td>${order.id}</td>
-        <td>${order.department || '-'}</td>
-        <td>${order.item || '-'}</td>
+        <td>${order.facility || '-'}</td>
+        <td>${order.type || '-'}</td>
         <td>
           <span class="badge badge-pending">
             ${order.status}
@@ -132,12 +132,42 @@ function loadSupplierMyOrders () {
       tbody.innerHTML += `
       <tr>
         <td>${order.id}</td>
-        <td>${order.department || '-'}</td>
-        <td>${order.item || '-'}</td>
+        <td>${order.facility || '-'}</td>
+        <td>${order.type || '-'}</td>
         <td>${order.quantity || '-'}</td>
         <td>
           <span class="badge badge-success">${order.status}</span>
         </td>
+        <td>
+  ${
+    order.documents
+      ? Object.entries(order.documents)
+          .filter(([key, value]) => value)
+          .map(([key, value]) => {
+            if (key === 'donationCertificate') {
+              return `
+                <div style="margin-bottom:6px;">
+                  <button 
+                    class="btn btn-ghost"
+                    onclick="viewDonationCertificate('${order.id}')">
+                    Donation Certificate
+                  </button>
+                </div>
+              `
+            }
+
+            return `
+              <div style="margin-bottom:6px;">
+                <a href="${value}" target="_blank">
+                  ${key.replaceAll(/([A-Z])/g, ' $1')}
+                </a>
+              </div>
+            `
+          })
+          .join('')
+      : '-'
+  }
+</td>
         <td>
           ${
             order.status === 'Assigned'
@@ -167,9 +197,12 @@ function uploadProformaAndPacking (
 
   if (order.status !== 'Assigned') return
 
-  order.proformaInvoice = invoiceData
-  order.packingList = packingListData
-  order.amount = amount
+  order.documents = {
+    proformaInvoice: invoiceData,
+    packingList: packingListData
+  }
+
+  order.invoiceAmount = amount
 
   order.status = 'In Review'
   order.submittedAt = Date.now()
@@ -183,13 +216,16 @@ function uploadProformaAndPacking (
 function submitSupplierDocs () {
   const invoice = document.getElementById('invoiceInput').files[0]
   const packing = document.getElementById('packingInput').files[0]
-  const amount = document.getElementById('amountInput').value
+  const amount = {
+    currency: document.getElementById('currencySelect').value,
+    value: document.getElementById('amountInput').value
+  }
 
   uploadProformaAndPacking(
     activeUploadOrderId,
     invoice?.name || '',
     packing?.name || '',
-    Number(amount)
+    amount
   )
 
   closeUploadModal()

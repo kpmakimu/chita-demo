@@ -24,7 +24,8 @@
         <aside id="adminSidebar" class="sidebar">
 
             <div class="sb-logo">
-                <span style="color: var(--c-primary); font-weight:800;">CHITA FINANCE</span>
+                <img src="assets/Child-Help-Logo.png" alt="Logo" class="sb-logo-img">
+                <span style="color: var(--c-accent)">CHITA</span>
             </div>
 
             <div class="sb-sec">Overview</div>
@@ -67,12 +68,33 @@
             <!-- TOP BAR -->
             <header class="top-bar">
 
-                <button class="menu-toggle" onclick="toggleSidebar(true)">☰</button>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <button class="menu-toggle" onclick="toggleSidebar(true)">
+                        ☰
+                    </button>
+                </div>
 
-                <h2 id="atitle">Finance Dashboard</h2>
+                <h2 id="atitle" style="font-size:18px;font-weight:800;letter-spacing:-0.5px;color:var(--c-dark)">
+                    Finance Dashboard
+                </h2>
 
                 <div class="header-actions">
-                    <span style="font-size:12px;font-weight:700;">Finance Control Panel</span>
+
+                    <div class="user-profile-block">
+                        <div style="text-align:right">
+                            <p style="font-size:12px;font-weight:800">
+                                Finance Officer
+                            </p>
+
+                            <p style="font-size:10px;color:var(--text-muted)">
+                                CHITA Finance Department
+                            </p>
+                        </div>
+
+                        <div style="width:36px;height:36px;background:var(--c-dark);border-radius:50%">
+                        </div>
+                    </div>
+
                 </div>
 
             </header>
@@ -196,13 +218,28 @@
 
                     <div class="card">
 
-                        <div class="ch">Invoices</div>
+                        <div class="ch">
+                            Invoices
+                        </div>
 
-                        <div class="cb">
+                        <div class="cb" style="padding:0;">
 
-                            <div class="fake-list" id="finance-invoice-list">
-                                <!-- JS loads orders here -->
-                            </div>
+                            <table class="ui-table" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Supplier</th>
+                                        <th>Amount</th>
+                                        <th>Documents</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="finance-invoice-list">
+                                </tbody>
+
+                            </table>
 
                         </div>
 
@@ -211,23 +248,40 @@
                 </div>
 
                 <!-- ORDERS -->
-                <div id="s-orders" class="sc">
+<div id="s-orders" class="sc">
 
-                    <div class="card">
+    <div class="card">
 
-                        <div class="ch">Orders</div>
+        <div class="ch">
+            Orders
+        </div>
 
-                        <div class="cb">
+        <div class="cb" style="padding:0;">
 
-                            <div class="fake-list" id="finance-orders-list">
-                                <!-- JS loads all orders here -->
-                            </div>
+            <table class="ui-table" style="width:100%;">
 
-                        </div>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Requester</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                    </tr>
+                </thead>
 
-                    </div>
+                <tbody id="finance-orders-list">
+                    <!-- JS loads orders here -->
+                </tbody>
 
-                </div>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
 
             </div>
 

@@ -258,6 +258,7 @@ function launchApplicationDetail (rowElement) {
   console.log('ROW ID:', rowElement.getAttribute('data-item-id'))
 
   console.log('FOUND APP:', app)
+  console.log('APP TYPE CHECK:', app.type)
 
   const detailView = document.getElementById('app-instance-detail-view')
   detailView.style.display = 'block'
@@ -376,7 +377,7 @@ ${app.status}
             </tbody>
         </table>
     `
-  } else if (app.type === 'Oxybutynin') {
+  } else if (app.type === 'Oxybutynin Caps') {
     detailsHTML = `
         <table class="ui-table">
             <thead>
@@ -393,7 +394,7 @@ ${app.status}
             </tbody>
         </table>
     `
-  } else if (app.type === 'Shunts') {
+  } else if (app.type === 'Shunts' || app.type === 'Shunt') {
     const materialLabels = {
       lowPressure: 'Low Pressure Shunt',
       mediumPressure: 'Medium Pressure Shunt',
@@ -402,32 +403,312 @@ ${app.status}
       reservoir: 'Reservoir'
     }
 
-    const requested = Object.entries(app.requestedMaterials).filter(
+    const requested = Object.entries(app.requestedMaterials || {}).filter(
       ([key, value]) => value && value !== '0'
     )
 
-    detailsHTML = `
-        <table class="ui-table">
-            <thead>
-                <tr>
-                    <th>Requested Material</th>
-                    <th style="width:120px;">Quantity</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${requested
-                  .map(
-                    ([key, value]) => `
-                    <tr>
-                        <td>${materialLabels[key] || key}</td>
-                        <td>${value}</td>
-                    </tr>
-                `
-                  )
-                  .join('')}
-            </tbody>
-        </table>
+    const materialsHTML = requested.length
+      ? `
+      <table class="ui-table">
+        <thead>
+          <tr>
+            <th>Requested Material</th>
+            <th style="width:120px;">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${requested
+            .map(
+              ([key, value]) => `
+            <tr>
+              <td>${materialLabels[key] || key}</td>
+              <td>${value}</td>
+            </tr>
+          `
+            )
+            .join('')}
+        </tbody>
+      </table>
     `
+      : '<p>No requested materials recorded</p>'
+
+    detailsHTML = `
+
+<div class="detail-section">
+<h5>Programme Contacts</h5>
+
+<p>Admin Contact: ${app.adminContact || '-'}</p>
+<p>Clinical Contact: ${app.clinicalContact || '-'}</p>
+<p>Clearing Contact: ${app.clearingContact || '-'}</p>
+<p>Address: ${app.address || '-'}</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Requested Shunt Materials</h5>
+
+${materialsHTML}
+
+<p>
+Requested Quantity:
+${app.requestedQuantity || '-'}
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Clinical & Surgical Information</h5>
+
+<p>Surgeon: ${app.surgeonName || '-'}</p>
+<p>Speciality: ${app.surgeonSpeciality || '-'}</p>
+<p>Waiting List: ${app.waitingList || '-'}</p>
+<p>Post Op Visits: ${app.postOpVisits || '-'}</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Children Served</h5>
+
+<p>
+Hydrocephalus Children:
+${app.hydroChildren || '-'}
+</p>
+
+<p>
+Spina Bifida Children:
+${app.sbChildren || '-'}
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Supply Information</h5>
+
+<p>
+Local Distributor:
+${app.localDistributorAvailability || '-'}
+</p>
+
+<p>
+Secondary Market Cost:
+${
+  app.secondaryMarketCost
+    ? `${app.secondaryMarketCost.currency} ${app.secondaryMarketCost.amount}`
+    : '-'
+}
+</p>
+
+<p>
+Alternative Sources:
+${app.alternativeSources || '-'}
+</p>
+
+<p>
+Other Supply Sources:
+${app.otherSupplySources || '-'}
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Future Planning</h5>
+
+<p>
+Projected Annual Need:
+${app.projectedAnnualNeed || '-'}
+</p>
+
+<p>
+Future Plan:
+${app.futurePlan || '-'}
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Programme Assessment</h5>
+
+<p>
+Need Factors:
+${
+  app.needFactors
+    ? Object.entries(app.needFactors)
+        .filter(([key, value]) => value)
+        .map(([key]) => key)
+        .join(', ')
+    : '-'
+}
+</p>
+
+
+<p>
+Alternatives Considered:
+${
+  app.alternatives
+    ? Object.entries(app.alternatives)
+        .filter(([key, value]) => value)
+        .map(([key]) => key)
+        .join(', ')
+    : '-'
+}
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Surgeon Availability</h5>
+
+<p>
+General Surgeon:
+${app.surgeons?.generalSurgeon ? 'Yes' : 'No'}
+</p>
+
+<p>
+Neurosurgeon:
+${app.surgeons?.neurosurgeon ? 'Yes' : 'No'}
+</p>
+
+<p>
+Neurosurgical Residents:
+${app.surgeons?.neurosurgicalResidents ? 'Yes' : 'No'}
+</p>
+
+<p>
+Other Surgeon:
+${app.surgeons?.otherSurgeon ? 'Yes' : 'No'}
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Outcome Tracking</h5>
+
+<p>
+Bad Outcome:
+${app.dataSheet?.badOutcome || '-'}
+/
+${app.dataSheet?.badOutcomeTotal || '-'}
+</p>
+
+<p>
+Loss Follow Up:
+${app.dataSheet?.lossFollowUp || '-'}
+/
+${app.dataSheet?.lossFollowUpTotal || '-'}
+</p>
+
+<p>
+Reasons:
+${
+  app.badOutcomeReasons
+    ? Object.entries(app.badOutcomeReasons)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join(', ')
+    : '-'
+}
+
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Follow-up Systems</h5>
+
+<p>
+Home Visits:
+${
+  app.homeVisits
+    ? Object.entries(app.homeVisits)
+        .filter(([key, value]) => value)
+        .map(([key]) => key)
+        .join(', ')
+    : '-'
+}
+
+</p>
+
+
+<p>
+Phone Follow-up:
+${
+  app.phoneFollowUp
+    ? Object.entries(app.phoneFollowUp)
+        .filter(([key, value]) => value)
+        .map(([key]) => key)
+        .join(', ')
+    : '-'
+}
+
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Supply Sources</h5>
+
+<p>
+Hospital:
+${app.supplySources?.hospital ? 'Yes' : 'No'}
+</p>
+
+<p>
+Organizations:
+${app.supplySources?.organizations ? 'Yes' : 'No'}
+</p>
+
+<p>
+Families:
+${app.supplySources?.families ? 'Yes' : 'No'}
+</p>
+
+</div>
+
+
+<div class="detail-section">
+<h5>Documentation</h5>
+
+<p>
+Shunt Protocol:
+${
+  app.shuntProtocol
+    ? `<a href="${app.shuntProtocol}" target="_blank">View Document</a>`
+    : '-'
+}
+</p>
+
+
+<p>
+Program Data:
+${
+  app.shuntProgramData
+    ? `<a href="${app.shuntProgramData}" target="_blank">View Document</a>`
+    : '-'
+}
+</p>
+
+
+<p>
+MOH Communication:
+${
+  app.mohCommunication
+    ? `<a href="${app.mohCommunication}" target="_blank">View Document</a>`
+    : '-'
+}
+</p>
+
+</div>
+
+`
   }
 
   document.getElementById('det-request-details').innerHTML = detailsHTML
@@ -455,89 +736,122 @@ function approveAndConvertApplicationToOrder () {
   if (!activeRowReference) return
 
   const appId = activeRowReference.getAttribute('data-item-id')
-  console.log('app id:', appId)
 
   const applications = JSON.parse(localStorage.getItem('applications')) || []
   const orders = JSON.parse(localStorage.getItem('orders')) || []
 
   const appIndex = applications.findIndex(a => String(a.id) === String(appId))
-  console.log('app index:', appIndex)
 
   if (appIndex === -1) return
 
-  // update application
-  applications[appIndex].status = 'Approved'
-  applications[appIndex].pipelineStatus = 'Approved'
+  const app = applications[appIndex]
+  const now = Date.now()
 
-  // prevent duplicates
-  const exists = orders.find(o => o.applicationId === appId)
+  // Update application status
+  app.status = 'Approved'
+  app.pipelineStatus = 'Order Created'
 
-  if (!exists) {
-    orders.push({
+  app.approvedAt = now
+  app.approvedDate = new Date(now).toISOString()
+
+  // Create order only if one doesn't already exist
+  const existingOrder = orders.find(order => order.applicationId === appId)
+
+  if (!existingOrder) {
+    const newOrder = {
       id: 'ORD-' + Date.now(),
-      applicationId: appId,
+
+      // link back to application
+      applicationId: app.id,
+
+      // application details
+      applicant: app.applicant,
+      type: app.type,
 
       department: activeRowReference.getAttribute('data-item-dept'),
+
       facility: activeRowReference.getAttribute('data-item-dept'),
 
-      item: applications[appIndex].type,
-      quantity: applications[appIndex].quantity || 1,
+      // supply details
+      quantity: app.quantity || app.requestedQuantity || 1,
 
+      requestedMaterials: app.requestedMaterials || null,
+
+      // order workflow
       status: 'Available',
       pipelineStatus: 'Order Created',
+
+      // supplier workflow
+      assignedSupplier: null,
+
+      // finance
       financeStatus: 'unpaid',
-      assignedTo: null,
 
-      createdAt: Date.now(),
-
-      amount: null,
+      // documents
       proformaInvoice: null,
-      packingList: null
-    })
+      packingList: null,
+
+      createdAt: now,
+      createdDate: new Date(now).toISOString()
+    }
+
+    orders.push(newOrder)
+
+    // Link application to order
+    app.orderId = newOrder.id
   }
 
   localStorage.setItem('applications', JSON.stringify(applications))
+
   localStorage.setItem('orders', JSON.stringify(orders))
 
   syncOrdersUI()
 
   loadAdminApplications()
+
   exitApplicationDetail()
 
   refreshAdminCounters()
+
+  alert(`Application ${appId} approved and converted into an order.`)
 }
 
-/* INLINE APPLICATION DENIAL STRATEGY - UPDATED TO KEEP ROW BUT CHANGE STATE */
 function denyApplicationInline () {
   if (!activeRowReference) return
+
   const appId = activeRowReference.getAttribute('data-item-id')
+
+  const reason = prompt(
+    'Please enter the reason this application needs revision:'
+  )
+
+  if (!reason) return
 
   const applications = JSON.parse(localStorage.getItem('applications')) || []
 
-  const appIndex = applications.findIndex(a => a.id === appId)
+  const appIndex = applications.findIndex(a => String(a.id) === String(appId))
 
-  if (appIndex !== -1) {
-    applications[appIndex].status = 'Denied'
+  if (appIndex === -1) return
 
-    localStorage.setItem('applications', JSON.stringify(applications))
-  }
+  applications[appIndex].status = 'Needs Revision'
 
-  const category = activeRowReference.getAttribute('data-item-category')
+  applications[appIndex].pipelineStatus = 'Returned to Applicant'
 
-  // Update row attributes and visual cells instead of destroying it
+  applications[appIndex].denialReason = reason
+
+  applications[appIndex].revisionRequestedAt = Date.now()
+
+  applications[appIndex].lastUpdated = Date.now()
+
+  localStorage.setItem('applications', JSON.stringify(applications))
+
   loadAdminApplications()
 
-  // Push it down to the bottom of the table log visually
-  const tableBody = document.querySelector('#main-apps-table tbody')
-  tableBody.appendChild(activeRowReference)
-
-  decrementUpperHomeCounters()
-  recalculateUpperStatBoxCounters(category)
-
-  alert(`Mockup Action:\nApplication ${appId} has been formally Denied.`)
   exitApplicationDetail()
 
   refreshAdminCounters()
+
+  alert(`Application ${appId} has been returned to the applicant for revision.`)
 }
 
 function decrementUpperHomeCounters () {
@@ -559,7 +873,7 @@ function recalculateUpperStatBoxCounters (category) {
     Catheters: 'cnt-catheters',
     'Enema Bags': 'cnt-enema',
     Oxybutynin: 'cnt-oxy',
-    Shunt: 'cnt-shunt'
+    Shunts: 'cnt-shunt'
   }
 
   Object.entries(map).forEach(([cat, id]) => {
@@ -800,25 +1114,27 @@ function loadAdminOrders () {
 
     row.innerHTML = `
       <td><strong>${order.id}</strong></td>
-      <td>${order.item}</td>
+      <td>${order.type}</td>
       <td>${order.department}</td>
       <td>${order.quantity}</td>
 
       <td>
         ${
-          order.proformaInvoice
+          order.documents?.proformaInvoice
             ? `<span class="badge badge-success">View</span>`
             : `<span style="color:var(--text-muted)">-</span>`
         }
       </td>
 
       <td>
-        ${
-          order.packingList
-            ? `<span class="badge badge-success">View</span>`
-            : `<span style="color:var(--text-muted)">-</span>`
-        }
+       ${
+         order.documents?.packingList
+           ? `<span class="badge badge-success">View</span>`
+           : `<span style="color:var(--text-muted)">-</span>`
+       }
       </td>
+
+
 
       <td>
         <span class="badge ${getStatusBadgeClass(order.status)}">
@@ -829,35 +1145,6 @@ function loadAdminOrders () {
 
     tbody.appendChild(row)
   })
-}
-
-function openOrderDetail (orderId) {
-  const orders = JSON.parse(localStorage.getItem('orders')) || []
-  const order = orders.find(o => o.id === orderId)
-  if (!order) return
-
-  // hide list view (same pattern as apps)
-  document.querySelector('#main-orders-table').style.display = 'none'
-
-  // show detail view
-  const view = document.getElementById('order-instance-detail-view')
-  view.style.display = 'block'
-
-  document.getElementById('od-id').textContent = order.id
-  document.getElementById('od-item').textContent = order.item
-  document.getElementById('od-dept').textContent = order.department
-  document.getElementById('od-qty').textContent = order.quantity
-  document.getElementById('od-amount').textContent = order.amount || '-'
-  document.getElementById('od-status').textContent = formatStatus(order.status)
-
-  const approveBtn = document.getElementById('od-approve-btn')
-
-  if (order.status === 'in_review') {
-    approveBtn.style.display = 'inline-block'
-    approveBtn.onclick = () => approveOrder(order.id)
-  } else {
-    approveBtn.style.display = 'none'
-  }
 }
 
 function exitOrderDetail () {
@@ -880,16 +1167,38 @@ function launchOrderDetail (row) {
 
   // fill fields
   document.getElementById('od-id').textContent = order.id
-  document.getElementById('od-item').textContent = order.item
+  document.getElementById('od-item').textContent = order.type
   document.getElementById('od-dept').textContent = order.department
   document.getElementById('od-qty').textContent = order.quantity
+  document.getElementById('od-applicant').textContent = order.applicant || '-'
 
-  document.getElementById('od-proforma').innerHTML = order.proformaInvoice
-    ? `<a href="${order.proformaInvoice}" target="_blank">View Invoice</a>`
+  document.getElementById('od-facility').textContent = order.facility || '-'
+
+  document.getElementById('od-application').innerHTML = order.applicationId
+    ? `<a href="../personnel/personnel.html" target="_blank">
+        View Application ${order.applicationId}
+       </a>`
+    : '-'
+  document.getElementById('od-amount').textContent = order.invoiceAmount
+    ? `${order.invoiceAmount.currency} ${order.invoiceAmount.value}`
     : '-'
 
-  document.getElementById('od-packing').innerHTML = order.packingList
-    ? `<a href="${order.packingList}" target="_blank">View PDF</a>`
+  document.getElementById('od-proforma').innerHTML = order.documents
+    ?.proformaInvoice
+    ? `<a href="${order.documents.proformaInvoice}" target="_blank">View Invoice</a>`
+    : '-'
+
+  document.getElementById('od-packing').innerHTML = order.documents?.packingList
+    ? `<a href="${order.documents.packingList}" target="_blank">View PDF</a>`
+    : '-'
+
+  document.getElementById('od-donation').innerHTML = order.documents
+    ?.donationCertificate
+    ? `<button 
+        class="btn btn-p"
+        onclick="viewDonationCertificate('${order.id}')">
+        View Certificate
+       </button>`
     : '-'
 
   document.getElementById(
@@ -935,6 +1244,8 @@ function syncOrdersUI () {
 }
 
 function approveInvoiceForPayment (orderId) {
+  console.log('APPROVE CLICKED', orderId)
+
   const orders = JSON.parse(localStorage.getItem('orders')) || []
 
   const order = orders.find(o => o.id === orderId)
@@ -944,8 +1255,28 @@ function approveInvoiceForPayment (orderId) {
 
   order.status = 'Approved'
 
+  order.paymentStatus = 'Ready for Payment'
+
+  if (!order.documents) {
+    order.documents = {}
+  }
+
+  order.documents.donationCertificate = generateDonationCertificate(order)
+
+  order.certificateOfDonation = order.documents.donationCertificate
+
+  order.approvedAt = Date.now()
+
   localStorage.setItem('orders', JSON.stringify(orders))
 
   loadAdminOrders?.()
   window.dispatchEvent(new Event('ordersUpdated'))
+}
+
+function openDonationCertificate (html) {
+  const blob = new Blob([html], { type: 'text/html' })
+
+  const url = URL.createObjectURL(blob)
+
+  window.open(url, '_blank')
 }
