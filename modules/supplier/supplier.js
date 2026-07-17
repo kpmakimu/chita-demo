@@ -169,16 +169,22 @@ function loadSupplierMyOrders () {
   }
 </td>
         <td>
-          ${
-            order.status === 'Assigned'
-              ? `<button class="btn btn-p" onclick="openSupplierUploadModal('${order.id}')">
-                   Upload Docs
-                 </button>`
-              : order.status === 'In Review'
-              ? `<span style="color:var(--text-muted);font-size:12px;">Submitted</span>`
-              : ``
-          }
-        </td>
+  ${
+    order.status === 'Assigned'
+      ? `<button class="btn btn-p" onclick="openSupplierUploadModal('${order.id}')">
+           Upload Initial Docs
+         </button>`
+      : order.status === 'Approved'
+      ? `<button class="btn btn-p" onclick="openFulfilmentUploadModal('${order.id}')">
+           Upload Fulfilment Docs
+         </button>`
+      : order.status === 'In Review'
+      ? `<span style="color:var(--text-muted);font-size:12px;">
+           Submitted
+         </span>`
+      : ``
+  }
+</td>
       </tr>
     `
     })
