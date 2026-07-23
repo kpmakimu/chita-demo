@@ -248,44 +248,119 @@
                 </div>
 
                 <!-- ORDERS -->
-<div id="s-orders" class="sc">
+                <div id="s-orders" class="sc">
 
-    <div class="card">
+                    <div class="card">
 
-        <div class="ch">
-            Orders
-        </div>
+                        <div class="ch">
+                            Orders
+                        </div>
 
-        <div class="cb" style="padding:0;">
+                        <div class="cb" style="padding:0;">
 
-            <table class="ui-table" style="width:100%;">
+                            <table class="ui-table" style="width:100%;">
 
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Requester</th>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Status</th>
-                        <th>Payment</th>
-                    </tr>
-                </thead>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Requester</th>
+                                        <th>Item</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                        <th>Payment</th>
+                                    </tr>
+                                </thead>
 
-                <tbody id="finance-orders-list">
-                    <!-- JS loads orders here -->
-                </tbody>
+                                <tbody id="finance-orders-list">
+                                    <!-- JS loads orders here -->
+                                </tbody>
 
-            </table>
+                            </table>
 
-        </div>
+                        </div>
 
-    </div>
+                    </div>
 
-</div>
+                </div>
 
             </div>
 
         </main>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+
+    <div id="paymentModal" class="modal-overlay">
+
+        <div class="modal-card">
+
+            <h2>
+                Process Payment
+            </h2>
+
+            <p>
+                Order:
+                <strong id="paymentOrderId"></strong>
+            </p>
+
+            <p>
+                Amount:
+                <strong id="paymentAmount"></strong>
+            </p>
+
+
+            <label>
+                Payment Method
+            </label>
+
+            <select id="paymentMethod">
+
+                <option value="">
+                    Select Method
+                </option>
+
+                <option value="Bank Transfer">
+                    Bank Transfer
+                </option>
+
+                <option value="Mobile Money">
+                    Mobile Money
+                </option>
+
+                <option value="Cash">
+                    Cash
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <label style="margin-top:15px;">
+                Upload Payment Receipt
+            </label>
+
+            <input type="file" id="paymentReceiptInput" accept="application/pdf,image/*">
+
+
+            <div style="margin-top:20px;display:flex;gap:10px;">
+
+                <button class="btn btn-ghost" onclick="closePaymentModal()">
+                    Cancel
+                </button>
+
+
+                <button class="btn btn-p" onclick="submitPayment()">
+                    Submit Payment
+                </button>
+
+            </div>
+
+
+        </div>
+
     </div>
 
     <!-- SIMPLE NAV SCRIPT HOOK -->

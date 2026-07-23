@@ -1182,14 +1182,21 @@ function launchOrderDetail (row) {
   document.getElementById('od-amount').textContent = order.invoiceAmount
     ? `${order.invoiceAmount.currency} ${order.invoiceAmount.value}`
     : '-'
-
   document.getElementById('od-proforma').innerHTML = order.documents
     ?.proformaInvoice
-    ? `<a href="${order.documents.proformaInvoice}" target="_blank">View Invoice</a>`
+    ? `<button 
+        class="doc-link"
+        onclick="openDocument('${order.id}', 'proformaInvoice')">
+        View Invoice
+       </button>`
     : '-'
 
   document.getElementById('od-packing').innerHTML = order.documents?.packingList
-    ? `<a href="${order.documents.packingList}" target="_blank">View PDF</a>`
+    ? `<button 
+        class="doc-link"
+        onclick="openDocument('${order.id}', 'packingList')">
+        View Packing List
+       </button>`
     : '-'
 
   document.getElementById('od-donation').innerHTML = order.documents
@@ -1201,6 +1208,43 @@ function launchOrderDetail (row) {
        </button>`
     : '-'
 
+  document.getElementById('od-fulfilment').innerHTML = (() => {
+    const docs = []
+
+    if (order.documents?.shippingDocuments) {
+      docs.push(`
+      <button 
+        class="doc-link"
+        onclick="openDocument('${order.id}', 'shippingDocuments')">
+        Shipping Documents
+      </button>
+    `)
+    }
+
+    if (order.documents?.regulatoryCertificate) {
+      docs.push(`
+      <button 
+        class="doc-link"
+        onclick="openDocument('${order.id}', 'regulatoryCertificate')">
+        Regulatory Certificate
+      </button>
+    `)
+    }
+
+    if (order.documents?.additionalDocuments?.length) {
+      order.documents.additionalDocuments.forEach((doc, index) => {
+        docs.push(`
+        <button 
+          class="doc-link"
+          onclick="openAdditionalDocument('${order.id}', ${index})">
+          ${doc.name}
+        </button>
+      `)
+      })
+    }
+
+    return docs.length ? docs.join('<br><br>') : '-'
+  })()
   document.getElementById(
     'od-status-badge'
   ).innerHTML = `<span class="badge ${getStatusBadgeClass(order.status)}">
@@ -1263,8 +1307,6 @@ function approveInvoiceForPayment (orderId) {
 
   order.documents.donationCertificate = generateDonationCertificate(order)
 
-  order.certificateOfDonation = order.documents.donationCertificate
-
   order.approvedAt = Date.now()
 
   localStorage.setItem('orders', JSON.stringify(orders))
@@ -1279,4 +1321,78 @@ function openDonationCertificate (html) {
   const url = URL.createObjectURL(blob)
 
   window.open(url, '_blank')
+}
+
+function openDocument (orderId, documentKey) {
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const order = orders.find(o => o.id === orderId)
+
+  if (!order) return
+
+  const file = order.documents?.[documentKey]
+
+  if (!file) return
+
+  const blob = dataURLtoBlob(file)
+
+  if (!blob) {
+    alert('This document is not stored as a viewable file yet.')
+    return
+  }
+
+  const url = URL.createObjectURL(blob)
+
+  window.open(url, '_blank')
+}
+
+function openAdditionalDocument (orderId, index) {
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const order = orders.find(o => o.id === orderId)
+
+  if (!order) return
+
+  const file = order.documents?.additionalDocuments?.[index]?.file
+
+  if (!file) return
+
+  const blob = dataURLtoBlob(file)
+
+  if (!blob) {
+    alert('This document is not stored as a viewable file yet.')
+    return
+  }
+
+  const url = URL.createObjectURL(blob)
+
+  window.open(url, '_blank')
+}
+
+function dataURLtoBlob (dataURL) {
+  if (!dataURL || !dataURL.startsWith('data:')) {
+    return null
+  }
+
+  const parts = dataURL.split(',')
+
+  const mimeMatch = parts[0].match(/:(.*?);/)
+
+  if (!mimeMatch) {
+    return null
+  }
+
+  const mime = mimeMatch[1]
+
+  const binary = atob(parts[1])
+
+  const array = []
+
+  for (let i = 0; i < binary.length; i++) {
+    array.push(binary.charCodeAt(i))
+  }
+
+  return new Blob([new Uint8Array(array)], {
+    type: mime
+  })
 }

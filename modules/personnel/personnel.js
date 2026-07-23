@@ -254,19 +254,115 @@ function loadPersonnelOrders () {
         </td>
 
         <td>
+
   ${
     order.documents?.donationCertificate
-      ? `<button 
-          class="btn btn-p"
-          onclick="viewDonationCertificate('${order.id}')">
-          View Certificate
-         </button>`
-      : '-'
+      ? `
+        <div>
+          <button 
+            class="btn btn-p"
+            onclick="viewDonationCertificate('${order.id}')">
+            View Certificate
+          </button>
+        </div>
+      `
+      : ''
   }
+
+
+  ${
+    order.documents?.goodsReceivedNote
+      ? `
+        <div style="margin-top:8px;">
+          <button 
+            class="doc-link"
+            onclick="viewGoodsReceivedNote('${order.id}')">
+            View Goods Received Note
+          </button>
+        </div>
+      `
+      : ''
+  }
+
+
+  ${
+    !order.documents?.donationCertificate && !order.documents?.goodsReceivedNote
+      ? '-'
+      : ''
+  }
+
 </td>
 
 <td>
   ${order.applicationId || '-'}
+</td>
+
+<td>
+  ${(() => {
+    const docs = []
+
+    if (order.documents?.shippingDocuments) {
+      docs.push(`
+        <button 
+          class="doc-link"
+          onclick="openDocument('${order.id}', 'shippingDocuments')">
+          Shipping Documents
+        </button>
+      `)
+    }
+
+    if (order.documents?.regulatoryCertificate) {
+      docs.push(`
+        <button 
+          class="doc-link"
+          onclick="openDocument('${order.id}', 'regulatoryCertificate')">
+          Regulatory Certificate
+        </button>
+      `)
+    }
+
+    if (order.documents?.additionalDocuments?.length) {
+      order.documents.additionalDocuments.forEach((doc, index) => {
+        docs.push(`
+          <button 
+            class="doc-link"
+            onclick="openAdditionalDocument('${order.id}', ${index})">
+            ${doc.name}
+          </button>
+        `)
+      })
+    }
+
+    return docs.length ? docs.join('<br><br>') : '-'
+  })()}
+</td>
+
+<td>
+  ${
+    order.fulfilmentStatus
+      ? `
+        <div>
+          <span class="badge ${getStatusBadgeClass(order.fulfilmentStatus)}">
+            ${formatStatus(order.fulfilmentStatus)}
+          </span>
+
+          ${
+            order.fulfilmentStatus === 'En Route'
+              ? `
+                <br><br>
+                <button 
+                  class="btn btn-p"
+                  onclick="confirmGoodsReceived('${order.id}')">
+                  Confirm Goods Received
+                </button>
+              `
+              : ''
+          }
+
+        </div>
+      `
+      : '-'
+  }
 </td>
 
       </tr>
@@ -618,6 +714,129 @@ ${
     </div>
     `
 }
+
+function confirmGoodsReceived (orderId) {
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const order = orders.find(o => o.id === orderId)
+
+  if (!order) {
+    alert('Order not found')
+    return
+  }
+
+  // Only allow receiving shipped orders
+  if (order.fulfilmentStatus !== 'En Route') {
+    alert('This shipment is not currently en route')
+    return
+  }
+
+  order.fulfilmentStatus = 'Delivered'
+
+  order.deliveredAt = Date.now()
+
+  if (!order.documents) {
+    order.documents = {}
+  }
+
+  order.documents.goodsReceivedNote = generateGoodsReceivedNote(order)
+
+  localStorage.setItem('orders', JSON.stringify(orders))
+
+  loadPersonnelOrders()
+
+  window.dispatchEvent(new Event('ordersUpdated'))
+
+  alert('Goods received and delivery note generated')
+}
+
+window.confirmGoodsReceived = confirmGoodsReceived
+
+function generateGoodsReceivedNote (order) {
+  return `
+    <html>
+    <head>
+      <title>Goods Received Note</title>
+
+      <style>
+        body {
+          font-family: Arial;
+          padding: 40px;
+          text-align:center;
+        }
+
+        .note {
+          border:2px solid #333;
+          padding:30px;
+          max-width:700px;
+          margin:auto;
+        }
+      </style>
+
+    </head>
+
+    <body>
+
+      <div class="note">
+
+        <h1>
+          GOODS RECEIVED NOTE
+        </h1>
+
+        <p>
+          This confirms receipt of the following goods:
+        </p>
+
+        <h2>
+          ${order.quantity} x ${order.type}
+        </h2>
+
+        <p>
+          Facility:
+        </p>
+
+        <h3>
+          ${order.facility || '-'}
+        </h3>
+
+
+        <p>
+          Delivered on:
+          ${new Date().toLocaleDateString()}
+        </p>
+
+
+        <p>
+          Received and confirmed by Personnel
+        </p>
+
+      </div>
+
+    </body>
+    </html>
+  `
+}
+
+window.generateGoodsReceivedNote = generateGoodsReceivedNote
+
+function viewGoodsReceivedNote (orderId) {
+  const orders = JSON.parse(localStorage.getItem('orders')) || []
+
+  const order = orders.find(o => o.id === orderId)
+
+  if (!order?.documents?.goodsReceivedNote) {
+    alert('Goods Received Note not found')
+    return
+  }
+
+  const newWindow = window.open('', '_blank')
+
+  newWindow.document.write(order.documents.goodsReceivedNote)
+
+  newWindow.document.close()
+}
+
+window.viewGoodsReceivedNote = viewGoodsReceivedNote
 
 window.addEventListener('DOMContentLoaded', () => {
   loadApplications()

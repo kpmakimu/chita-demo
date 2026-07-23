@@ -456,3 +456,15 @@
     gap: 12px;
     margin-top: 24px;
 }
+
+.doc-link {
+  color: var(--c-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: .2s;
+}
+
+.doc-link:hover {
+  text-decoration: underline;
+  color: var(--c-primary-dark);
+}
